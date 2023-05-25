@@ -1,0 +1,29 @@
+body{
+    background-color:#00ce22;
+    margin:auto;
+    padding: 0;
+}
+h1{
+    text-align: center;
+}
+
+.login{
+    width: 15%;
+    margin: auto;
+    border-radius: 15px;
+    justify-content: center;  
+    align-items: center
+}
+
+#login_form{
+ margin: auto
+}
+#Username{
+    width: 50%;
+}
+#Password{
+    width: 50%;
+}
+#LoginButton{
+    margin: auto;
+}
