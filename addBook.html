@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="js/addBook.js" defer></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Library applicatie WT</h1>
+    <section class= "addBook">
+        <h2>Gebruik het onderstaand formulier om een of meer boeken toe te voegen</h2>
+        
+            <table id="book_table">
+                <thead>
+                    <tr>
+                        <th>
+                            <label><b>Titel</b></label>        
+                        </th>
+                        <th>
+                            <label><b>Schrijver</b></label>
+                        </th>
+                        <th>
+                            <label><b>ISBN</b></label>
+                        </th>
+                        <th>
+                            <label><b>photo-url</b></label>
+                        </th>  
+                        <th>          
+                            <label><b>Beschikbaarheid</b></label>
+                        </th>
+                        <th>
+                            <label><b>Voorraad</b></label>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="book_table_body">
+                    <tr>
+                        <td>
+                            <input type="text" name="titel" class="title" placeholder="Titel" required>
+                        </td>
+                        <td>
+                            <input type="text" name="schrijver" class="writer" placeholder="Schrijver"required>
+                        </td>
+                        <td>
+                            <input type="number" name="isbn" class="isbn" placeholder="ISBN"required>
+                        </td>
+                        <td>
+                            <input type="text" name="foto" class="photo" placeholder="photo-url"required>
+                        </td>
+                        <td>
+                            <input type="checkbox" class="available" >
+                        </td>
+                        <td>
+                            <input type="number" name="voorraad" class="stock" placeholder="Voorraad"required>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <button type="button" name = "singleBook" id="singleButton" onclick="saveBook()">boek toevoegen</button></form>
+            <button type="button" name = "moreBooks" id="moreButton" onclick="moreBooks()">Meer boeken</button></form>
+            <button type="button" name = "allBooks" id="allButton" onclick="multipleBooks()">alle boeken toevoegen</button></form>
+
+    </section>
+
+
+
+</body>
+
+</html>
