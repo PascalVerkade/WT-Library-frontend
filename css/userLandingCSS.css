@@ -1,0 +1,27 @@
+body{
+    background-color:#bdc7be;
+    margin:auto;
+    padding: 0;
+}
+
+table {
+    color: #333;
+    background: white;
+    border: 1px solid grey;
+    font-size: 12pt;
+    border-collapse: collapse;
+  }
+
+table thead th,
+table tfoot th {
+  color: #444343;
+  background: #27882fce;
+}
+table caption {
+  padding:.5em;
+}
+table th,
+table td {
+  padding: .5em;
+  border: 1px solid rgb(211, 211, 211);
+}
