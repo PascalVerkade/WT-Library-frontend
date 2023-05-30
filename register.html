@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="js/login.js" defer></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Library applicatie WT</h1>
+    <h2>Create account</h2>
+    <section class= "login">
+        <!--<form id="login_form" action="display.html">-->
+        <label><b>Email</b></label>        
+        <input type="text" name="Email" id="Email" placeholder="Email" required>
+        <label><b>Password</b></label>
+        <input type="text" name="Password" id="Password" placeholder="Password"required>
+        <br>
+        <label><b>First-Name</b></label>
+        <input type="text" name="First Name" id="First Name" placeholder="First Name"required>
+        <label><b>Last-Name</b></label>
+        <input type="text" name="Last Name" id="Last Name" placeholder="Last Name"required>
+        <label><b>Admin</b></label>
+        <input type="checkbox" name="Admin" id="Admin" placeholder="Admin"required>
+        <br>
+        <button type="submit" name = "Create" id="CreateButton" onclick="createAccount()">Create account</button></form>
+
+    </section>
+
+    <script>
+        function createAccount() {
+            let email = document.getElementById("Email").value;
+            let password = document.getElementById("Password").value;
+            let firstName = document.getElementById("First Name").value;
+            let lastName = document.getElementById("Last Name").value;
+            let admin = document.getElementById("Admin").checked;
+            let data = {
+                "email": email,
+                "password": password,
+                "firstName": firstName,
+                "lastName": lastName,
+                "active": true,
+                "admin": admin
+            }
+            fetch("http://localhost:8080/employee/register", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => alert("Toegevoegd"))
+                .catch(error => {
+                    alert('Fout :(');
+                });
+            }
+    </script>
+</body>
+
+</html>

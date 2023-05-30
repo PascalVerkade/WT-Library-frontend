@@ -7,20 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script type="text/javascript" src="js/test.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
     <title>Document</title>
 </head>
 
 <body>
     <h1>Library applicatie WT</h1>
 
-    <section class= "login">
 
-        <!-- to be filled in by function loadData-->
-        <table id="test-table"></table>
+    <section class= "login">
+        <button type="button" name = "CreateAccount" id="CreateAccount" onclick="window.location.href = 'register.html'">Account aanmaken</button></form>
+        
 
 
         <script>
-            loadData();
+            let button = document.getElementById("CreateAccount");
+            let admin = isAdmin("User"); // Replace "employeeId" with your desired cookie name
+            window.onload = function () {
+                if(!admin) {
+                    button.setAttribute("hidden", "hidden")
+                }
+            }
         </script>
 
 
