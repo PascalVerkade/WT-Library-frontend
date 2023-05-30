@@ -48,3 +48,77 @@ function loadData() {
 
     console.log('einde loaddata');
 }
+
+function login() {
+    changeColor();
+    
+    let email = document.getElementById("Username").value;
+    let password = document.getElementById("Password").value;
+    let data = {
+        "email": email,
+        "password": password
+    }
+    fetch("http://localhost:8080/employee/login", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            let cookieValue = data.employee_id;
+            setCookie('User', cookieValue, 1)
+            window.location.href = 'display.html';
+        })
+        .catch(error => {
+            alert('Fout :(');
+        });
+
+}
+
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+}
+
+function isAdmin(cname) {
+    let id = getCookie(cname);
+    let data = {
+        "employee_id": id
+    }
+    return fetch("http://localhost:8080/employee/isAdmin", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            //let value = data.employee_id;
+            return data;
+        })
+        .catch(error => {
+            alert('Fout :(');
+            return false;
+        });
+}
