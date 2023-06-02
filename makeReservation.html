@@ -5,11 +5,13 @@
 </head>
 <body>
   <h1>Make Reservation</h1>
+  
   <div>
-    <label for="searchTerm">Search Term:</label>
+    <label for="searchTerm">Search Employee:</label>
     <input type="text" id="searchTerm">
-    <button class="button" onclick="searchEmployee()">Search User</button>
+    <button class="button" onclick="searchEmployee()">Search</button>
   </div>
+  
   <table>
     <thead>
       <tr>
@@ -20,38 +22,169 @@
     </thead>
     <tbody id="employeeTableBody"></tbody>
   </table>
+  
+  <div>
+    <label for="selectedEmployee">Selected Employee:</label>
+    <input type="text" id="selectedEmployee" disabled>
+  </div>
+  
+  <div>
+    <label for="searchTermBooks">Search Books:</label>
+    <input type="text" id="searchTermBooks">
+    <button class="button" onclick="searchBooks()">Search</button>
+  </div>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Writer</th>
+        <th>ISBN</th>
+      </tr>
+    </thead>
+    <tbody id="bookTableBody"></tbody>
+  </table>
+  
+  <div>
+    <label for="selectedBook">Selected Book:</label>
+    <input type="text" id="selectedBook" disabled>
+  </div>
+  
+    <div>
+    <h2>Create Reservation</h2>
+    <button class="button" onclick="createReservation()">Create Reservation</button>
+  </div>
+  
   <script>
+    var selectedEmployee = null;
+    var selectedBook = null;
+  
     function searchEmployee() {
       var searchTerm = document.getElementById("searchTerm").value;
-      
-      // Make an API call to your backend
+      //TODO: alle localhost https in 1 path zetten
+      // Make an API call to your backend for searching employees
       fetch('http://localhost:8080/employees/search?searchTerm=' + searchTerm)
         .then(response => response.json())
         .then(data => {
-          // Get the table body element
-          var tableBody = document.getElementById("employeeTableBody");
+          // Get the employee table body element
+          var employeeTableBody = document.getElementById("employeeTableBody");
       
-          // Clear the table body before adding new rows
-          tableBody.innerHTML = "";
+          // Clear the employee table body before adding new rows
+          employeeTableBody.innerHTML = "";
 
           // Iterate over the employee data and create table rows dynamically
           data.forEach(employee => {
             // Create a new row element
-            var row = tableBody.insertRow();
+            var row = employeeTableBody.insertRow();
 
             // Create new cells for each data element
             var firstNameCell = row.insertCell();
             firstNameCell.innerHTML = employee.firstName;
+            firstNameCell.addEventListener("click", function() {
+              selectEmployee(employee);
+            });
 
             var lastNameCell = row.insertCell();
             lastNameCell.innerHTML = employee.lastName;
+            lastNameCell.addEventListener("click", function() {
+              selectEmployee(employee);
+            });
 
             var emailCell = row.insertCell();
             emailCell.innerHTML = employee.email;
+            emailCell.addEventListener("click", function() {
+              selectEmployee(employee);
+            });
           });
         })
         .catch(error => console.error(error));
     }
+    
+    function searchBooks() {
+      var searchTerm = document.getElementById("searchTermBooks").value;
+      
+      // Make an API call to your backend for searching books
+      fetch('http://localhost:8080/books/search?searchTerm=' + searchTerm)
+        .then(response => response.json())
+                .then(data => {
+          // Get the book table body element
+          var bookTableBody = document.getElementById("bookTableBody");
+      
+          // Clear the book table body before adding new rows
+          bookTableBody.innerHTML = "";
+
+          // Iterate over the book data and create table rows dynamically
+          data.forEach(book => {
+            // Create a new row element
+            var row = bookTableBody.insertRow();
+
+            // Create new cells for each data element
+            var titleCell = row.insertCell();
+            titleCell.innerHTML = book.title;
+            titleCell.addEventListener("click", function() {
+              selectBook(book);
+            });
+
+            var writerCell = row.insertCell();
+            writerCell.innerHTML = book.writer;
+            writerCell.addEventListener("click", function() {
+              selectBook(book);
+            });
+            
+            var isbnCell = row.insertCell();
+            isbnCell.innerHTML = book.isbn;
+            isbnCell.addEventListener("click", function() {
+              selectBook(book);
+            });
+          });
+        })
+        .catch(error => console.error(error));
+    }
+    
+    function selectEmployee(employee) {
+      selectedEmployee = employee;
+      document.getElementById("selectedEmployee").value = employee.firstName + " " + employee.lastName;
+    }
+    
+    function selectBook(book) {
+      selectedBook = book;
+      document.getElementById("selectedBook").value = book.title;
+    }
+    
+    function createReservation() {
+      if (selectedEmployee && selectedBook) {
+        // Create the reservation object with selected employee and book
+        console.log(selectedBook.id)
+        console.log(selectedEmployee.employeeId)
+        var reservation = {
+            bookId: selectedBook.id,
+            employeeId: selectedEmployee.employeeId
+        };
+        
+        // Make an API call to your backend to create the reservation
+        fetch('http://localhost:8080/reservation/make', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(reservation)
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response from the backend
+          console.log("Reservation created successfully:", data);
+          // Clear the selected employee and book
+          selectedEmployee = null;
+          selectedBook = null;
+          document.getElementById("selectedEmployee").value = "";
+          document.getElementById("selectedBook").value = "";
+        })
+        .catch(error => console.error(error));
+      } else {
+        console.log("Please select an employee and a book.");
+      }
+    }
   </script>
 </body>
 </html>
+
