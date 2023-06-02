@@ -1,4 +1,4 @@
-function openPopup(bookId) {
+function selectBook(bookId) {
     fetch(`http://localhost:8080/book/${bookId}`)
         .then(res => res.json())
         .then(data => {
@@ -7,7 +7,10 @@ function openPopup(bookId) {
 
         })
     console.log(bookId)
+    document.getElementById('addCopy').disabled = false;
 }
+
+  
 
 function loadAllBooks() {
     console.log('loadallbooks');
@@ -27,15 +30,12 @@ function loadAllBooks() {
                         <td>${book.photo}</td>
                         <td>${book.title}</td>
                         <td>${book.writer}</td>
-                        <td><button name="update" onclick="openPopup(${book.id})">Update ${book.title}</button></td>
-
-
+                        <td><button name="select" class="btn-select" id="${book.id}" onclick="selectBook(${book.id})">Selecteren</button></td>
                     </tr>
                 `
             });
             bookHtml+= "</tbody>";
-            
-            document.getElementById('AllTable').innerHTML += bookHtml;
+            document.getElementById('BooksTable').innerHTML += bookHtml;
         })
 
 
