@@ -68,7 +68,8 @@ function login() {
         .then(response => response.json())
         .then(data => {
             let cookieValue = data.employee_id;
-            setCookie('User', cookieValue, 1)
+            setCookie('User', cookieValue, 1);
+            localStorage.setItem("Admin", data.admin)
             window.location.href = 'homepage.html';
         })
         .catch(error => {
