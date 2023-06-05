@@ -1,3 +1,5 @@
+/* --------defining fonts ---------*/
+
 @font-face {
     font-family: euclidSquareRegular;
     src: url(/font/EuclidSquare-Regular.ttf);
@@ -13,7 +15,8 @@
     src: url(/font/EuclidSquare-Light.ttf);
 }
 
-button{
+/*-------- basic elements ------------*/
+button {
     font-family: euclidSquareBold;
     background-color: #000000;
     border: none;
@@ -29,15 +32,20 @@ button{
 }
 
 
-body{
-    background-color:#00e600;
-    margin:auto;
+body {
+    background-color: #00e600;
+    margin: auto;
     padding: 0;
     font-family: euclidSquareRegular;
 }
 
-h1, h2, h3, h4, h5, h6{
-    text-align:center;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-align: center;
     font-family: euclidSquareBold;
 }
 
@@ -47,25 +55,27 @@ table {
     border: 1px solid #969696;
     font-size: 12pt;
     border-collapse: collapse;
-  }
+}
 
 table thead th,
 table tfoot th {
-  color: #c8c8c8;
-  background: #000000;
-}
-table caption {
-  padding:.2em;
-  color: #000000;
-  font-family: EuclidSquareLight;
-}
-table th,
-table td {
-  padding: .5em;
-  border: 1px solid #d3d3d3;
+    color: #c8c8c8;
+    background: #000000;
 }
 
-input[type=text]{
+table caption {
+    padding: .2em;
+    color: #000000;
+    font-family: EuclidSquareLight;
+}
+
+table th,
+table td {
+    padding: .5em;
+    border: 1px solid #d3d3d3;
+}
+
+input[type=text] {
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
@@ -75,9 +85,9 @@ input[type=text]{
     margin-top: 1rem;
     margin-bottom: 1rem;
     padding: .5em .5em .5em .5em;
-  }
+}
 
-input.search{
+input.search {
     width: 75%;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -86,36 +96,15 @@ input.search{
     background-color: #f0f0f0;
     background-image: url('../img/search.png');
     background-size: 2% 60%;
-    background-position: 10px 10px; 
+    background-position: 10px 10px;
     background-repeat: no-repeat;
     padding: 12px 20px 12px 50px;
     margin-top: 1rem;
     margin-bottom: 1rem;
-  }
-
-
-
-.login{
-    width: 15%;
-    margin: auto;
-    border-radius: 15px;
-    justify-content: center;  
-    align-items: center
 }
+/*--------- einde basic elements ---------*/
 
-#login_form{
- margin: auto
-}
-#Username{
-    width: 50%;
-}
-#Password{
-    width: 50%;
-}
-#LoginButton{
-    margin: auto;
-}
-
+/*--------- begin side bar ---------*/
 .sidenav {
     height: 100%;
     width: 13%;
@@ -126,14 +115,12 @@ input.search{
     background-color: #000000;
     overflow-x: hidden;
     padding-top: 20px;
-    
-  }
-  
 
-/*--------- begin side bar ---------*/  
-#logo{
+}
+
+#logo {
     padding: 6px 10px 10px 32px;
-}  
+}
 
 .item {
     padding: 6px 10px 10px 32px;
@@ -141,27 +128,27 @@ input.search{
     font-size: 25px;
     color: #969696;
     display: block;
-  }
+}
 
-  .subitem {
+.subitem {
     padding: 6px 15px 6px 32px;
     margin-left: 15%;
     text-decoration: none;
     font-size: 20px;
     color: #818181;
     display: block;
-  }
+}
 
-  
-  .sidenav a:hover {
+
+.sidenav a:hover {
     color: #f0f0f0;
-  }
+}
 
-  .sidenav a:active {
+.sidenav a:active {
     background-color: #008200;
-  }
+}
 
-  #logout{
+#logout {
     padding: 6px 6px 6px 32px;
     text-decoration: none;
     font-size: 25px;
@@ -170,10 +157,13 @@ input.search{
     position: absolute;
     bottom: 0;
     margin-bottom: 20%;
-  }
+}
 
-  .topbar{
-    background-color:#000000;
+/*--------- eind side bar ---------*/
+
+/*--------- begin top bar ---------*/
+.topbar {
+    background-color: #000000;
     margin-left: 13%;
     padding-bottom: 1rem;
     padding-top: 1em;
@@ -181,23 +171,59 @@ input.search{
     color: #969696;
     text-align: center;
     font-size: 18px;
-  }
+}
 
-  .topbar a {
+.topbar a {
     color: #969696;
     text-align: center;
     font-size: 18px;
-  }
+}
 
+/*--------- eind top bar ---------*/
 
-  .main {
-    margin-left: 13%; /* Same as the width of the sidenav */
+/*--------- begin main ---------*/
+.main {
+    margin-left: 13%;
+    /* Same as the width of the sidenav */
     padding-left: 3%
-  }
-  
-  @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-  }
+}
 
-/*---------- end side bar ---------*/
+/*---------- end main---------*/
+
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+
+
+/*------------old (used?) legacy code starts here-------*/
+.login {
+    width: 15%;
+    margin: auto;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center
+}
+
+#login_form {
+    margin: auto
+}
+
+#Username {
+    width: 50%;
+}
+
+#Password {
+    width: 50%;
+}
+
+#LoginButton {
+    margin: auto;
+}
