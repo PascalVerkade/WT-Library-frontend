@@ -51,7 +51,7 @@ function loadAllBooks() {
 loadAllBooks();
 
 function copyThisBook() {
-    document.getElementById('copyAddedHeader').innerHTML = `A copy of ${selectedBook.title} was added`;
+    window.location.href = `copyManagement.html?bookId=${selectedBook.id}`
 }
 
 function updateThisBook() {

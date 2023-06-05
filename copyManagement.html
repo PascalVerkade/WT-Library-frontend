@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    
+    
+    <title>Document</title>
+</head>
+
+
+<body>
+    <div class="sidenav">
+        <div>
+            <img id="logo" src = "img/wt-logo-full-white.svg" alt="wt logo svg" />
+        </div>
+        <a href="#" class = "item">Bibliotheek</a>
+        <a href="#" class = "item">Mijn account</a>
+        <a href="#" class = "item">Mijn reserveringen</a>
+        <a href="#" class = "item">Admin functionaliteiten</a>
+        <a href="#" class = "subitem">Boeken managen</a>
+        <a href="#" class = "subitem">Accounts managen</a>
+        <a href="#" class = "subitem">Reserveringn managen</a>
+        <a href="#" id="logout">Logout</a>
+    </div>
+      
+    <div class = "topbar">
+        <a href="#">Page</a>
+        <b>></b>
+        <a href="#">Page</a>
+        <b>></b>
+    </div>
+
+    <div class="main">
+        <h1 name="bookTitle" id="bookTitle">Title:</h1>
+        <h2 name="bookDetails" id="bookDetails">Writer & ISBN:</h2>
+        <div>
+            <p id="copiesInStock"></p>
+        </div>
+
+        <section class = "allCopies">
+            <table id="copiesTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>In gebruik door</th>
+                        <th>Archiveren</th>
+                    </tr>
+                </thead>
+                
+            </table>
+
+        </section>
+
+        <button type="button" name="addCopy" id="addCopy" onclick="addNewCopy()">Voeg kopie toe</button>
+
+    </div>
+
+    <script type="text/javascript" src="js/copyManagement.js" defer></script>
+
+</body>
+</html>
