@@ -2,17 +2,17 @@
 
 @font-face {
     font-family: euclidSquareRegular;
-    src: url(/font/EuclidSquare-Regular.ttf);
+    src: url(../font/EuclidSquare-Regular.ttf);
 }
 
 @font-face {
     font-family: euclidSquareBold;
-    src: url(/font/EuclidSquare-Bold.ttf);
+    src: url(../font/EuclidSquare-Bold.ttf);
 }
 
 @font-face {
     font-family: euclidSquareLight;
-    src: url(/font/EuclidSquare-Light.ttf);
+    src: url(../font/EuclidSquare-Light.ttf);
 }
 
 /*-------- basic elements ------------*/
