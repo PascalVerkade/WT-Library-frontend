@@ -9,59 +9,59 @@
 </head>
 <body>
   <div id="sidebarContainer"></div>
-    <script type="text/javascript" src="js/sidebar.js"></script>
+  <script type="text/javascript" src="js/sidebar.js"></script>
 
-      <div class="main">
-  
-          <div>
-            <label for="searchTerm">Search Employee:</label>
-            <input type="text" id="searchTerm">
-            <button class="button" onclick="searchEmployee()">Search</button>
-          </div>
-          
-          <table>
-            <thead>
-              <tr>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Email</th>
-              </tr>
-            </thead>
-            <tbody id="employeeTableBody"></tbody>
-          </table>
-          
-          <div>
-            <label for="selectedEmployee">Selected Employee:</label>
-            <input type="text" id="selectedEmployee" disabled>
-          </div>
-          
-          <div>
-            <label for="searchTermBooks">Search Books:</label>
-            <input type="text" id="searchTermBooks">
-            <button class="button" onclick="searchBooks()">Search</button>
-          </div>
-          
-          <table>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Writer</th>
-                <th>ISBN</th>
-              </tr>
-            </thead>
-            <tbody id="bookTableBody"></tbody>
-          </table>
-          
-          <div>
-            <label for="selectedBook">Selected Book:</label>
-            <input type="text" id="selectedBook" disabled>
-          </div>
-          
-            <div>
-            <h2>Create Reservation</h2>
-            <button class="button" onclick="createReservation()">Create Reservation</button>
-          </div>
+  <div class="main">
+
+      <div>
+        <label for="searchTerm">Search Employee:</label>
+        <input type="text" id="searchTerm">
+        <button class="button" onclick="searchEmployee()">Search</button>
       </div>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody id="employeeTableBody"></tbody>
+      </table>
+      
+      <div>
+        <label for="selectedEmployee">Selected Employee:</label>
+        <input type="text" id="selectedEmployee" disabled>
+      </div>
+      
+      <div>
+        <label for="searchTermBooks">Search Books:</label>
+        <input type="text" id="searchTermBooks">
+        <button class="button" onclick="searchBooks()">Search</button>
+      </div>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Writer</th>
+            <th>ISBN</th>
+          </tr>
+        </thead>
+        <tbody id="bookTableBody"></tbody>
+      </table>
+      
+      <div>
+        <label for="selectedBook">Selected Book:</label>
+        <input type="text" id="selectedBook" disabled>
+      </div>
+      
+        <div>
+        <h2>Create Reservation</h2>
+        <button class="button" onclick="createReservation()">Create Reservation</button>
+      </div>
+  </div>
   
   <script>
     var baseUrl = 'http://localhost:8080';
