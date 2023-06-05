@@ -38,13 +38,13 @@
     <h1 id="UpdateHeader"></h1>
 
     <form id="selectBook" method="GET">
-        <button type="button" name = "addCopy" id="addCopy" disabled>Voeg kopie toe</button>
+        <button type="button" name = "addCopy" id="addCopy" onclick="copyThisBook()" disabled>Voeg kopie toe</button>
         <h2 id="copyAddedHeader"></h2>
         
-        <button type="button" name = "updateBook" id="updateBook" disabled>Update boek</button>
+        <button type="button" name = "updateBook" id="updateBook" onclick="updateThisBook()" disabled>Update boek</button>
         <h2 id="bookUpdatedHeader"></h2>
         
-        <button type="button" name = "archiveBook" id="archiveBook" disabled>Archiveer boek</button>
+        <button type="button" name = "archiveBook" id="archiveBook" onclick="archiveThisBook()" disabled>Archiveer boek</button>
         <h2 id="bookArchivedHeader"></h2>
     </form>
     
