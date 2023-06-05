@@ -1,57 +1,204 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Make Reservation</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Make Reservation</title>
 </head>
 <body>
-  <h1>Make Reservation</h1>
-  <div>
-    <label for="searchTerm">Search Term:</label>
-    <input type="text" id="searchTerm">
-    <button class="button" onclick="searchEmployee()">Search User</button>
-  </div>
-  <table>
-    <thead>
-      <tr>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Email</th>
-      </tr>
-    </thead>
-    <tbody id="employeeTableBody"></tbody>
-  </table>
+  <div class="sidenav">
+        <div>
+            <img id="logo" src = "img/wt-logo-full-white.svg" alt="wt logo svg" />
+        </div>
+        <a href="#" class = "item">Bibliotheek</a>
+        <a href="#" class = "item">Mijn account</a>
+        <a href="#" class = "item">Mijn reserveringen</a>
+        <a href="#" class = "item">Admin functionaliteiten</a>
+        <a href="#" class = "subitem">Boeken managen</a>
+        <a href="#" class = "subitem">Accounts managen</a>
+        <a href="#" class = "subitem">Reserveringn managen</a>
+        <a href="#" id="logout">Logout</a>
+      </div>
+      
+      <div class = "topbar">
+        <a href="#">Page</a>
+        <b>></b>
+        <a href="#">Page</a>
+        <b>></b>
+      </div>
+
+      <div class="main">
+  
+          <div>
+            <label for="searchTerm">Search Employee:</label>
+            <input type="text" id="searchTerm">
+            <button class="button" onclick="searchEmployee()">Search</button>
+          </div>
+          
+          <table>
+            <thead>
+              <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody id="employeeTableBody"></tbody>
+          </table>
+          
+          <div>
+            <label for="selectedEmployee">Selected Employee:</label>
+            <input type="text" id="selectedEmployee" disabled>
+          </div>
+          
+          <div>
+            <label for="searchTermBooks">Search Books:</label>
+            <input type="text" id="searchTermBooks">
+            <button class="button" onclick="searchBooks()">Search</button>
+          </div>
+          
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Writer</th>
+                <th>ISBN</th>
+              </tr>
+            </thead>
+            <tbody id="bookTableBody"></tbody>
+          </table>
+          
+          <div>
+            <label for="selectedBook">Selected Book:</label>
+            <input type="text" id="selectedBook" disabled>
+          </div>
+          
+            <div>
+            <h2>Create Reservation</h2>
+            <button class="button" onclick="createReservation()">Create Reservation</button>
+          </div>
+      </div>
+  
   <script>
+    var baseUrl = 'http://localhost:8080';
+    var selectedEmployee = null;
+    var selectedBook = null;
+  
     function searchEmployee() {
       var searchTerm = document.getElementById("searchTerm").value;
-      
-      // Make an API call to your backend
-      fetch('http://localhost:8080/employees/search?searchTerm=' + searchTerm)
+
+      // Make an API call to your backend for searching employees
+      fetch(`${baseUrl}/employees/search?searchTerm=${searchTerm}`)
         .then(response => response.json())
         .then(data => {
-          // Get the table body element
-          var tableBody = document.getElementById("employeeTableBody");
-      
-          // Clear the table body before adding new rows
-          tableBody.innerHTML = "";
 
-          // Iterate over the employee data and create table rows dynamically
+          // Fill in the table
+          var employeeTableBody = document.getElementById("employeeTableBody");
+          employeeTableBody.innerHTML = "";
           data.forEach(employee => {
-            // Create a new row element
-            var row = tableBody.insertRow();
+            var row = employeeTableBody.insertRow();
 
-            // Create new cells for each data element
             var firstNameCell = row.insertCell();
             firstNameCell.innerHTML = employee.firstName;
+            firstNameCell.addEventListener("click", function() {
+              selectEmployee(employee);
+            });
 
             var lastNameCell = row.insertCell();
             lastNameCell.innerHTML = employee.lastName;
+            lastNameCell.addEventListener("click", function() {
+              selectEmployee(employee);
+            });
 
             var emailCell = row.insertCell();
             emailCell.innerHTML = employee.email;
+            emailCell.addEventListener("click", function() {
+              selectEmployee(employee);
+            });
           });
         })
         .catch(error => console.error(error));
     }
+    
+    function searchBooks() {
+      var searchTerm = document.getElementById("searchTermBooks").value;
+      
+      // Make an API call to your backend for searching books
+      fetch(`${baseUrl}/books/search?searchTerm=${searchTerm}`)
+        .then(response => response.json())
+                .then(data => {
+
+          // Fill in the table
+          var bookTableBody = document.getElementById("bookTableBody");
+          bookTableBody.innerHTML = "";
+          data.forEach(book => {
+            var row = bookTableBody.insertRow();
+
+            var titleCell = row.insertCell();
+            titleCell.innerHTML = book.title;
+            titleCell.addEventListener("click", function() {
+              selectBook(book);
+            });
+
+            var writerCell = row.insertCell();
+            writerCell.innerHTML = book.writer;
+            writerCell.addEventListener("click", function() {
+              selectBook(book);
+            });
+            
+            var isbnCell = row.insertCell();
+            isbnCell.innerHTML = book.isbn;
+            isbnCell.addEventListener("click", function() {
+              selectBook(book);
+            });
+          });
+        })
+        .catch(error => console.error(error));
+    }
+    
+    function selectEmployee(employee) {
+      selectedEmployee = employee;
+      document.getElementById("selectedEmployee").value = employee.firstName + " " + employee.lastName;
+    }
+    
+    function selectBook(book) {
+      selectedBook = book;
+      document.getElementById("selectedBook").value = book.title;
+    }
+    
+    function createReservation() {
+      if (selectedEmployee && selectedBook) {
+
+        // Create the reservation object with selected employee and book
+        var reservation = {
+            bookId: selectedBook.id,
+            employeeId: selectedEmployee.employeeId
+        };
+        
+        // Make an API call to your backend to create the reservation
+        fetch(`${baseUrl}/reservation/make`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(reservation)
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log("Reservation created successfully:", data);
+          selectedEmployee = null;
+          selectedBook = null;
+          document.getElementById("selectedEmployee").value = "";
+          document.getElementById("selectedBook").value = "";
+        })
+        .catch(error => console.error(error));
+      } else {
+        console.log("Please select an employee and a book.");
+      }
+    }
   </script>
 </body>
 </html>
+
