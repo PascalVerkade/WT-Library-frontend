@@ -20,7 +20,7 @@ function saveBook() {
     console.log(newbook);
 
     //data sturen via fetch
-    fetch("http://localhost:8080/book/create", {
+    fetch("http://localhost:8080/books/create", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

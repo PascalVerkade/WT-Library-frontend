@@ -2,7 +2,7 @@ function loadAllBooks() {
     console.log('loadallbooks');
 
     //opvragen javascript.
-    fetch('http://localhost:8080/book/all')
+    fetch('http://localhost:8080/books/all')
         .then(res => res.json())
         .then(data => {
             console.log('Data', data);
