@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script type="text/javascript" src="js/login.js" defer></script>
     <title>Document</title>
 </head>
 
@@ -21,11 +20,13 @@
         <button type="submit" name = "login" id="LoginButton" onclick="login()">Inloggen</button></form>
 
     </section>
-
+    <script type="text/javascript" src="js/cookie.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
     <script>
+        
         window.onload = function() {
             const employeeId = getCookie("User");
-            employeeId ? window.location.href = 'display.html' : "";
+            employeeId ? window.location.href = 'homepage.html' : "";
         }
     </script>
 </body>
