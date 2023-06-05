@@ -56,28 +56,24 @@
   </div>
   
   <script>
+    var baseUrl = 'http://localhost:8080';
     var selectedEmployee = null;
     var selectedBook = null;
   
     function searchEmployee() {
       var searchTerm = document.getElementById("searchTerm").value;
-      //TODO: alle localhost https in 1 path zetten
+
       // Make an API call to your backend for searching employees
-      fetch('http://localhost:8080/employees/search?searchTerm=' + searchTerm)
+      fetch('${baseUrl}/employees/search?searchTerm=${searchTerm}')
         .then(response => response.json())
         .then(data => {
-          // Get the employee table body element
-          var employeeTableBody = document.getElementById("employeeTableBody");
-      
-          // Clear the employee table body before adding new rows
-          employeeTableBody.innerHTML = "";
 
-          // Iterate over the employee data and create table rows dynamically
+          // Fill in the table
+          var employeeTableBody = document.getElementById("employeeTableBody");
+          employeeTableBody.innerHTML = "";
           data.forEach(employee => {
-            // Create a new row element
             var row = employeeTableBody.insertRow();
 
-            // Create new cells for each data element
             var firstNameCell = row.insertCell();
             firstNameCell.innerHTML = employee.firstName;
             firstNameCell.addEventListener("click", function() {
@@ -104,21 +100,16 @@
       var searchTerm = document.getElementById("searchTermBooks").value;
       
       // Make an API call to your backend for searching books
-      fetch('http://localhost:8080/books/search?searchTerm=' + searchTerm)
+      fetch('${baseUrl}/books/search?searchTerm=' + searchTerm)
         .then(response => response.json())
                 .then(data => {
-          // Get the book table body element
-          var bookTableBody = document.getElementById("bookTableBody");
-      
-          // Clear the book table body before adding new rows
-          bookTableBody.innerHTML = "";
 
-          // Iterate over the book data and create table rows dynamically
+          // Fill in the table
+          var bookTableBody = document.getElementById("bookTableBody");
+          bookTableBody.innerHTML = "";
           data.forEach(book => {
-            // Create a new row element
             var row = bookTableBody.insertRow();
 
-            // Create new cells for each data element
             var titleCell = row.insertCell();
             titleCell.innerHTML = book.title;
             titleCell.addEventListener("click", function() {
@@ -153,16 +144,15 @@
     
     function createReservation() {
       if (selectedEmployee && selectedBook) {
+
         // Create the reservation object with selected employee and book
-        console.log(selectedBook.id)
-        console.log(selectedEmployee.employeeId)
         var reservation = {
             bookId: selectedBook.id,
             employeeId: selectedEmployee.employeeId
         };
         
         // Make an API call to your backend to create the reservation
-        fetch('http://localhost:8080/reservation/make', {
+        fetch('${baseUrl}/reservation/make', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -171,9 +161,7 @@
         })
         .then(response => response.json())
         .then(data => {
-          // Handle the response from the backend
           console.log("Reservation created successfully:", data);
-          // Clear the selected employee and book
           selectedEmployee = null;
           selectedBook = null;
           document.getElementById("selectedEmployee").value = "";
