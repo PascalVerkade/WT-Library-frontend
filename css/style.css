@@ -1,15 +1,99 @@
-body{
-    background-color:#00ce22;
-    margin:auto;
-    padding: 0;
-}
-h1{
-    text-align: center;
+@font-face {
+    font-family: euclidSquareRegular;
+    src: url(/font/EuclidSquare-Regular.ttf);
 }
 
-h2{
-    text-align: center;
+@font-face {
+    font-family: euclidSquareBold;
+    src: url(/font/EuclidSquare-Bold.ttf);
 }
+
+@font-face {
+    font-family: euclidSquareLight;
+    src: url(/font/EuclidSquare-Light.ttf);
+}
+
+button{
+    font-family: euclidSquareBold;
+    background-color: #000000;
+    border: none;
+    color: #f0f0f0;
+    padding: 1rem 2rem 1rem 2rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 9999px;
+    cursor: pointer;
+}
+
+
+body{
+    background-color:#00e600;
+    margin:auto;
+    padding: 0;
+    font-family: euclidSquareRegular;
+}
+
+h1, h2, h3, h4, h5, h6{
+    text-align:center;
+    font-family: euclidSquareBold;
+}
+
+table {
+    color: #5a5a5a;
+    background: #f0f0f0;
+    border: 1px solid #969696;
+    font-size: 12pt;
+    border-collapse: collapse;
+  }
+
+table thead th,
+table tfoot th {
+  color: #c8c8c8;
+  background: #000000;
+}
+table caption {
+  padding:.2em;
+  color: #000000;
+  font-family: EuclidSquareLight;
+}
+table th,
+table td {
+  padding: .5em;
+  border: 1px solid #d3d3d3;
+}
+
+input[type=text]{
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: inherit;
+    background-color: #f0f0f0;
+    padding-left: 1em;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: .5em .5em .5em .5em;
+  }
+
+input.search{
+    width: 75%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #f0f0f0;
+    background-image: url('../img/search.png');
+    background-size: 2% 60%;
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 50px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+
 
 .login{
     width: 15%;
@@ -31,3 +115,89 @@ h2{
 #LoginButton{
     margin: auto;
 }
+
+.sidenav {
+    height: 100%;
+    width: 13%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    overflow-x: hidden;
+    padding-top: 20px;
+    
+  }
+  
+
+/*--------- begin side bar ---------*/  
+#logo{
+    padding: 6px 10px 10px 32px;
+}  
+
+.item {
+    padding: 6px 10px 10px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #969696;
+    display: block;
+  }
+
+  .subitem {
+    padding: 6px 15px 6px 32px;
+    margin-left: 15%;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+  }
+
+  
+  .sidenav a:hover {
+    color: #f0f0f0;
+  }
+
+  .sidenav a:active {
+    background-color: #008200;
+  }
+
+  #logout{
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 20%;
+  }
+
+  .topbar{
+    background-color:#000000;
+    margin-left: 13%;
+    padding-bottom: 1rem;
+    padding-top: 1em;
+    align-items: center;
+    color: #969696;
+    text-align: center;
+    font-size: 18px;
+  }
+
+  .topbar a {
+    color: #969696;
+    text-align: center;
+    font-size: 18px;
+  }
+
+
+  .main {
+    margin-left: 13%; /* Same as the width of the sidenav */
+    padding-left: 3%
+  }
+  
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+
+/*---------- end side bar ---------*/
