@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    
+    
+    <title>Document</title>
+</head>
+
+
+<body>
+    <div id="sidebarContainer"></div>
+    <script type="text/javascript" src="js/sidebar.js"></script>
+
+    <div class="main">
+        <h1 name="bookTitle" id="bookTitle">Title:</h1>
+        <h2 name="bookDetails" id="bookDetails">Writer & ISBN:</h2>
+
+        <table id="bookTable">
+            <thead>
+                <tr>
+                    <th><label><b>Titel</b></label></th>
+                    <th><label><b>Schrijver</b></label></th>
+                    <th><label><b>ISBN</b></label></th>
+                    <th><label><b>photo-url</b></label></th>
+                    <th><label><b>Beschikbaarheid</b></label></th>
+                    <th><label><b>Voorraad</b></label></th>
+                </tr>
+            </thead>
+            <tbody id="bookTableBody">
+                <tr>
+                    <td><input type="text" name="titel" class="title" id="title" required></td>
+                    <td><input type="text" name="schrijver" class="writer" id="writer" required></td>
+                    <td><input type="number" name="isbn" class="isbn" id="isbn" required></td>
+                    <td><input type="text" name="foto" class="photo" id="photo" required></td>
+                    <td><input type="checkbox" class="available" id="available" disabled></td>
+                    <td><input type="number" name="voorraad" class="stock" id="stock"required disabled></td>
+                </tr>
+            </tbody>
+        </table>
+
+        
+        <button type="button" name = "saveUpdate" id="saveUpdate" onclick="updateThisBook()">Update boek</button>
+    </div>
+
+    <script type="text/javascript" src="js/updateBook.js" defer></script>
+
+</body>
+</html>

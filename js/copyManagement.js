@@ -31,8 +31,6 @@ function resetBookStock() {
     selectedBook.stock = copyCount;
     console.log('Updating book: ' + selectedBook);
 
-
-
     fetch(`http://localhost:8080/book/update/${selectedBook.id}`, {
         method: 'PATCH',
         headers: {
