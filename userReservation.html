@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Make Reservation</title>
+</head>
+
+<body>
+    <div id="sidebarContainer"></div>
+    <script type="text/javascript" src="js/sidebar.js"></script>
+
+    <div class="main">
+
+        <!-- Reservatino section -->
+        <div>
+            <div>
+                <h4>Reserveringen</h4>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Book titel</th>
+                        <th>Datum</th>
+                        <th>Beschikbaar om te lenen</th>
+                    </tr>
+                </thead>
+                <tbody id="reservationTableBody"></tbody>
+            </table>
+
+            <div>
+                <label for="selectedReservation">Selected Reservation:</label>
+                <input type="text" id="selectedReservation" disabled>
+            </div>
+
+            <div>
+                <button class="button" onclick="cancelReservationSelection()">annuleer selectie</button>
+                <button class="button" onclick="deleteReservation()">verwijder reservering</button>
+            </div>
+        </div>
+
+        <!-- loan section -->
+        <div>
+            <div>
+                <h4>Loans</h4>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Book titel</th>
+                        <th>Ophaaldatum</th>
+                        <th>Ingleverd datum</th>
+                    </tr>
+                </thead>
+                <tbody id="loanTableBody"></tbody>
+            </table>
+
+            <div>
+                <label for="selectedLoan">Selected Loan:</label>
+                <input type="text" id="selectedLoan" disabled>
+            </div>
+
+            <div>
+                <button class="button" onclick="cancelLoanSelection()">annuleer selectie</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var baseUrl = 'http://localhost:8080';
+        var selectedReservation = null;
+        var selectedLoan = null;
+
+        //upon loading window, receive al reservations and loans
+        window.onload = getReservation();
+        window.onload = getLoan();
+
+        function getReservation() {
+
+            //hardcoded user:
+            let data = { "id": 1 }
+            // Make an API call to your backend for searching reservations
+            fetch(`${baseUrl}/reservation/user`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+
+                    // Fill in the table and add event listener for selection in each row
+                    var reservationTableBody = document.getElementById("reservationTableBody");
+                    reservationTableBody.innerHTML = "";
+                    data.forEach(reservation => {
+                        var row = reservationTableBody.insertRow();
+                        row.addEventListener("click", function () {
+                            selectReservation(reservation);
+                            clickrow(row, reservationTableBody);
+                        });
+
+                        var bookTitleCell = row.insertCell();
+                        bookTitleCell.innerHTML = reservation.book.title;
+
+                        var dateCell = row.insertCell();
+                        dateCell.innerHTML = reservation.reservationDate;
+
+                        var allowedCell = row.insertCell();
+                        allowedCell.innerHTML = reservation.allowed;
+                    });
+                })
+                .catch(error => console.error(error));
+        }
+
+        function getLoan() {
+
+            //hardcoded user:
+            let data = { "id": 1 }
+            // Make an API call to your backend for searching reservations
+            fetch(`${baseUrl}/loan/user`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+
+                    // Fill in the table and add event listener to each row in the table
+                    var loanTableBody = document.getElementById("loanTableBody");
+                    loanTableBody.innerHTML = "";
+                    data.forEach(loan => {
+                        var row = loanTableBody.insertRow();
+                        row.addEventListener("click", function () {
+                            selectLoan(loan);
+                            clickrow(row, loanTableBody);
+                        });
+
+                        var bookTitleCell = row.insertCell();
+                        //bookTitleCell.innerHTML = reservation.book.title;
+                        bookTitleCell.innerHTML = "issue";
+
+                        var dateCell = row.insertCell();
+                        dateCell.innerHTML = loan.loanDate;
+
+                        var ingeleverdCell = row.insertCell();
+                        ingeleverdCell.innerHTML = loan.returnDate;
+                    });
+                })
+                .catch(error => console.error(error));
+        }
+
+        //method used to select a row in a table (and deselect)
+        function clickrow(tableRow, tableBody, reservation) {
+            //check if clicked row is selected
+            var clear = tableRow.style.backgroundColor == 'green';
+            // clear the background of all rows
+            var rows = tableBody.children;
+            for (let i = 0; i<rows.length;i++){
+                rows[i].style.backgroundColor = '';
+            }
+            // set background of clicked row only if it wasn't selected alrady
+            if(!clear){
+                	tableRow.style.backgroundColor = 'green'; 
+            }
+        }
+
+        //displays the selected reservation by displaying reservation values
+        function selectReservation(reservation) {
+            selectedReservation = reservation;
+            document.getElementById("selectedReservation").value = "reservation: " + reservation.book.title;
+        }
+
+        //cancels the selection of the reservation
+        function cancelReservationSelection() {
+            document.getElementById("selectedReservation").value = "";
+        }
+
+        //displays the selected loan by displaying loan values
+        function selectLoan(loan) {
+            selectedLoan = loan;
+            document.getElementById("selectedLoan").value = "loan: " + "issue " + loan.loanDate + " " + loan.returnDate; //+loan.book.title;
+        }
+
+        //cancels the selectino of the loan
+        function cancelLoanSelection() {
+            document.getElementById("selectedLoan").value = "";
+        }
+
+        //functon to delete the reservatino
+        function deleteReservation() {
+            if (selectedReservation) {
+
+                // create reservation object with only it's ID (only thing required)
+                var reservation = {
+                    "id": selectedReservation.id
+                };
+                // Make an API call to your backend to delete the loan
+                fetch(`${baseUrl}/reservation/delete`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(reservation)
+                })
+                    //upate the list and clear the selected item
+                    .then(() => searchReservation())
+                    .then(() => cancelReservationSelection());
+            } else {
+                console.log("Please select a reservation.");
+            }
+        }
+    </script>
+</body>
+
+</html>
