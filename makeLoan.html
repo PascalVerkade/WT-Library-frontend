@@ -57,45 +57,65 @@
         <input type="text" id="selectedBook" disabled>
       </div>
       
+      <table>
+        <thead>
+          <tr>
+            <th>Copy id</th>
+          </tr>
+        </thead>
+        <tbody id="copyTableBody"></tbody>
+      </table>
+      
+      <div>
+        <label for="selectedCopy">Selected Copy:</label>
+        <input type="text" id="selectedCopy" disabled>
+      </div>
+      
         <div>
-        <h2>Create Reservation</h2>
-        <button class="button" onclick="createReservation()">Create Reservation</button>
+        <h2>Create Loan</h2>
+        <button class="button" onclick="createLoan()">Create Loan</button>
       </div>
   </div>
   
   <script type="text/javascript" src="js/loanManagement.js"></script>
-  <script>    
-    function createReservation() {
-      if (selectedEmployee && selectedBook) {
+  <script>
+    function selectBook(book) {
+      selectedBook = book;
+      document.getElementById("selectedBook").value = book.title;
+      showCopies(book)
+    }
 
-        // Create the reservation object with selected employee and book
-        var reservation = {
-            bookId: selectedBook.id,
-            employeeId: selectedEmployee.employeeId
+    function createLoan() {
+      if (selectedEmployee && selectedBook && selectedCopy) {
+
+        var loan = {
+          copyId: selectedCopy.id,
+          employeeId: selectedEmployee.employeeId
         };
-        
+
         // Make an API call to your backend to create the reservation
-        fetch(`${baseUrl}/reservation/make`, {
+        fetch(`${baseUrl}/loan/make`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(reservation)
+          body: JSON.stringify(loan)
         })
         .then(response => response.json())
         .then(data => {
-          console.log("Reservation created successfully:", data);
-          selectedEmployee = null;
-          selectedBook = null;
+          console.log("Loan creation backend status:", data);
+          selectedReservation = null;
           document.getElementById("selectedEmployee").value = "";
           document.getElementById("selectedBook").value = "";
+          document.getElementById("selectedCopy").value = "";
+          // Refresh available copies
+          showCopies(selectedBook)
         })
         .catch(error => console.error(error));
       } else {
-        console.log("Please select an employee and a book.");
+        console.log("Please select an employee and a book and a copy.");
       }
     }
   </script>
 </body>
 </html>
-
