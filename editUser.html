@@ -41,7 +41,23 @@
         </div>
 
         <button class="button" onclick="searchEmployee()" id="makeAdmin">Set To Admin</button>
+        <br>
         <button class="button" onclick="searchEmployee()" id="setInactive">Set Inactive</button>
+        <br>
+        <div>
+            <input type="text" id="firstName">
+            <button class="button" onclick="searchEmployee()" id="firstNameButton">Change first name</button>
+        </div>
+        <br>
+        <div>
+            <input type="text" id="lastName">
+            <button class="button" onclick="searchEmployee()" id="lastNameButton">Change last name</button>
+        </div>
+        <br>
+        <div>
+            <input type="text" id="email">
+            <button class="button" onclick="searchEmployee()" id="emailButton">Change email</button>
+        </div>
 
         <script>
             window.onload = searchEmployee()
@@ -84,8 +100,15 @@
                             button.textContent = "Edit";
                             button.onclick = () => {
                                 document.getElementById("curUser").innerHTML = employee.email;
+                                document.getElementById("firstName").value = "";
+                                document.getElementById("lastName").value = "";
+                                document.getElementById("email").value = "";
                                 document.getElementById("makeAdmin").onclick = () => makeAdmin(employee.employeeId)
                                 document.getElementById("setInactive").onclick = () => makeInactive(employee.employeeId)
+                                document.getElementById("firstNameButton").onclick = () => changeFirstName(employee.employeeId)
+                                document.getElementById("lastNameButton").onclick = () => changeLastName(employee.employeeId)
+                                document.getElementById("emailButton").onclick = () => changeEmail(employee.employeeId)
+
                             }
 
                             // Append the button to the edit cell
@@ -103,6 +126,48 @@
             function makeInactive(id) {
                 fetch('http://localhost:8080/employee/makeInactive?id=' + id)
                     .then(() => searchEmployee())
+            }
+
+            function changeFirstName(id) {
+                let data = {
+                    "firstName": document.getElementById("firstName").value,
+                    "employeeId": id
+                }
+                fetch("http://localhost:8080/employee/changeFirstName", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(() => searchEmployee())
+            }
+
+            function changeLastName(id) {
+                let data = {
+                    "lastName": document.getElementById("lastName").value,
+                    "employeeId": id
+                }
+                fetch("http://localhost:8080/employee/changeLastName", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(() => searchEmployee())
+            }
+
+            function changeEmail(id) {
+                let data = {
+                    "email": document.getElementById("email").value,
+                    "employeeId": id
+                }
+                fetch("http://localhost:8080/employee/changeEmail", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(() => searchEmployee())
             }
         </script>
     </div>
