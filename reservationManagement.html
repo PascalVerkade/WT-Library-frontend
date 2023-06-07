@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Make Reservation</title>
+</head>
+<body>
+    <div id="sidebarContainer"></div>
+    <script type="text/javascript" src="js/sidebar.js"></script>
+
+    <div class="main">
+
+        <div>
+        <label for="searchTerm">Search Reservations:</label>
+        <input type="text" id="searchTerm">
+        <button class="button" onclick="searchReservation()">Search</button>
+        </div>
+        
+        <table>
+        <thead>
+            <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Book title</th>
+            <th>Date</th>
+            <th>Is available</th>
+            </tr>
+        </thead>
+        <tbody id="reservationTableBody"></tbody>
+        </table>
+        
+        <div>
+        <label for="selectedReservation">Selected Reservation:</label>
+        <input type="text" id="selectedReservation" disabled>
+        </div>
+    
+        
+        <div>
+        <button class="button" onclick="setOccupied()">Start Loan</button>
+        <button class="button" onclick="createLoan()">Finalize Loan</button>
+        <button class="button" onclick="cancelLoan()">Cancel</button>
+        </div>
+    </div>
+  
+  <script>
+    var baseUrl = 'http://localhost:8080';
+    var selectedReservation = null;
+
+    function searchReservation() {
+      var searchTerm = document.getElementById("searchTerm").value;
+
+      // Make an API call to your backend for searching reservations
+      fetch(`${baseUrl}/reservation/search?searchTerm=${searchTerm}`)
+        .then(response => response.json())
+        .then(data => {
+
+          // Fill in the table
+          var reservationTableBody = document.getElementById("reservationTableBody");
+          reservationTableBody.innerHTML = "";
+          data.forEach(reservation => {
+            var row = reservationTableBody.insertRow();
+
+            var firstNameCell = row.insertCell();
+            firstNameCell.innerHTML = reservation.employee.firstName;
+            firstNameCell.addEventListener("click", function() {
+              selectReservation(reservation);
+            });
+
+            var lastNameCell = row.insertCell();
+            lastNameCell.innerHTML = reservation.employee.lastName;
+            lastNameCell.addEventListener("click", function() {
+              selectReservation(reservation);
+            });
+
+            var bookTitleCell = row.insertCell();
+            bookTitleCell.innerHTML = reservation.book.title;
+            bookTitleCell.addEventListener("click", function() {
+              selectReservation(reservation);
+            });
+
+            var dateCell = row.insertCell();
+            dateCell.innerHTML = reservation.reservationDate;
+            dateCell.addEventListener("click", function() {
+              selectReservation(reservation);
+            });
+
+            var allowedCell = row.insertCell();
+            allowedCell.innerHTML = reservation.allowed;
+            allowedCell.addEventListener("click", function() {
+              selectReservation(reservation);
+            });
+          });
+        })
+        .catch(error => console.error(error));
+    }
+    
+    function selectReservation(reservation) {
+      selectedReservation = reservation;
+      document.getElementById("selectedReservation").value = reservation.employee.firstName + " " + reservation.employee.lastName + " wilt " + reservation.book.title;
+    }
+    
+    function setOccupied() {
+      if (selectedReservation) {
+        // Check if the selected book has available copies
+        if (selectedReservation.book.copies.length == 0 ) {
+          console.log("No available copies of the book.");
+          return;
+        }
+
+        // Update the reservation object with the updated allowed property
+        var updatedReservation = {
+          id: selectedReservation.id,
+          book: selectedReservation.book,
+          employee: selectedReservation.employee,
+          reservationDate: selectedReservation.reservationDate,
+          allowed: true
+        };
+
+        // Make an API call to your backend to update the reservation
+        fetch(`${baseUrl}/reservation/update`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedReservation)
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log("Reservation update backend status:", data);
+            selectedReservation.allowed = true;
+
+            // Refresh the search results table
+            searchReservation();
+          })
+          .catch(error => console.error(error));
+      } else {
+        console.log("Please select a reservation.");
+      }
+    }
+
+    function createLoan() {
+      if (selectedReservation) {
+        if (!selectedReservation.allowed) {
+          console.log("The selected reservation is not yet allowed.");
+          return;
+        }
+
+        var reservation = {
+          bookId: selectedReservation.book.id,
+          employeeId: selectedReservation.employee.employeeId
+        };
+
+        // Make an API call to your backend to create the reservation
+        fetch(`${baseUrl}/loan/make`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(reservation)
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log("Loan creation backend status:", data);
+          selectedReservation = null;
+          document.getElementById("selectedReservation").value = "";
+
+          // Refresh the search results table
+          searchReservation();
+        })
+        .catch(error => console.error(error));
+      } else {
+        console.log("Please select a reservation.");
+      }
+    }
+
+    function cancelLoan() {
+        document.getElementById("selectedReservation").value = "";
+    }
+    
+  </script>
+</body>
+</html>

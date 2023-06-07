@@ -48,3 +48,32 @@ function loadData() {
 
     console.log('einde loaddata');
 }
+
+function login() {
+    changeColor();
+    
+    let email = document.getElementById("Username").value;
+    let password = document.getElementById("Password").value;
+    let data = {
+        "email": email,
+        "password": password
+    }
+    fetch("http://localhost:8080/employee/login", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            let cookieValue = data.employee_id;
+            setCookie('User', cookieValue, 1);
+            localStorage.setItem("Admin", data.admin)
+            window.location.href = 'homepage.html';
+        })
+        .catch(error => {
+            alert('Fout :(');
+        });
+
+}

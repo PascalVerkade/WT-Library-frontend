@@ -1,29 +1,231 @@
-body{
-    background-color:#00ce22;
-    margin:auto;
-    padding: 0;
-}
-h1{
-    text-align: center;
+/* --------defining fonts ---------*/
+
+@font-face {
+    font-family: euclidSquareRegular;
+    src: url(../font/EuclidSquare-Regular.ttf);
 }
 
-.login{
+@font-face {
+    font-family: euclidSquareBold;
+    src: url(../font/EuclidSquare-Bold.ttf);
+}
+
+@font-face {
+    font-family: euclidSquareLight;
+    src: url(../font/EuclidSquare-Light.ttf);
+}
+
+/*-------- basic elements ------------*/
+button {
+    font-family: euclidSquareBold;
+    background-color: #000000;
+    border: none;
+    color: #f0f0f0;
+    padding: 1rem 2rem 1rem 2rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 100%;
+    margin: 4px 2px;
+    border-radius: 9999px;
+    cursor: pointer;
+}
+
+
+body {
+    background-color: #00e600;
+    margin: auto;
+    padding: 0;
+    font-family: euclidSquareRegular;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-align: center;
+    font-family: euclidSquareBold;
+}
+
+table {
+    color: #5a5a5a;
+    background: #f0f0f0;
+    border: 1px solid #969696;
+    font-size: 100%;
+    border-collapse: collapse;
+}
+
+table thead th,
+table tfoot th {
+    color: #c8c8c8;
+    background: #000000;
+}
+
+table caption {
+    padding: .2em;
+    color: #000000;
+    font-family: EuclidSquareLight;
+}
+
+table th,
+table td {
+    padding: .5em;
+    border: 1px solid #d3d3d3;
+}
+
+input[type=text] {
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: inherit;
+    background-color: #f0f0f0;
+    padding-left: 1em;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: .5em .5em .5em .5em;
+}
+
+input.search {
+
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 100%;
+    background-color: #f0f0f0;
+    background-image: url('../img/search.png');
+    background-size: 1rem 1.5rem;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/*--------- einde basic elements ---------*/
+
+/*--------- begin side bar ---------*/
+.sidenav {
+    height: 100vh;
+    width: 16em;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-top: 20px;
+
+}
+
+#logo {
+    padding: 6px 10px 10px 32px;
+}
+
+.item {
+    padding: 6px 10px 10px 32px;
+    text-decoration: none;
+    font-size: 150%;
+    color: #969696;
+    display: block;
+}
+
+.subitem {
+    padding: 6px 15px 6px 32px;
+    margin-left: 15%;
+    text-decoration: none;
+    font-size: 125%;
+    color: #818181;
+    display: block;
+}
+
+
+.sidenav a:hover {
+    color: #f0f0f0;
+}
+
+.sidenav a:active {
+    background-color: #008200;
+}
+
+#logout {
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 2rem;
+}
+
+/*--------- eind side bar ---------*/
+
+/*--------- begin top bar ---------*/
+.topbar {
+    background-color: #000000;
+    margin-left: 16rem;
+    padding-bottom: 1rem;
+    padding-top: 1em;
+    align-items: center;
+    color: #969696;
+    text-align: center;
+    font-size: 18px;
+}
+
+.topbar a {
+    color: #969696;
+    text-align: center;
+    font-size: 18px;
+}
+
+/*--------- eind top bar ---------*/
+
+/*--------- begin main ---------*/
+.main {
+    margin-left: 16rem;
+    /* Same as the width of the sidenav */
+    padding-left: 3%
+}
+
+/*---------- end main---------*/
+
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+
+
+/*------------old (used?) legacy code starts here-------*/
+.login {
     width: 15%;
     margin: auto;
     border-radius: 15px;
-    justify-content: center;  
+    justify-content: center;
     align-items: center
 }
 
-#login_form{
- margin: auto
+#login_form {
+    margin: auto
 }
-#Username{
+
+#Username {
     width: 50%;
 }
-#Password{
+
+#Password {
     width: 50%;
 }
-#LoginButton{
+
+#LoginButton {
     margin: auto;
 }

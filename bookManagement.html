@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <script type="text/javascript" src="js/bookManagement.js" defer></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="sidebarContainer"></div>
+    <script type="text/javascript" src="js/sidebar.js"></script>
+
+      <div class="main">
+
+        <h1>Boek-keeping!</h1>
+        <h2>Nieuwe boeken toevoegen</h2>
+        <button type="button" name = "addNewBooks" id="addNewBooks" onclick="window.location.href = 'addBook.html'">Voeg boek toe</button></form>
+            
+        <h2>Overzicht beschikbare boeken</h2>
+
+        <section class = "AllBooks">
+            <table id="BooksTable">
+                <thead>
+                    <tr>
+                        <th>foto</th>
+                        <th>Titel</th>
+                        <th>Schrijver</th>
+                        <th>Update</th>
+                    </tr>
+                </thead>
+                
+            </table>
+
+        </section>
+
+        
+        <h1 id="UpdateHeader"></h1>
+
+        <form id="selectBook" method="GET">
+            <button type="button" name = "addCopy" id="addCopy" onclick="copyThisBook()" disabled>Voeg kopie toe</button>
+            <h2 id="copyAddedHeader"></h2>
+            
+            <button type="button" name = "updateBook" id="updateBook" onclick="updateThisBook()" disabled>Update boek</button>
+            <h2 id="bookUpdatedHeader"></h2>
+            
+            <button type="button" name = "archiveBook" id="archiveBook" onclick="archiveThisBook()" disabled>Archiveer boek</button>
+            <h2 id="bookArchivedHeader"></h2>
+        </form>
+    </div>
+    
+</body>
+</html>
+
+
+
+</body>
