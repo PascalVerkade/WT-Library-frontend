@@ -26,7 +26,7 @@
             <th>Last name</th>
             <th>Book title</th>
             <th>Date</th>
-            <th>Is available</th>
+            <th>Is opgepakt</th>
             </tr>
         </thead>
         <tbody id="reservationTableBody"></tbody>
@@ -39,16 +39,33 @@
     
         
         <div>
-        <button class="button" onclick="setOccupied()">Start Loan</button>
-        <button class="button" onclick="createLoan()">Finalize Loan</button>
+        <button class="button" onclick="setOccupied()">Pak op</button>
+        <button class="button" onclick="showCopies(selectedReservation.book)">Leen uit</button>
         <button class="button" onclick="cancelLoan()">Cancel</button>
         </div>
-    </div>
-  
-  <script>
-    var baseUrl = 'http://localhost:8080';
-    var selectedReservation = null;
 
+        <table>
+          <thead>
+            <tr>
+              <th>Copy id</th>
+            </tr>
+          </thead>
+          <tbody id="copyTableBody"></tbody>
+        </table>
+        
+        <div>
+          <label for="selectedCopy">Selected Copy:</label>
+          <input type="text" id="selectedCopy" disabled>
+        </div>
+        
+          <div>
+          <h2>Create Loan</h2>
+          <button class="button" onclick="createLoanFromReservation()">Create Loan</button>
+        </div>
+    </div>
+
+  <script type="text/javascript" src="js/loanManagement.js"></script>
+  <script>
     function searchReservation() {
       var searchTerm = document.getElementById("searchTerm").value;
 
@@ -97,11 +114,6 @@
         .catch(error => console.error(error));
     }
     
-    function selectReservation(reservation) {
-      selectedReservation = reservation;
-      document.getElementById("selectedReservation").value = reservation.employee.firstName + " " + reservation.employee.lastName + " wilt " + reservation.book.title;
-    }
-    
     function setOccupied() {
       if (selectedReservation) {
         // Check if the selected book has available copies
@@ -141,34 +153,43 @@
       }
     }
 
-    function createLoan() {
-      if (selectedReservation) {
+   function createLoanFromReservation() {
+      if (selectedReservation && selectedCopy) {
+
         if (!selectedReservation.allowed) {
           console.log("The selected reservation is not yet allowed.");
           return;
         }
 
-        var reservation = {
-          bookId: selectedReservation.book.id,
+        var loan = {
+          copyId: selectedCopy.id,
           employeeId: selectedReservation.employee.employeeId
         };
 
         // Make an API call to your backend to create the reservation
-        fetch(`${baseUrl}/loan/make`, {
+        console.log(selectedReservation.id);
+        fetch(`${baseUrl}/loan/makeFromReservation`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(reservation)
+          body: JSON.stringify({
+            loanDto: loan,
+            reservationId: selectedReservation.id
+          })
         })
         .then(response => response.json())
         .then(data => {
           console.log("Loan creation backend status:", data);
           selectedReservation = null;
           document.getElementById("selectedReservation").value = "";
+          document.getElementById("selectedCopy").value = "";
 
           // Refresh the search results table
           searchReservation();
+
+          // Refresh available copies
+          copyTableBody.innerHTML = "";
         })
         .catch(error => console.error(error));
       } else {
