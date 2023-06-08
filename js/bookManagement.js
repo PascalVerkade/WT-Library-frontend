@@ -1,5 +1,18 @@
 var selectedBook = null
 
+function setupEmptyTable() {
+    table = document.getElementById('BooksTable').innerHTML = `
+        <thead>
+            <tr>
+                <th>foto</th>
+                <th>Titel</th>
+                <th>Schrijver</th>
+                <th>Update</th>
+                <th>Gearchiveerd</th>
+            </tr>
+        </thead>
+        `
+}
 
 function selectBook(bookId) {
     fetch(`http://localhost:8080/book/${bookId}`)
@@ -37,6 +50,7 @@ function loadAllBooks() {
                         <td>${book.title}</td>
                         <td>${book.writer}</td>
                         <td><button name="select" class="btn-select" bookId="${book.id}" onclick="selectBook(${book.id})">Selecteren</button></td>
+                        <td>${book.active? "nee":"ja"} </td>
                     </tr>
                 `
             });
@@ -48,16 +62,79 @@ function loadAllBooks() {
     console.log('einde loaddata');
 }
 
-loadAllBooks();
-
 function copyThisBook() {
     window.location.href = `copyManagement.html?bookId=${selectedBook.id}`
 }
 
 function updateThisBook() {
-    document.getElementById('bookUpdatedHeader').innerHTML = `${selectedBook.title} was updated`;
+    window.location.href = `updateBook.html?bookId=${selectedBook.id}`
+}
+
+function archiveThisCopy(copy) {
+    if (copy.active){
+        copy.active = "false";
+        console.log('archiving copy '+copy);
+
+        fetch(`http://localhost:8080/copy/update/${copy.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(copy)
+        })
+        .catch(error => {
+            console.log(error);
+            alert('Er is iets fouts gegaan');
+        })
+    }
+}
+
+function archiveAllCopies() {
+    console.log('loadallcopies');
+
+    //opvragen javascript.
+    fetch(`http://localhost:8080/copies/search?bookId=${selectedBook.id}`)
+    .then(res => res.json())
+    .then(data => {
+        console.log('Data', data);
+
+        data.forEach(copy => {
+            archiveThisCopy(copy);
+        });
+    })
+    .catch(error => {
+        console.log(error);
+        alert('Er is iets fouts gegaan');
+    })
 }
 
 function archiveThisBook() {
-    document.getElementById('bookArchivedHeader').innerHTML = `${selectedBook.title} was archived`;
+    if (selectedBook.active){
+        selectedBook.active = "false";
+        archiveAllCopies();
+    }
+    else { selectedBook.active = "true"; }
+    console.log(selectedBook.active)
+
+    fetch(`http://localhost:8080/book/update/${selectedBook.id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(selectedBook)
+    })
+
+    .then(data => {
+        console.log('Data' + data);
+        setupEmptyTable();
+        loadAllBooks();
+        //document.getElementById('bookArchivedHeader').innerHTML = `${selectedBook.title} was archived`;
+    })
+    .catch(error => {
+        console.log(error);
+        alert('Er is iets fouts gegaan');
+    })
 }
+
+setupEmptyTable();
+loadAllBooks();

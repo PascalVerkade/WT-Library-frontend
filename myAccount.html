@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="sidebarContainer"></div>
+    <script type="text/javascript" src="js/sidebar.js"></script>
+
+    <div class="main">
+        <h1>My account</h1>
+        Welcome
+        <span id="personal">"User"</span>
+        here you can change your account settings
+
+        <div>
+            <input type="text" id="firstName" placeholder="firstName">
+            <button class="button" onclick="" id="firstNameButton">Change</button>
+        </div>
+        <br>
+        <div>
+            <input type="text" id="lastName" placeholder="lastName">
+            <button class="button" onclick="" id="lastNameButton">Change</button>
+        </div>
+        <br>
+        <div>
+            <input type="text" id="password" placeholder="password">
+            <button class="button" onclick="" id="passwordButton">Change</button>
+        </div>
+
+    </div>
+
+    <script>
+        window.onload = getUser()
+
+        function getUser() {
+            let data = {
+                "email": "test",
+                "password": "test"
+            }
+            fetch("http://localhost:8080/employee/login", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("personal").innerHTML = data.firstName + " " + data.lastName;
+                    document.getElementById("firstNameButton").onclick = () => changeFirstName(data.employeeId)
+                    document.getElementById("lastNameButton").onclick = () => changeLastName(data.employeeId)
+                    document.getElementById("passwordButton").onclick = () => changePassword(data.employeeId)
+                }).catch(error => console.error(error));
+        }
+
+        function changeFirstName(id) {
+            let data = {
+                "firstName": document.getElementById("firstName").value,
+                "employeeId": id
+            }
+            fetch("http://localhost:8080/employee/changeFirstName", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(() => getUser())
+        }
+
+        function changeLastName(id) {
+            let data = {
+                "lastName": document.getElementById("lastName").value,
+                "employeeId": id
+            }
+            fetch("http://localhost:8080/employee/changeLastName", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(() => getUser())
+        }
+
+        function changePassword(id) {
+            let data = {
+                "password": document.getElementById("password").value,
+                "employeeId": id
+            }
+            fetch("http://localhost:8080/employee/changePassword", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(() => alert("Password changed"))
+        }
+    </script>
+
+</body>
+
+</html>
