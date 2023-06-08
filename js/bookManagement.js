@@ -28,6 +28,8 @@ function selectBook(bookId) {
     document.getElementById('addCopy').disabled = false;
     document.getElementById('updateBook').disabled = false;
     document.getElementById('archiveBook').disabled = false;
+    document.getElementById('KeywordInput').disabled = false;
+    document.getElementById('addKeyword').disabled = false;
 }
   
 
@@ -68,6 +70,44 @@ function copyThisBook() {
 
 function updateThisBook() {
     window.location.href = `updateBook.html?bookId=${selectedBook.id}`
+}
+
+function addThisKeyword() {
+    var keyword = document.getElementById('KeywordInput').value;
+    var KeywordDto = {
+        keyword: keyword,
+        bookId: selectedBook.id
+    };
+
+    // Check if the keyword is empty
+    if (document.getElementById('KeywordInput') == '') {
+        alert("Keyword cannot be empty.");
+        return;
+    }
+
+    // Perform a POST request to the backend API to add the keyword
+    fetch('http://localhost:8080/keywords/make', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(KeywordDto)
+    })
+    .then(response => {
+        if (response.ok) {
+        // Keyword added successfully
+        alert("Keyword has been added to the selected book.")
+        console.log('Keyword added:', keyword);
+
+        // Empty the field
+        document.getElementById('KeywordInput').value = '';
+        } else {
+        console.error('Failed to add keyword:', keyword);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 function archiveThisCopy(copy) {
@@ -135,39 +175,6 @@ function archiveThisBook() {
         alert('Er is iets fouts gegaan');
     })
 }
-
-function addKeyword(keyword) {
-    const keywordInput = document.getElementById('Keyword');
-    const keyword = keywordInput.value.trim();
-    
-    // Check if the keyword is empty
-    if (keyword === '') {
-      console.log('Keyword cannot be empty.');
-      return;
-    }
-
-    // Perform a POST request to the backend API to add the keyword
-    fetch('http://localhost:8080/keywords/make', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ keyword: document.getElementById('Keyword').value.trim() })
-    })
-    .then(response => {
-      if (response.ok) {
-        // Keyword added successfully
-        console.log('Keyword added:', keyword);
-      } else {
-        // Handle error if the keyword couldn't be added
-        console.error('Failed to add keyword:', keyword);
-      }
-    })
-    .catch(error => {
-      // Handle network or other errors
-      console.error('Error:', error);
-    });
-  }
   
 
 setupEmptyTable();
