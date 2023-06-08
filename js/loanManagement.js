@@ -3,6 +3,7 @@ var selectedEmployee = null;
 var selectedBook = null;
 var selectedCopy = null;
 var selectedReservation = null;
+var selectedLoan = null;
 
 function selectReservation(reservation) {
     selectedReservation = reservation;
@@ -22,6 +23,11 @@ function selectBook(book) {
 function selectCopy(copy) { 
     selectedCopy = copy;
     document.getElementById("selectedCopy").value = copy.id;
+}
+
+function selectLoan(loan) { 
+    selectedLoan = loan;
+    document.getElementById("selectedLoan").value = loan.id; //TODO: veraanders naar name en boek wanneer @JsonIgnore probleem fixed
 }
 
 function searchEmployee() {
