@@ -102,6 +102,7 @@
           body: JSON.stringify(loan)
         })
         .then(response => response.json())
+        .then(response => alert("Lening is aangemaakt."))
         .then(data => {
           console.log("Loan creation backend status:", data);
           selectedReservation = null;
