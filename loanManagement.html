@@ -111,6 +111,7 @@
           },
         })
           .then(response => response.json())
+          .then(response => alert("Lening is compleet."))
           .then(updatedLoan => {
             console.log('Loan return date updated:', updatedLoan);
 
