@@ -136,5 +136,39 @@ function archiveThisBook() {
     })
 }
 
+function addKeyword(keyword) {
+    const keywordInput = document.getElementById('Keyword');
+    const keyword = keywordInput.value.trim();
+    
+    // Check if the keyword is empty
+    if (keyword === '') {
+      console.log('Keyword cannot be empty.');
+      return;
+    }
+
+    // Perform a POST request to the backend API to add the keyword
+    fetch('http://localhost:8080/keywords/make', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ keyword: document.getElementById('Keyword').value.trim() })
+    })
+    .then(response => {
+      if (response.ok) {
+        // Keyword added successfully
+        console.log('Keyword added:', keyword);
+      } else {
+        // Handle error if the keyword couldn't be added
+        console.error('Failed to add keyword:', keyword);
+      }
+    })
+    .catch(error => {
+      // Handle network or other errors
+      console.error('Error:', error);
+    });
+  }
+  
+
 setupEmptyTable();
 loadAllBooks();
