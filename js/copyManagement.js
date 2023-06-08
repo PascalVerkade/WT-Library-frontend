@@ -14,6 +14,7 @@ function setStock() {
 }
 
 function setupEmptyTable() {
+    console.log('emptying table')
     table = document.getElementById('copiesTable').innerHTML = `
             <thead>
                 <tr>
@@ -26,10 +27,26 @@ function setupEmptyTable() {
         `
 }
 
+function getNonArchivedBookStock() {
+    console.log('fetching non-archived book-stock')
+
+    fetch(`http://localhost:8080/copies/active?bookId=${selectedBook.id}`)
+    .then(res => res.json())
+    .then(data => {
+        copyCount = data.length;
+
+        resetBookStock();
+    })
+    .catch(error => {
+        console.log(error);
+        alert('Er is iets fouts gegaan');
+    })
+}
+
 function resetBookStock() { 
     console.log('counting stock');
+
     selectedBook.stock = copyCount;
-    console.log('Updating book: ' + selectedBook);
 
     fetch(`http://localhost:8080/book/update/${selectedBook.id}`, {
         method: 'PATCH',
@@ -37,6 +54,9 @@ function resetBookStock() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(selectedBook)
+    })
+    .then(data => {
+        setStock();
     })
     .catch(error => {
         console.log(error);
@@ -51,14 +71,17 @@ function getBook() {
     const bookId = urlParams.get('bookId');
 
     fetch(`http://localhost:8080/book/${bookId}`)
-        .then(res => res.json())
-        .then(data => {
-            console.log('book: '+bookId)
-            selectedBook = data;
-            setHeaders();
-            setStock();
-            loadAllCopies(data.id);
-        })
+    .then(res => res.json())
+    .then(data => {
+        selectedBook = data;
+        setHeaders();
+        setStock();
+        loadAllCopies(data.id);
+    })
+    .catch(error => {
+        console.log(error);
+        alert('Er is iets fouts gegaan');
+    })
 }
 
 
@@ -69,10 +92,7 @@ function loadAllCopies() {
     fetch(`http://localhost:8080/copies/search?bookId=${selectedBook.id}`)
     .then(res => res.json())
     .then(data => {
-        console.log('Data', data);
 
-        copyCount = data.length;
-        console.log('copy count: '+copyCount)
         let copyHtml = '';
         copyHtml += `<tbody>`;
 
@@ -89,8 +109,7 @@ function loadAllCopies() {
         copyHtml+= "</tbody>";
         document.getElementById('copiesTable').innerHTML += copyHtml;
 
-        resetBookStock();
-        setStock();
+        getNonArchivedBookStock();
     })
 }
 
@@ -111,9 +130,7 @@ function addNewCopy() {
         body: JSON.stringify(newcopy)
     })
     .then(res => res.json())
-    .then(data => {
-        console.log('Data', data);
-        
+    .then(data => {        
         setupEmptyTable();
         loadAllCopies(selectedBook.id);
     })
@@ -139,7 +156,6 @@ function setToInactive() {
     })
 
     .then(data => {
-        console.log('Data' + data);
         setupEmptyTable();
         loadAllCopies();
     })
