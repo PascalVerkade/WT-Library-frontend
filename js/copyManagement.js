@@ -39,7 +39,7 @@ function getNonArchivedBookStock() {
     })
     .catch(error => {
         console.log(error);
-        alert('Er is iets fouts gegaan');
+        alert('Er is iets fout gegaan');
     })
 }
 
@@ -60,7 +60,7 @@ function resetBookStock() {
     })
     .catch(error => {
         console.log(error);
-        alert('Er is iets fouts gegaan');
+        alert('Er is iets fout gegaan');
     })
 }
 
@@ -80,10 +80,35 @@ function getBook() {
     })
     .catch(error => {
         console.log(error);
-        alert('Er is iets fouts gegaan');
+        alert('Er is iets fout gegaan');
     })
 }
 
+function findBorrower(copy) {
+    console.log('copy id:'+copy.id)
+
+    return new Promise((resolve, reject) => {
+        fetch(`http://localhost:8080/copies/${copy.id}/status`)
+        .then(response => {
+            if (response.ok) {
+            return response.text();
+        }
+        else if (response.status === 404) {
+            throw new Error("Copy not found");
+        }
+        else {
+            throw new Error("Something went wrong");
+        }
+      })
+      .then(data => {
+        resolve(data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    })
+    
+}
 
 function loadAllCopies() {
     console.log('loadallcopies');
@@ -96,20 +121,41 @@ function loadAllCopies() {
         let copyHtml = '';
         copyHtml += `<tbody>`;
 
-        data.forEach(copy => {
-            copyHtml += `
-                <tr>
-                    <td>${copy.id}</td>
-                    <td>Niemand</td>
-                    <td>${copy.active? "nee":"ja"} </td>
-                    <td><button name="archive" class="btn-archive" copyId="${copy.id}" onclick="archiveThisCopy(${copy.id})">Archiveren</button></td>
-                </tr>
-            `
-        });
-        copyHtml+= "</tbody>";
-        document.getElementById('copiesTable').innerHTML += copyHtml;
+        let tablesize = 0;
 
+        data.forEach(copy => {
+            const borrowerPromise = findBorrower(copy);
+
+            borrowerPromise.then(borrower => {
+                copyHtml += `
+                    <tr>
+                        <td>${copy.id}</td>
+                        <td>${borrower}</td>
+                        <td>${copy.active? "nee":"ja"} </td>
+                        <td><button name="archive" class="btn-archive" copyId="${copy.id}" onclick="archiveThisCopy(${copy.id})">Archiveren</button></td>
+                    </tr>
+                `;
+                
+                tablesize++;
+                if (tablesize==data.length) {
+                    copyHtml+= "</tbody>";
+                    document.getElementById('copiesTable').innerHTML += copyHtml;
+                }
+            })
+            .catch(error=> {
+                console.error(error);
+                tablesize++;
+                if (tablesize==data.length) {
+                    copyHtml+= "</tbody>";
+                    document.getElementById('copiesTable').innerHTML += copyHtml;
+                }
+            });
+        });
         getNonArchivedBookStock();
+    })
+    .catch(error => {
+        console.error(error);
+        alert('Er is iets fout gegaan')
     })
 }
 
@@ -136,8 +182,8 @@ function addNewCopy() {
     })
     .catch(error => {
         console.log(error);
-        alert('Er is iets fouts gegaan');
-    });
+        alert('Er is iets fout gegaan')
+    })
 }
 
 function setToInactive() {
@@ -161,7 +207,7 @@ function setToInactive() {
     })
     .catch(error => {
         console.log(error);
-        alert('Er is iets fouts gegaan');
+        alert('Er is iets fout gegaan')
     })
 }
 
@@ -176,7 +222,7 @@ function archiveThisCopy(id) {
     })
     .catch(error => {
         console.log(error);
-        alert('Er is iets fouts gegaan');
+        alert('Er is iets fout gegaan')
     })
     
 }
