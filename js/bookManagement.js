@@ -59,8 +59,6 @@ function loadAllBooks() {
             bookHtml+= "</tbody>";
             document.getElementById('BooksTable').innerHTML += bookHtml;
         })
-
-
     console.log('einde loaddata');
 }
 
