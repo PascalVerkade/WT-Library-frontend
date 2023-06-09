@@ -14,6 +14,7 @@ function setStock() {
 }
 
 function setupEmptyTable() {
+    console.log('emptying table')
     table = document.getElementById('copiesTable').innerHTML = `
             <thead>
                 <tr>
@@ -26,10 +27,26 @@ function setupEmptyTable() {
         `
 }
 
+function getNonArchivedBookStock() {
+    console.log('fetching non-archived book-stock')
+
+    fetch(`http://localhost:8080/copies/active?bookId=${selectedBook.id}`)
+    .then(res => res.json())
+    .then(data => {
+        copyCount = data.length;
+
+        resetBookStock();
+    })
+    .catch(error => {
+        console.log(error);
+        alert('Er is iets fout gegaan');
+    })
+}
+
 function resetBookStock() { 
     console.log('counting stock');
+
     selectedBook.stock = copyCount;
-    console.log('Updating book: ' + selectedBook);
 
     fetch(`http://localhost:8080/book/update/${selectedBook.id}`, {
         method: 'PATCH',
@@ -38,9 +55,12 @@ function resetBookStock() {
         },
         body: JSON.stringify(selectedBook)
     })
+    .then(data => {
+        setStock();
+    })
     .catch(error => {
         console.log(error);
-        alert('Er is iets fouts gegaan');
+        alert('Er is iets fout gegaan');
     })
 }
 
@@ -51,16 +71,44 @@ function getBook() {
     const bookId = urlParams.get('bookId');
 
     fetch(`http://localhost:8080/book/${bookId}`)
-        .then(res => res.json())
-        .then(data => {
-            console.log('book: '+bookId)
-            selectedBook = data;
-            setHeaders();
-            setStock();
-            loadAllCopies(data.id);
-        })
+    .then(res => res.json())
+    .then(data => {
+        selectedBook = data;
+        setHeaders();
+        setStock();
+        loadAllCopies(data.id);
+    })
+    .catch(error => {
+        console.log(error);
+        alert('Er is iets fout gegaan');
+    })
 }
 
+function findBorrower(copy) {
+    console.log('copy id:'+copy.id)
+
+    return new Promise((resolve, reject) => {
+        fetch(`http://localhost:8080/copies/${copy.id}/status`)
+        .then(response => {
+            if (response.ok) {
+            return response.text();
+        }
+        else if (response.status === 404) {
+            throw new Error("Copy not found");
+        }
+        else {
+            throw new Error("Something went wrong");
+        }
+      })
+      .then(data => {
+        resolve(data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    })
+    
+}
 
 function loadAllCopies() {
     console.log('loadallcopies');
@@ -69,28 +117,45 @@ function loadAllCopies() {
     fetch(`http://localhost:8080/copies/search?bookId=${selectedBook.id}`)
     .then(res => res.json())
     .then(data => {
-        console.log('Data', data);
 
-        copyCount = data.length;
-        console.log('copy count: '+copyCount)
         let copyHtml = '';
         copyHtml += `<tbody>`;
 
-        data.forEach(copy => {
-            copyHtml += `
-                <tr>
-                    <td>${copy.id}</td>
-                    <td>Niemand</td>
-                    <td>${copy.active? "nee":"ja"} </td>
-                    <td><button name="archive" class="btn-archive" copyId="${copy.id}" onclick="archiveThisCopy(${copy.id})">Archiveren</button></td>
-                </tr>
-            `
-        });
-        copyHtml+= "</tbody>";
-        document.getElementById('copiesTable').innerHTML += copyHtml;
+        let tablesize = 0;
 
-        resetBookStock();
-        setStock();
+        data.forEach(copy => {
+            const borrowerPromise = findBorrower(copy);
+
+            borrowerPromise.then(borrower => {
+                copyHtml += `
+                    <tr>
+                        <td>${copy.id}</td>
+                        <td>${borrower}</td>
+                        <td>${copy.active? "nee":"ja"} </td>
+                        <td><button name="archive" class="btn-archive" copyId="${copy.id}" onclick="archiveThisCopy(${copy.id})">Archiveren</button></td>
+                    </tr>
+                `;
+                
+                tablesize++;
+                if (tablesize==data.length) {
+                    copyHtml+= "</tbody>";
+                    document.getElementById('copiesTable').innerHTML += copyHtml;
+                }
+            })
+            .catch(error=> {
+                console.error(error);
+                tablesize++;
+                if (tablesize==data.length) {
+                    copyHtml+= "</tbody>";
+                    document.getElementById('copiesTable').innerHTML += copyHtml;
+                }
+            });
+        });
+        getNonArchivedBookStock();
+    })
+    .catch(error => {
+        console.error(error);
+        alert('Er is iets fout gegaan')
     })
 }
 
@@ -111,16 +176,14 @@ function addNewCopy() {
         body: JSON.stringify(newcopy)
     })
     .then(res => res.json())
-    .then(data => {
-        console.log('Data', data);
-        
+    .then(data => {        
         setupEmptyTable();
         loadAllCopies(selectedBook.id);
     })
     .catch(error => {
         console.log(error);
-        alert('Er is iets fouts gegaan');
-    });
+        alert('Er is iets fout gegaan')
+    })
 }
 
 function setToInactive() {
@@ -139,13 +202,12 @@ function setToInactive() {
     })
 
     .then(data => {
-        console.log('Data' + data);
         setupEmptyTable();
         loadAllCopies();
     })
     .catch(error => {
         console.log(error);
-        alert('Er is iets fouts gegaan');
+        alert('Er is iets fout gegaan')
     })
 }
 
@@ -160,7 +222,7 @@ function archiveThisCopy(id) {
     })
     .catch(error => {
         console.log(error);
-        alert('Er is iets fouts gegaan');
+        alert('Er is iets fout gegaan')
     })
     
 }

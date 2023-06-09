@@ -32,11 +32,15 @@
         <h1 id="UpdateHeader"></h1>
 
         <form id="selectBook" method="GET">
-            <button type="button" name = "addCopy" id="addCopy" onclick="copyThisBook()" disabled>Voeg kopie toe</button>
+            <button type="button" name = "addCopy" id="addCopy" onclick="copyThisBook()" disabled>Kopiebeheer</button>
             
             <button type="button" name = "updateBook" id="updateBook" onclick="updateThisBook()" disabled>Update boek</button>
             
             <button type="button" name = "archiveBook" id="archiveBook" onclick="archiveThisBook()" disabled>Archiveer boek</button>
+
+            <input type="text" name="Keyword" id="KeywordInput" placeholder="Keyword" disabled>
+
+            <button type="button" name = "addKeyword" id="addKeyword" onclick="addThisKeyword()" disabled>Voeg keyword toe</button>
         </form>
     </div>
     
