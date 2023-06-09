@@ -122,7 +122,7 @@ function loadAllCopies() {
         copyHtml += `<tbody>`;
 
         let tablesize = 0;
-
+        console.log(data);
         data.forEach(copy => {
             const borrowerPromise = findBorrower(copy);
 
