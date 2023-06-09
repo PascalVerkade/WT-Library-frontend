@@ -8,7 +8,6 @@
     
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
-    <script type="text/javascript" src="js/bookManagement.js" defer></script>
     <title>Document</title>
 </head>
 
@@ -17,32 +16,44 @@
     <script type="text/javascript" src="js/sidebar.js"></script>
 
       <div class="main">
-
-        <h1>Boek-keeping!</h1>
-        <h2>Nieuwe boeken toevoegen</h2>
-        <button type="button" name = "addNewBooks" id="addNewBooks" onclick="window.location.href = 'addBook.html'">Voeg boek toe</button></form>
-            
-        <h2>Overzicht beschikbare boeken</h2>
-
-        <section class = "AllBooks">
-            <table id="BooksTable"></table>
-        </section>
+ 
+        <div>
+            <h1>Boek-keeping!</h1>
+            <h2>Nieuwe boeken toevoegen</h2>
+            <button type="button" name = "addNewBooks" id="addNewBooks" onclick="window.location.href = 'addBook.html'">Voeg boek toe</button>
+        </div>
+        
+        
+        <div>
+            <h2>Overzicht beschikbare boeken</h2>
 
         
-        <h1 id="UpdateHeader"></h1>
-
-        <form id="selectBook" method="GET">
-            <button type="button" name = "addCopy" id="addCopy" onclick="copyThisBook()" disabled>Kopiebeheer</button>
+            <div>
+                <label for="searchTermBooks">Search Books:</label>
+                <input type="text" id="searchTermBooks">
+                <button class="button" onclick="searchBooks()">Search</button>
+            </div>
+    
+            <section class = "AllBooks">
+                <table id="BooksTable"></table>
+            </section>
+    
             
-            <button type="button" name = "updateBook" id="updateBook" onclick="updateThisBook()" disabled>Update boek</button>
-            
-            <button type="button" name = "archiveBook" id="archiveBook" onclick="archiveThisBook()" disabled>Archiveer boek</button>
-
-            <input type="text" name="Keyword" id="KeywordInput" placeholder="Keyword" disabled>
-
-            <button type="button" name = "addKeyword" id="addKeyword" onclick="addThisKeyword()" disabled>Voeg keyword toe</button>
-        </form>
+            <h2 id="UpdateHeader">Niets geselecteerd</h1>
+    
+            <form id="selectBook" method="GET">
+                <button type="button" name = "addCopy" id="addCopy" onclick="copyThisBook()" disabled>Kopiebeheer</button>
+                <button type="button" name = "updateBook" id="updateBook" onclick="updateThisBook()" disabled>Update boek</button>                
+                <button type="button" name = "archiveBook" id="archiveBook" onclick="archiveThisBook()" disabled>Archiveer boek</button>
+    
+                <input type="text" name="Keyword" id="KeywordInput" placeholder="Keyword" disabled>    
+                <button type="button" name = "addKeyword" id="addKeyword" onclick="addThisKeyword()" disabled>Voeg keyword toe</button>
+            </form>
+        </div>
+        
     </div>
+
+    <script type="text/javascript" src="js/bookManagement.js" defer></script>
     
 </body>
 </html>
