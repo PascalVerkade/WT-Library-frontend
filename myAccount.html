@@ -21,17 +21,15 @@
 
         <div>
             <input type="text" id="firstName" placeholder="firstName">
-            <button class="button" onclick="" id="firstNameButton">Change</button>
         </div>
         <br>
         <div>
             <input type="text" id="lastName" placeholder="lastName">
-            <button class="button" onclick="" id="lastNameButton">Change</button>
         </div>
         <br>
         <div>
             <input type="password" id="password" placeholder="password">
-            <button class="button" onclick="" id="passwordButton">Change</button>
+            <button class="button" onclick="" id="passwordButton">Apply Changes</button>
         </div>
 
     </div>
@@ -54,9 +52,19 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("personal").innerHTML = data.firstName + " " + data.lastName;
-                    document.getElementById("firstNameButton").onclick = () => changeFirstName(data.employeeId)
-                    document.getElementById("lastNameButton").onclick = () => changeLastName(data.employeeId)
-                    document.getElementById("passwordButton").onclick = () => changePassword(data.employeeId)
+                    document.getElementById("firstName").value = data.firstName;
+                    document.getElementById("lastName").value = data.lastName;
+                    document.getElementById("passwordButton").onclick = () => {
+                        
+                        if(document.getElementById("password").value.length != 0) {
+                            console.log("hi")
+                            if(confirm("Are you sure you want to change your password?")) {
+                               changePassword(data.employeeId); 
+                            }
+                        }
+                        changeFirstName(data.employeeId);
+                        changeLastName(data.employeeId);
+                    }
                 }).catch(error => console.error(error));
         }
 
