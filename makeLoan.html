@@ -13,17 +13,18 @@
 
   <div class="main">
 
+    <h1>Aanmaken nieuwe lening</h1>
+
       <div>
-        <label for="searchTerm">Search Employee:</label>
-        <input type="text" id="searchTerm">
-        <button class="button" onclick="searchEmployee()">Search</button>
+        <input type="text" id="searchTerm" placeholder="Gebruiker">
+        <button class="button" onclick="searchEmployee()">Zoeken</button>
       </div>
       
       <table>
         <thead>
           <tr>
-            <th>First name</th>
-            <th>Last name</th>
+            <th>Voornaam</th>
+            <th>Achternaam</th>
             <th>Email</th>
           </tr>
         </thead>
@@ -31,21 +32,20 @@
       </table>
       
       <div>
-        <label for="selectedEmployee">Selected Employee:</label>
+        <label for="selectedEmployee">Geselecteerde gebruiker:</label>
         <input type="text" id="selectedEmployee" disabled>
       </div>
       
       <div>
-        <label for="searchTermBooks">Search Books:</label>
-        <input type="text" id="searchTermBooks">
-        <button class="button" onclick="searchBooks()">Search</button>
+        <input type="text" id="searchTermBooks" placeholder="Boek">
+        <button class="button" onclick="searchBooks()">Zoeken</button>
       </div>
       
       <table>
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Writer</th>
+            <th>Titel</th>
+            <th>Schrijver</th>
             <th>ISBN</th>
           </tr>
         </thead>
@@ -53,27 +53,26 @@
       </table>
       
       <div>
-        <label for="selectedBook">Selected Book:</label>
+        <label for="selectedBook">Geselecteerd boek:</label>
         <input type="text" id="selectedBook" disabled>
       </div>
       
       <table>
         <thead>
           <tr>
-            <th>Copy id</th>
+            <th>Kopie id:</th>
           </tr>
         </thead>
         <tbody id="copyTableBody"></tbody>
       </table>
       
       <div>
-        <label for="selectedCopy">Selected Copy:</label>
+        <label for="selectedCopy">Geselecteerde kopie:</label>
         <input type="text" id="selectedCopy" disabled>
       </div>
       
         <div>
-        <h2>Create Loan</h2>
-        <button class="button" onclick="createLoan()">Create Loan</button>
+        <button class="button" onclick="createLoan()">Creeër lening</button>
       </div>
   </div>
   
