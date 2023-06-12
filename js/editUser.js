@@ -24,11 +24,7 @@ function searchEmployee() {
                     document.getElementById("email").value = "";
                     document.getElementById("makeAdmin").onclick = () => makeAdmin(employee.employeeId);
                     document.getElementById("setInactive").onclick = () => makeInactive(employee.employeeId);
-                    document.getElementById("emailButton").onclick = () => {
-                        changeFirstName(employee.employeeId);
-                        changeLastName(employee.employeeId);
-                        changeEmail(employee.employeeId);
-                    }
+                    document.getElementById("emailButton").onclick = () => updateEmployee(employee.employeeId);
                     document.getElementById("email").value = employee.email;
                     document.getElementById("firstName").value = employee.firstName;
                     document.getElementById("lastName").value = employee.lastName;
@@ -64,44 +60,55 @@ function makeInactive(id) {
     }
 }
 
-function changeFirstName(id) {
+function changeFirstName(id, firstName) {
     let data = {
-        "firstName": document.getElementById("firstName").value,
+        "firstName": firstName,
         "employeeId": id
     }
-    fetch("http://localhost:8080/employee/changeFirstName", {
+    return fetch("http://localhost:8080/employee/changeFirstName", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-    }).then(() => searchEmployee())
+    });
 }
 
-function changeLastName(id) {
+function changeLastName(id, lastName) {
     let data = {
-        "lastName": document.getElementById("lastName").value,
+        "lastName": lastName,
         "employeeId": id
     }
-    fetch("http://localhost:8080/employee/changeLastName", {
+    return fetch("http://localhost:8080/employee/changeLastName", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-    }).then(() => searchEmployee())
+    });
 }
 
-function changeEmail(id) {
+function changeEmail(id, email) {
     let data = {
-        "email": document.getElementById("email").value,
+        "email": email,
         "employeeId": id
     }
-    fetch("http://localhost:8080/employee/changeEmail", {
+    return fetch("http://localhost:8080/employee/changeEmail", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-    }).then(() => searchEmployee())
+    });
+}
+
+async function updateEmployee(id) {
+    let firstName = document.getElementById("firstName").value;
+    let lastName = document.getElementById("lastName").value;
+    let email = document.getElementById("email").value;
+
+    await changeFirstName(id, firstName);
+    await changeLastName(id, lastName);
+    await changeEmail(id, email);
+    searchEmployee();
 }
