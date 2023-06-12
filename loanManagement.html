@@ -13,28 +13,29 @@
 
     <div class="main">
 
+        <h1>Leningen beheren</h1>
+
         <div>
-        <label for="searchTerm">Search Loans:</label>
-        <input type="text" id="searchTerm">
-        <button class="button" onclick="searchLoan()">Search</button>
+        <input type="text" id="searchTerm" placeholder="Lening">
+        <button class="button" onclick="searchLoan()">Zoeken</button>
         </div>
         
         <table>
         <thead>
             <tr>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Book title</th>
-            <th>Copy Id</th>
-            <th>Loan date</th>
-            <th>Return date</th>
+            <th>Voornaam</th>
+            <th>Achternaam</th>
+            <th>Titel</th>
+            <th>Kopie id</th>
+            <th>Datum opgehaald</th>
+            <th>Datum ingeleverd</th>
             </tr>
         </thead>
         <tbody id="loanTableBody"></tbody>
         </table>
         
         <div>
-        <label for="selectedLoan">Selected Loan:</label>
+        <label for="selectedLoan">Geselecteerde lening:</label>
         <input type="text" id="selectedLoan" disabled>
         </div>
     

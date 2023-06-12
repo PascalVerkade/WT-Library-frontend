@@ -15,18 +15,17 @@
 
     <div class="main">
 
-        <h1>Edit User</h1>
+        <h1>Wijzig gebruiker</h1>
         <div>
-            <label for="searchTerm">Search Term:</label>
-            <input type="text" id="searchTerm">
-            <button class="button" onclick="searchEmployee()">Search User</button>
+            <input type="text" id="searchTerm" placeholder="Gebruiker">
+            <button class="button" onclick="searchEmployee()">Zoek gebruiker</button>
         </div>
 
         <table>
             <thead>
                 <tr>
-                    <th>First name</th>
-                    <th>Last name</th>
+                    <th>Voornaam</th>
+                    <th>Achternaam</th>
                     <th>Email</th>
                     <th>Admin</th>
                 </tr>
@@ -35,25 +34,25 @@
         </table>
 
         <div>
-            <p>Currently editing:</p>
+            <p>Bewerken:</p>
             <p id="curUser"></p>
         </div>
 
-        <button class="button" onclick="searchEmployee()" id="makeAdmin">Set To Admin</button>
+        <button class="button" onclick="searchEmployee()" id="makeAdmin">Instellen admin</button>
         <br>
-        <button class="button" onclick="searchEmployee()" id="setInactive">Set Inactive</button>
+        <button class="button" onclick="searchEmployee()" id="setInactive">Instellen non-actief</button>
         <br>
         <div>
-            <input type="text" id="firstName" placeholder="First Name">
+            <input type="text" id="firstName" placeholder="Voornaam">
         </div>
         <br>
         <div>
-            <input type="text" id="lastName" placeholder="Last Name">
+            <input type="text" id="lastName" placeholder="Achternaam">
         </div>
         <br>
         <div>
             <input type="text" id="email" placeholder="email">
-            <button class="button" onclick="searchEmployee()" id="emailButton">Update user</button>
+            <button class="button" onclick="searchEmployee()" id="emailButton">Update gebruiker</button>
         </div>
 
   

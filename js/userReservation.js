@@ -35,7 +35,7 @@ function getReservation() {
                 dateCell.innerHTML = reservation.reservationDate;
 
                 var allowedCell = row.insertCell();
-                allowedCell.innerHTML = reservation.allowed;
+                allowedCell.innerHTML = reservation.allowed?"ja":"nee";
             });
         })
         .catch(error => console.error(error));

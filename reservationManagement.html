@@ -13,19 +13,19 @@
 
     <div class="main">
 
+      <h1>Reserveringen beheren</h1>
         <div>
-        <label for="searchTerm">Search Reservations:</label>
-        <input type="text" id="searchTerm">
-        <button class="button" onclick="searchReservation()">Search</button>
+        <input type="text" id="searchTerm" placeholder="Reservering">
+        <button class="button" onclick="searchReservation()">Zoeken</button>
         </div>
         
         <table>
         <thead>
             <tr>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Book title</th>
-            <th>Date</th>
+            <th>Voornaam</th>
+            <th>Achternaam</th>
+            <th>Titel</th>
+            <th>Datum</th>
             <th>Is opgepakt</th>
             </tr>
         </thead>
@@ -33,7 +33,7 @@
         </table>
         
         <div>
-        <label for="selectedReservation">Selected Reservation:</label>
+        <label for="selectedReservation">Geselecteerde reservering:</label>
         <input type="text" id="selectedReservation" disabled>
         </div>
     
@@ -41,26 +41,25 @@
         <div>
         <button class="button" onclick="setOccupied()">Pak op</button>
         <button class="button" onclick="showCopies(selectedReservation.book)">Leen uit</button>
-        <button class="button" onclick="cancelLoan()">Cancel</button>
+        <button class="button" onclick="cancelLoan()">Annuleren</button>
         </div>
 
         <table>
           <thead>
             <tr>
-              <th>Copy id</th>
+              <th>Kopie nr:</th>
             </tr>
           </thead>
           <tbody id="copyTableBody"></tbody>
         </table>
         
         <div>
-          <label for="selectedCopy">Selected Copy:</label>
+          <label for="selectedCopy">Geselecteerde kopie:</label>
           <input type="text" id="selectedCopy" disabled>
         </div>
         
           <div>
-          <h2>Create Loan</h2>
-          <button class="button" onclick="createLoanFromReservation()">Create Loan</button>
+          <button class="button" onclick="createLoanFromReservation()">Creëer Lening</button>
         </div>
     </div>
 
