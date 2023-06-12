@@ -82,7 +82,7 @@
       if (selectedLoan) {
 
         // Make an API call to your backend to update the reservation
-        fetch(`${baseUrl}/loan/complete/${selectedLoan.id}`, {
+        fetch(`${baseUrl}/loan/complete/${selectedLoan.loanId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
