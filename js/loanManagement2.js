@@ -104,7 +104,7 @@
             console.log('Loan return date updated:', updatedLoan);
 
             // Refresh table
-            searchLoan()
+            searchLoans()
           })
           .catch(error => {
             console.error('Error updating loan return date:', error);
