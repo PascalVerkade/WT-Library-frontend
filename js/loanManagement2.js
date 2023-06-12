@@ -38,45 +38,7 @@
         })
         .catch(error => console.error(error));
     }
-    
-    function searchLoans() {
-     
-      // Make an API call to your backend for searching reservations
-      fetch(`${baseUrl}/loan/allOrdered`)
-        .then(response => response.json())
-        .then(data => {
-
-          // Fill in the table
-          var loanTableBody = document.getElementById("loanTableBody");
-          loanTableBody.innerHTML = "";
-          data.forEach(loan => {
-            var row = loanTableBody.insertRow();
-            row.addEventListener("click", function(){
-              selectLoan(loan)
-            })
-            var firstNameCell = row.insertCell();
-            firstNameCell.innerHTML = loan.employeeFirstName;
-
-            var lastNameCell = row.insertCell();
-            lastNameCell.innerHTML = loan.employeeLastName;
-
-            var bookTitleCell = row.insertCell();
-            bookTitleCell.innerHTML = loan.bookTitle;
-
-            var copyIdCell = row.insertCell();
-            copyIdCell.innerHTML = loan.copyId
-            
-            var dateCell = row.insertCell();
-            dateCell.innerHTML = loan.loanDate;      
-
-            var returnDateCell = row.insertCell();
-            returnDateCell.innerHTML = loan.returnDate;
-
-          });
-        })
-        .catch(error => console.error(error));
-    }
-    searchLoans()
+    searchLoan()
 
     function completeLoan() {
       if (selectedLoan) {
