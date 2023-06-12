@@ -27,7 +27,7 @@ function selectCopy(copy) {
 
 function selectLoan(loan) { 
     selectedLoan = loan;
-    document.getElementById("selectedLoan").value = loan.id; //TODO: veraanders naar name en boek wanneer @JsonIgnore probleem fixed
+    document.getElementById("selectedLoan").value = loan.employeeFirstName + "'s loan of " + loan.bookTitle;
 }
 
 function searchEmployee() {

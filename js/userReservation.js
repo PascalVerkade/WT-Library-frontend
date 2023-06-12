@@ -62,8 +62,7 @@ function getLoan() {
                 var row = loanTableBody.insertRow();
                
                 var bookTitleCell = row.insertCell();
-                //bookTitleCell.innerHTML = reservation.book.title;
-                bookTitleCell.innerHTML = "issue";
+                bookTitleCell.innerHTML = loan.bookTitle;
 
                 var dateCell = row.insertCell();
                 dateCell.innerHTML = loan.loanDate;
@@ -98,7 +97,7 @@ function clickrow(tableRow, tableBody, reservation) {
 }
 
 
-//functon to delete the reservatino
+//functon to delete the reservation
 function deleteReservation() {
     if (selection) {
 
