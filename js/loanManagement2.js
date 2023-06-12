@@ -16,25 +16,20 @@
               selectLoan(loan);
             })
 
-            //TODO: niet werkzaam totdat @JsonIgnore Workaround gefixed is.
             var firstNameCell = row.insertCell();
-            firstNameCell.innerHTML = "issue" //TODO:loan.employee.firstName;
-            
+            firstNameCell.innerHTML = loan.employeeFirstName;
 
             var lastNameCell = row.insertCell();
-            lastNameCell.innerHTML = "issue" //TODO:loan.employee.lastName;
-            
+            lastNameCell.innerHTML = loan.employeeLastName;
 
             var bookTitleCell = row.insertCell();
-            bookTitleCell.innerHTML = "issue" //TODO:loan.copy.book.title;
-            
+            bookTitleCell.innerHTML = loan.bookTitle;
 
             var copyIdCell = row.insertCell();
-            copyIdCell.innerHTML = "issue" //TODO:loan.copy.id;
+            copyIdCell.innerHTML = loan.copyId
             
             var dateCell = row.insertCell();
-            dateCell.innerHTML = loan.loanDate;
-           
+            dateCell.innerHTML = loan.loanDate;      
 
             var returnDateCell = row.insertCell();
             returnDateCell.innerHTML = loan.returnDate;
@@ -59,25 +54,20 @@
             row.addEventListener("click", function(){
               selectLoan(loan)
             })
-            //TODO: niet werkzaam totdat @JsonIgnore Workaround gefixed is.
             var firstNameCell = row.insertCell();
-            firstNameCell.innerHTML = "issue" //TODO:loan.employee.firstName
+            firstNameCell.innerHTML = loan.employeeFirstName;
 
             var lastNameCell = row.insertCell();
-            lastNameCell.innerHTML = "issue" //TODO:loan.employee.lastName;
-
+            lastNameCell.innerHTML = loan.employeeLastName;
 
             var bookTitleCell = row.insertCell();
-            bookTitleCell.innerHTML = "issue" //TODO:loan.copy.book.title;
-
+            bookTitleCell.innerHTML = loan.bookTitle;
 
             var copyIdCell = row.insertCell();
-            copyIdCell.innerHTML = "issue" //TODO:loan.copy.id;
-
-
+            copyIdCell.innerHTML = loan.copyId
+            
             var dateCell = row.insertCell();
-            dateCell.innerHTML = loan.loanDate;
-
+            dateCell.innerHTML = loan.loanDate;      
 
             var returnDateCell = row.insertCell();
             returnDateCell.innerHTML = loan.returnDate;
