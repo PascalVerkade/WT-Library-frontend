@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Make Reservation</title>
+</head>
+
+<body>
+    <div id="sidebarContainer"></div>
+    <script type="text/javascript" src="js/sidebar.js"></script>
+
+    <div class="main">
+
+        <!-- Reservatino section -->
+        <div>
+            <h1>Mijn boekingen</h1>
+            <div>
+                <h3>Reserveringen</h3>
+                
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Titel</th>
+                        <th>Datum reservering</th>
+                        <th>Beschikbaar om te lenen</th>
+                    </tr>
+                </thead>
+                <tbody id="reservationTableBody"></tbody>
+            </table>
+            <div>
+                <button class="button" onclick="deleteReservation()">verwijder reservering</button>
+            </div>
+        </div>
+
+        <!-- loan section -->
+        <div>
+            <div>
+                <h3>Leningen</h3>
+                
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Titel</th>
+                        <th>Datum opgehaald</th>
+                        <th>Datum ingeleverd</th>
+                    </tr>
+                </thead>
+                <tbody id="loanTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/userReservation.js"></script>
+
+</body>
+
+</html>

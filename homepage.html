@@ -10,34 +10,99 @@
 </head>
 
 <body>
-    <h1>Library applicatie WT</h1>
+    <div id="sidebarContainer"></div>
+    <script type="text/javascript" src="js/sidebar.js"></script>
+
+    <div class="main">
+        <h1>Working Talent Bibliotheek</h1>
+
+        <div>
+            <input type="text" id="searchTermBooks" placeholder="Boek">
+            <button class="button" onclick="searchBooks()">Zoeken</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Titel</th>
+                    <th>Schrijver</th>
+                    <th>ISBN</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="bookTableBody"></tbody>
+        </table>
+    </div>
 
 
-    <section class= "login">
-        <button type="button" name = "CreateAccount" id="CreateAccount" onclick="window.location.href = 'register.html'">Account aanmaken</button></form>
 
+    <script>
+        window.onload = searchBooks();
+        id = 1
 
+        function searchBooks() {
+            var searchTerm = document.getElementById("searchTermBooks").value;
 
+            // Make an API call to your backend for searching books
+            fetch(`http://localhost:8080/books/search?searchTerm=${searchTerm}`)
+                .then(response => response.json())
+                .then(data => {
 
+                    // Fill in the table
+                    var bookTableBody = document.getElementById("bookTableBody");
+                    bookTableBody.innerHTML = "";
+                    data.forEach(book => {
+                        var row = bookTableBody.insertRow();
 
+                        var titleCell = row.insertCell();
+                        titleCell.innerHTML = book.title;
 
+                        var writerCell = row.insertCell();
+                        writerCell.innerHTML = book.writer;
 
+                        var isbnCell = row.insertCell();
+                        isbnCell.innerHTML = book.isbn;
 
-        
-        <script type="text/javascript" src="js/cookie.js"></script>
-        <script type="text/javascript" src="js/homepage.js"></script>
-        
-        
-        
-        
-        <script>
-            isAdmin("User", admin => {
-                if(!admin) {
-                    let button = document.getElementById("CreateAccount");
-                    button.setAttribute("hidden", "hidden")
-                }
-            }); // Replace "employeeId" with your desired cookie name
-        </script>
+                        var editCell = row.insertCell();
+                        // Create a button element
+                        var button = document.createElement("button");
+                        button.textContent = "Reserveren";
+                        button.onclick = () => {
+                            createReservation(book.id)
+                            button.style.backgroundColor = "#c8c8c8"
+                            button.disabled = true;
+                        }
+
+                        // Append the button to the edit cell
+                        editCell.appendChild(button);
+                    });
+                })
+                .catch(error => console.error(error));
+        }
+
+        function createReservation(bookId) {
+
+            // Create the reservation object with selected employee and book
+            var reservation = {
+                bookId: bookId,
+                employeeId: id////////////////////////////////////////////////////////////////////////Change later
+            };
+
+            // Make an API call to your backend to create the reservation
+            fetch(`http://localhost:8080/reservation/make`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reservation)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Reservation created successfully:", data);
+                })
+                .catch(error => console.error(error));
+        }
+    </script>
 
 
     </section>

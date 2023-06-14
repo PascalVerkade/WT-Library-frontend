@@ -27,13 +27,42 @@ function saveBook() {
         },
         body: JSON.stringify(newbook)
     })
-        .then(response => {
+        .then(response => response.json())
+        .then(data => {
             alert('Is goedgegaan');
+
+            //Copies maken van zojuist gemaakte boek dmv. het boek id
+            for (let i = 0; i < data.stock; i++){
+                addCopies(data.id);
+            }
         })
+
         .catch(error => {
             console.log(error);
             alert('Er is iets fouts gegaan');
         });
+}
+
+function addCopies(id) {
+    newcopy = {
+        "bookId": id
+    }
+
+    console.log(newcopy);
+
+    //Data sturen via fetch:
+    fetch("http://localhost:8080/copy/create", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newcopy)
+    })
+    .then(response => response.json())
+    .catch(error => {
+        console.log(error);
+        alert('Er is iets fouts gegaan');
+    });
 }
 
 function moreBooks(){

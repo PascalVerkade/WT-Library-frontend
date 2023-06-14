@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Make Reservation</title>
+</head>
+<body>
+    <div id="sidebarContainer"></div>
+    <script type="text/javascript" src="js/sidebar.js"></script>
+
+    <div class="main">
+
+        <h1>Leningen beheren</h1>
+
+        <div>
+        <input type="text" id="searchTerm" placeholder="Lening">
+        <button class="button" onclick="searchLoan()">Zoeken</button>
+        </div>
+        
+        <table>
+        <thead>
+            <tr>
+            <th>Voornaam</th>
+            <th>Achternaam</th>
+            <th>Titel</th>
+            <th>Kopie id</th>
+            <th>Datum opgehaald</th>
+            <th>Datum ingeleverd</th>
+            </tr>
+        </thead>
+        <tbody id="loanTableBody"></tbody>
+        </table>
+        
+        <div>
+        <label for="selectedLoan">Geselecteerde lening:</label>
+        <input type="text" id="selectedLoan" disabled>
+        </div>
+    
+        
+        <div>
+        <button class="button" onclick="completeLoan()">Inleveren</button>
+        </div>
+    </div>
+
+  <script type="text/javascript" src="js/loanManagement.js"></script>
+  <script type="text/javascript" src="js/loanManagement2.js"></script>
+  
+</body>
+</html>
