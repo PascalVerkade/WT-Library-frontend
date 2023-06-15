@@ -14,19 +14,18 @@
     <script type="text/javascript" src="js/sidebar.js"></script>
 
     <div class="main">
-        <h1>Library homepage</h1>
+        <h1>Working Talent Bibliotheek</h1>
 
         <div>
-            <label for="searchTermBooks">Search Books:</label>
-            <input type="text" id="searchTermBooks">
-            <button class="button" onclick="searchBooks()">Search</button>
+            <input type="text" id="searchTermBooks" placeholder="Boek">
+            <button class="button" onclick="searchBooks()">Zoeken</button>
         </div>
 
         <table>
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Writer</th>
+                    <th>Titel</th>
+                    <th>Schrijver</th>
                     <th>ISBN</th>
                     <th></th>
                 </tr>
@@ -77,12 +76,20 @@
                         var editCell = row.insertCell();
                         // Create a button element
                         var button = document.createElement("button");
+<<<<<<< HEAD
                         button.textContent = "Reserve";
                         if (book.reservationId == -1) {
                             button.onclick = () => buttonClick(button, book.id)
                         } else {
                             button.style.backgroundColor = "#c8c8c8",
                                 button.onclick = () => buttonUnClick(button, book.id, book.reservationId);
+=======
+                        button.textContent = "Reserveren";
+                        button.onclick = () => {
+                            createReservation(book.id)
+                            button.style.backgroundColor = "#c8c8c8"
+                            button.disabled = true;
+>>>>>>> development
                         }
 
                         // Append the button to the edit cell

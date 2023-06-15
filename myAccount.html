@@ -14,102 +14,27 @@
     <script type="text/javascript" src="js/sidebar.js"></script>
 
     <div class="main">
-        <h1>My account</h1>
-        Welcome
-        <span id="personal">"User"</span>
-        here you can change your account settings
+        <h1>Mijn account</h1>
+        Welkom
+        <span id="personal">"Gebruiker"</span>,
+        hier kunt u uw gegevens aanpassen
 
         <div>
-            <input type="text" id="firstName" placeholder="firstName">
+            <input type="text" id="firstName" placeholder="Voornaam">
         </div>
         <br>
         <div>
-            <input type="text" id="lastName" placeholder="lastName">
+            <input type="text" id="lastName" placeholder="Achternaam">
         </div>
         <br>
         <div>
-            <input type="password" id="password" placeholder="password">
-            <button class="button" onclick="" id="passwordButton">Apply Changes</button>
+            <input type="password" id="password" placeholder="wachtwoord">
+            <button class="button" onclick="" id="passwordButton">Wijzigingen opslaan</button>
         </div>
 
     </div>
 
-    <script>
-        window.onload = getUser()
-
-        function getUser() {
-            let data = {
-                "email": "test",
-                "password": "test"
-            }
-            fetch("http://localhost:8080/employee/login", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("personal").innerHTML = data.firstName + " " + data.lastName;
-                    document.getElementById("firstName").value = data.firstName;
-                    document.getElementById("lastName").value = data.lastName;
-                    document.getElementById("passwordButton").onclick = () => {
-                        
-                        if(document.getElementById("password").value.length != 0) {
-                            console.log("hi")
-                            if(confirm("Are you sure you want to change your password?")) {
-                               changePassword(data.employeeId); 
-                            }
-                        }
-                        changeFirstName(data.employeeId);
-                        changeLastName(data.employeeId);
-                    }
-                }).catch(error => console.error(error));
-        }
-
-        function changeFirstName(id) {
-            let data = {
-                "firstName": document.getElementById("firstName").value,
-                "employeeId": id
-            }
-            fetch("http://localhost:8080/employee/changeFirstName", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then(() => getUser())
-        }
-
-        function changeLastName(id) {
-            let data = {
-                "lastName": document.getElementById("lastName").value,
-                "employeeId": id
-            }
-            fetch("http://localhost:8080/employee/changeLastName", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then(() => getUser())
-        }
-
-        function changePassword(id) {
-            let data = {
-                "password": document.getElementById("password").value,
-                "employeeId": id
-            }
-            fetch("http://localhost:8080/employee/changePassword", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then(() => alert("Password changed"))
-        }
-    </script>
+    <script type="text/javascript" src="js/myAccount.js"></script>
 
 </body>
 

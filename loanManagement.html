@@ -13,28 +13,29 @@
 
     <div class="main">
 
+        <h1>Leningen beheren</h1>
+
         <div>
-        <label for="searchTerm">Search Loans:</label>
-        <input type="text" id="searchTerm">
-        <button class="button" onclick="searchLoan()">Search</button>
+        <input type="text" id="searchTerm" placeholder="Lening">
+        <button class="button" onclick="searchLoan()">Zoeken</button>
         </div>
         
         <table>
         <thead>
             <tr>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Book title</th>
-            <th>Copy Id</th>
-            <th>Loan date</th>
-            <th>Return date</th>
+            <th>Voornaam</th>
+            <th>Achternaam</th>
+            <th>Titel</th>
+            <th>Kopie id</th>
+            <th>Datum opgehaald</th>
+            <th>Datum ingeleverd</th>
             </tr>
         </thead>
         <tbody id="loanTableBody"></tbody>
         </table>
         
         <div>
-        <label for="selectedLoan">Selected Loan:</label>
+        <label for="selectedLoan">Geselecteerde lening:</label>
         <input type="text" id="selectedLoan" disabled>
         </div>
     
@@ -45,86 +46,7 @@
     </div>
 
   <script type="text/javascript" src="js/loanManagement.js"></script>
-  <script>
-    function searchLoan() {
-      var searchTerm = document.getElementById("searchTerm").value;
-
-      // Make an API call to your backend for searching reservations
-      fetch(`${baseUrl}/loans/search?searchTerm=${searchTerm}`)
-        .then(response => response.json())
-        .then(data => {
-
-          // Fill in the table
-          var loanTableBody = document.getElementById("loanTableBody");
-          loanTableBody.innerHTML = "";
-          data.forEach(loan => {
-            var row = loanTableBody.insertRow();
-            //TODO: niet werkzaam totdat @JsonIgnore Workaround gefixed is.
-            var firstNameCell = row.insertCell();
-            firstNameCell.innerHTML = "issue" //TODO:loan.employee.firstName;
-            firstNameCell.addEventListener("click", function() {
-              selectLoan(loan);
-            });
-
-            var lastNameCell = row.insertCell();
-            lastNameCell.innerHTML = "issue" //TODO:loan.employee.lastName;
-            lastNameCell.addEventListener("click", function() {
-              selectLoan(loan);
-            });
-
-            var bookTitleCell = row.insertCell();
-            bookTitleCell.innerHTML = "issue" //TODO:loan.copy.book.title;
-            bookTitleCell.addEventListener("click", function() {
-              selectLoan(loan);
-            });
-
-            var copyIdCell = row.insertCell();
-            copyIdCell.innerHTML = "issue" //TODO:loan.copy.id;
-            copyIdCell.addEventListener("click", function() {
-              selectLoan(loan);
-            });
-
-            var dateCell = row.insertCell();
-            dateCell.innerHTML = loan.loanDate;
-            dateCell.addEventListener("click", function() {
-              selectLoan(loan);
-            });
-
-            var returnDateCell = row.insertCell();
-            returnDateCell.innerHTML = loan.returnDate;
-            returnDateCell.addEventListener("click", function() {
-              selectLoan(loan);
-            });
-          });
-        })
-        .catch(error => console.error(error));
-    }
-    
-    function completeLoan() {
-      if (selectedLoan) {
-
-        // Make an API call to your backend to update the reservation
-        fetch(`${baseUrl}/loan/complete/${selectedLoan.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-          .then(response => response.json())
-          .then(response => alert("Lening is compleet."))
-          .then(updatedLoan => {
-            console.log('Loan return date updated:', updatedLoan);
-
-            // Refresh table
-            searchLoan()
-          })
-          .catch(error => {
-            console.error('Error updating loan return date:', error);
-          });
-      } else {
-        console.log("Please select a reservation.");
-      }
-    }
-  </script>
+  <script type="text/javascript" src="js/loanManagement2.js"></script>
+  
 </body>
 </html>

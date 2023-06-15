@@ -12,37 +12,15 @@
   <script type="text/javascript" src="js/sidebar.js"></script>
 
   <div class="main">
-    <h1>Reservation Management</h1>
+    <h1>Reserveringsbeheer</h1>
     <div class="button-group">
-      <button class="button" onclick="goToReserveringMaken()">Reservering maken</button>
-      <button class="button" onclick="goToReserveringBeheren()">Reservering beheren</button>
+      <button class="button" onclick="window.location.href = 'makeReservation.html'">Reservering maken</button>
+      <button class="button" onclick="window.location.href = 'reservationManagement.html'">Reservering beheren</button>
     </div>
     <div class="button-group">
-      <button class="button" onclick="goToLeningMaken()">Lening maken</button>
-      <button class="button" onclick="goToLeningenBeheren()">Leningen beheren</button>
+      <button class="button" onclick="window.location.href = 'makeLoan.html'">Lening maken</button>
+      <button class="button" onclick="window.location.href = 'loanManagement.html'">Leningen beheren</button>
     </div>
   </div>
-  
-  <script>
-    // JavaScript function for "Reservering maken" page
-    function goToReserveringMaken() {
-      window.location.href = "makeReservation.html";
-    }
-
-    // JavaScript function for "Reservering maken" page
-    function goToLeningMaken() {
-      window.location.href = "makeLoan.html";
-    }
-    
-    // JavaScript function for "Reservering beheren" page
-    function goToReserveringBeheren() {
-      window.location.href = "reservationManagement.html";
-    }
-    
-    // JavaScript function for "Leningen beheren" page
-    function goToLeningenBeheren() {
-      window.location.href = "loanManagement.html";
-    }
-  </script>
 </body>
 </html>

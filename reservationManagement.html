@@ -13,19 +13,19 @@
 
     <div class="main">
 
+      <h1>Reserveringen beheren</h1>
         <div>
-        <label for="searchTerm">Search Reservations:</label>
-        <input type="text" id="searchTerm">
-        <button class="button" onclick="searchReservation()">Search</button>
+        <input type="text" id="searchTerm" placeholder="Reservering">
+        <button class="button" onclick="searchReservation()">Zoeken</button>
         </div>
         
         <table>
         <thead>
             <tr>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Book title</th>
-            <th>Date</th>
+            <th>Voornaam</th>
+            <th>Achternaam</th>
+            <th>Titel</th>
+            <th>Datum</th>
             <th>Is opgepakt</th>
             </tr>
         </thead>
@@ -33,7 +33,7 @@
         </table>
         
         <div>
-        <label for="selectedReservation">Selected Reservation:</label>
+        <label for="selectedReservation">Geselecteerde reservering:</label>
         <input type="text" id="selectedReservation" disabled>
         </div>
     
@@ -41,168 +41,33 @@
         <div>
         <button class="button" onclick="setOccupied()">Pak op</button>
         <button class="button" onclick="showCopies(selectedReservation.book)">Leen uit</button>
-        <button class="button" onclick="cancelLoan()">Cancel</button>
+        <button class="button" onclick="cancelLoan()">Annuleren</button>
         </div>
 
         <table>
           <thead>
             <tr>
-              <th>Copy id</th>
+              <th>Kopie nr:</th>
             </tr>
           </thead>
           <tbody id="copyTableBody"></tbody>
         </table>
         
         <div>
-          <label for="selectedCopy">Selected Copy:</label>
+          <label for="selectedCopy">Geselecteerde kopie:</label>
           <input type="text" id="selectedCopy" disabled>
         </div>
         
           <div>
-          <h2>Create Loan</h2>
-          <button class="button" onclick="createLoanFromReservation()">Create Loan</button>
+          <button class="button" onclick="createLoanFromReservation()">Creëer Lening</button>
         </div>
     </div>
 
   <script type="text/javascript" src="js/loanManagement.js"></script>
+  <script type="text/javascript" src="js/reservationManagment.js"></script>
+
   <script>
-    function searchReservation() {
-      var searchTerm = document.getElementById("searchTerm").value;
-
-      // Make an API call to your backend for searching reservations
-      fetch(`${baseUrl}/reservation/search?searchTerm=${searchTerm}`)
-        .then(response => response.json())
-        .then(data => {
-
-          // Fill in the table
-          var reservationTableBody = document.getElementById("reservationTableBody");
-          reservationTableBody.innerHTML = "";
-          data.forEach(reservation => {
-            var row = reservationTableBody.insertRow();
-
-            var firstNameCell = row.insertCell();
-            firstNameCell.innerHTML = reservation.employee.firstName;
-            firstNameCell.addEventListener("click", function() {
-              selectReservation(reservation);
-            });
-
-            var lastNameCell = row.insertCell();
-            lastNameCell.innerHTML = reservation.employee.lastName;
-            lastNameCell.addEventListener("click", function() {
-              selectReservation(reservation);
-            });
-
-            var bookTitleCell = row.insertCell();
-            bookTitleCell.innerHTML = reservation.book.title;
-            bookTitleCell.addEventListener("click", function() {
-              selectReservation(reservation);
-            });
-
-            var dateCell = row.insertCell();
-            dateCell.innerHTML = reservation.reservationDate;
-            dateCell.addEventListener("click", function() {
-              selectReservation(reservation);
-            });
-
-            var allowedCell = row.insertCell();
-            allowedCell.innerHTML = reservation.allowed;
-            allowedCell.addEventListener("click", function() {
-              selectReservation(reservation);
-            });
-          });
-        })
-        .catch(error => console.error(error));
-    }
-    
-    function setOccupied() {
-      if (selectedReservation) {
-        // Check if the selected book has available copies
-        if (selectedReservation.book.copies.length == 0 ) {
-          console.log("No available copies of the book.");
-          return;
-        }
-
-        // Update the reservation object with the updated allowed property
-        var updatedReservation = {
-          id: selectedReservation.id,
-          book: selectedReservation.book,
-          employee: selectedReservation.employee,
-          reservationDate: selectedReservation.reservationDate,
-          allowed: true
-        };
-
-        // Make an API call to your backend to update the reservation
-        fetch(`${baseUrl}/reservation/update`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(updatedReservation)
-        })
-          .then(response => response.json())
-          .then(response => alert("Reservering is opgepakt."))
-          .then(data => {
-            console.log("Reservation update backend status:", data);
-            selectedReservation.allowed = true;
-
-            // Refresh the search results table
-            searchReservation();
-          })
-          .catch(error => console.error(error));
-      } else {
-        console.log("Please select a reservation.");
-      }
-    }
-
-   function createLoanFromReservation() {
-      if (selectedReservation && selectedCopy) {
-
-        if (!selectedReservation.allowed) {
-          alert("De geselecteerde reservering is nog niet opgepakt.")
-          return;
-        }
-
-        var loan = {
-          copyId: selectedCopy.id,
-          employeeId: selectedReservation.employee.employeeId
-        };
-
-        // Make an API call to your backend to create the reservation
-        console.log(selectedReservation.id);
-        fetch(`${baseUrl}/loan/makeFromReservation`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            loanDto: loan,
-            reservationId: selectedReservation.id
-          })
-        })
-        .then(response => response.json())
-        .then(response => alert("Lening is aangemaakt, oude reservering is verwijderd."))
-        .then(data => {
-          console.log("Loan creation backend status:", data);
-          selectedReservation = null;
-          document.getElementById("selectedReservation").value = "";
-          document.getElementById("selectedCopy").value = "";
-
-          // Refresh the search results table
-          searchReservation();
-
-          // Refresh available copies
-          copyTableBody.innerHTML = "";
-        })
-        .catch(error => console.error(error));
-      } else {
-        console.log("Please select a reservation.");
-      }
-    }
-
-    function cancelLoan() {
-        document.getElementById("selectedReservation").value = "";
-    }
-    
+ 
   </script>
 </body>
 </html>

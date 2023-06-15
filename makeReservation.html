@@ -13,17 +13,17 @@
 
   <div class="main">
 
+    <h1>Aanmaken nieuwe reservering</h1>
       <div>
-        <label for="searchTerm">Search Employee:</label>
-        <input type="text" id="searchTerm">
-        <button class="button" onclick="searchEmployee()">Search</button>
+        <input type="text" id="searchTerm" placeholder="Gebruiker">
+        <button class="button" onclick="searchEmployee()">Zoek</button>
       </div>
       
       <table>
         <thead>
           <tr>
-            <th>First name</th>
-            <th>Last name</th>
+            <th>Voornaam</th>
+            <th>Achternaam</th>
             <th>Email</th>
           </tr>
         </thead>
@@ -31,21 +31,20 @@
       </table>
       
       <div>
-        <label for="selectedEmployee">Selected Employee:</label>
+        <label for="selectedEmployee">Geselecteerde gebruiker:</label>
         <input type="text" id="selectedEmployee" disabled>
       </div>
       
       <div>
-        <label for="searchTermBooks">Search Books:</label>
-        <input type="text" id="searchTermBooks">
-        <button class="button" onclick="searchBooks()">Search</button>
+        <input type="text" id="searchTermBooks" placeholder="Boek">
+        <button class="button" onclick="searchBooks()">Zoek</button>
       </div>
       
       <table>
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Writer</th>
+            <th>Titel</th>
+            <th>Schrijver</th>
             <th>ISBN</th>
           </tr>
         </thead>
@@ -53,50 +52,18 @@
       </table>
       
       <div>
-        <label for="selectedBook">Selected Book:</label>
+        <label for="selectedBook">Geselecteerd Boek:</label>
         <input type="text" id="selectedBook" disabled>
       </div>
       
         <div>
-        <h2>Create Reservation</h2>
-        <button class="button" onclick="createReservation()">Create Reservation</button>
+        <button class="button" onclick="createReservation()">Maak reservering aan</button>
       </div>
   </div>
   
   <script type="text/javascript" src="js/loanManagement.js"></script>
-  <script>    
-    function createReservation() {
-      if (selectedEmployee && selectedBook) {
+  <script type="text/javascript" src="js/makeReservation.js"></script>
 
-        // Create the reservation object with selected employee and book
-        var reservation = {
-            bookId: selectedBook.id,
-            employeeId: selectedEmployee.employeeId
-        };
-        
-        // Make an API call to your backend to create the reservation
-        fetch(`${baseUrl}/reservation/make`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(reservation)
-        })
-        .then(response => response.json())
-        .then(response => alert("Reservering is gemaakt."))
-        .then(data => {
-          console.log("Reservation created successfully:", data);
-          selectedEmployee = null;
-          selectedBook = null;
-          document.getElementById("selectedEmployee").value = "";
-          document.getElementById("selectedBook").value = "";
-        })
-        .catch(error => console.error(error));
-      } else {
-        console.log("Please select an employee and a book.");
-      }
-    }
-  </script>
 </body>
 </html>
 

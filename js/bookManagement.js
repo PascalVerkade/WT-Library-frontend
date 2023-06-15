@@ -31,6 +31,48 @@ function selectBook(bookId) {
     document.getElementById('KeywordInput').disabled = false;
     document.getElementById('addKeyword').disabled = false;
 }
+
+function searchBooks() {
+    var searchTerm = document.getElementById("searchTermBooks").value;
+
+    // Make an API call to your backend for searching books
+    fetch(`http://localhost:8080/books/search?searchTerm=${searchTerm}`)
+        .then(response => response.json())
+        .then(data => {
+
+            // Fill in the table
+            var bookTableBody = document.getElementById("bookTableBody");
+            bookTableBody.innerHTML = "";
+            data.forEach(book => {
+                var row = bookTableBody.insertRow();
+
+                var photoCell = row.insertCell();
+                photoCell.innerHTML = book.photo;
+
+                var titleCell = row.insertCell();
+                titleCell.innerHTML = book.title;
+
+                var writerCell = row.insertCell();
+                writerCell.innerHTML = book.writer;
+
+
+                var editCell = row.insertCell();
+                // Create a button element
+                var button = document.createElement("button");
+                button.textContent = "Selecteren";
+                button.onclick = () => {
+                    selectBook(book.id)
+                }
+                
+                var isbnCell = row.insertCell();
+                isbnCell.innerHTML = book.active?"nee":"ja";
+
+                // Append the button to the edit cell
+                editCell.appendChild(button);
+            });
+        })
+        .catch(error => console.error(error));
+}
   
 
 function loadAllBooks() {
@@ -43,7 +85,7 @@ function loadAllBooks() {
             console.log('Data', data);
 
             let bookHtml = '';
-            bookHtml += `<tbody>`;
+            bookHtml += `<tbody id="bookTableBody">`;
 
             data.forEach(book => {
                 bookHtml += `

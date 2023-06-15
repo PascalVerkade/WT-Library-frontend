@@ -3,7 +3,7 @@ var selectedBook = null
 function setHeaders() {
     console.log('setting headers')
     document.getElementById('bookTitle').innerHTML = `${selectedBook.title}`;
-    document.getElementById('bookDetails').innerHTML = `Written by: ${selectedBook.writer}<br>ISBN: ${selectedBook.isbn}`;
+    document.getElementById('bookDetails').innerHTML = `Schrijver: ${selectedBook.writer}<br>ISBN: ${selectedBook.isbn}`;
 }
 
 function fillTable() {
