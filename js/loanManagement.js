@@ -34,7 +34,11 @@ function searchEmployee() {
     var searchTerm = document.getElementById("searchTerm").value;
 
     // Make an API call to your backend for searching employees
-    fetch(`${baseUrl}/employees/search?searchTerm=${searchTerm}`)
+    fetch(`${baseUrl}/admin/employees/search?searchTerm=${searchTerm}`, {
+        headers: {
+            'Authorization': localStorage.getItem("token")
+        }
+    })
         .then(response => response.json())
         .then(data => {
 
@@ -70,7 +74,11 @@ function searchEmployee() {
         var searchTerm = document.getElementById("searchTermBooks").value;
 
         // Make an API call to your backend for searching books
-        fetch(`${baseUrl}/books/search?searchTerm=${searchTerm}`)
+        fetch(`${baseUrl}/books/search?searchTerm=${searchTerm}`, {
+            headers: {
+                'Authorization': localStorage.getItem("token")
+            }
+        })
         .then(response => response.json())
         .then(data => {
 
@@ -106,7 +114,11 @@ function showCopies(book) {
     var searchTerm = book.id;
 
     // Make an API call to your backend for searching books
-    fetch(`${baseUrl}/copies/active?bookId=${searchTerm}`)
+    fetch(`${baseUrl}/copies/active?bookId=${searchTerm}`, {
+        headers: {
+            'Authorization': localStorage.getItem("token")
+        }
+    })
     .then(response => response.json())
             .then(data => {
 

@@ -20,10 +20,11 @@ function saveBook() {
     console.log(newbook);
 
     //data sturen via fetch
-    fetch("http://localhost:8080/books/create", {
+    fetch("http://localhost:8080/admin/books/create", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(newbook)
     })
@@ -51,10 +52,11 @@ function addCopies(id) {
     console.log(newcopy);
 
     //Data sturen via fetch:
-    fetch("http://localhost:8080/copy/create", {
+    fetch("http://localhost:8080/admin/copy/create", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(newcopy)
     })
@@ -116,10 +118,11 @@ function multipleBooks(){
     
     }
     console.log(JSON.stringify(booklist));
-    fetch("http://localhost:8080/book/createAll", {
+    fetch("http://localhost:8080/admin/book/createAll", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(booklist)
     })

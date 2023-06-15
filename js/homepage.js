@@ -12,7 +12,8 @@ function searchBooks() {
     fetch(`http://localhost:8080/books/booksReservation`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(findBook)
     })
@@ -76,7 +77,8 @@ function createReservation(bookId) {
     fetch(`http://localhost:8080/reservation/make`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(reservation)
     })
@@ -98,7 +100,8 @@ function deleteReservation(reservationId) {
     fetch(`http://localhost:8080/reservation/delete`, {
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(reservation)
     })
