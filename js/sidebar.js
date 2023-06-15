@@ -8,3 +8,7 @@ fetch('sidebar.html')
 .catch(error => {
   console.error('Error loading sidebar:', error);
 });
+
+function logout() {
+  localStorage.clear()
+}
