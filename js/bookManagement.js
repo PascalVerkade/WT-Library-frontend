@@ -14,8 +14,12 @@ function setupEmptyTable() {
         `
 }
 
-function selectBook(bookId) {
-    fetch(`http://localhost:8080/book/${bookId}`)
+function selectBook(bookId, token) {
+    fetch(`http://localhost:8080/book/${bookId}`, {
+        headers: {
+            'Authentication': token
+        }
+    })
         .then(res => res.json())
         .then(data => {
 
@@ -32,11 +36,15 @@ function selectBook(bookId) {
     document.getElementById('addKeyword').disabled = false;
 }
 
-function searchBooks() {
+function searchBooks(token) {
     var searchTerm = document.getElementById("searchTermBooks").value;
 
     // Make an API call to your backend for searching books
-    fetch(`http://localhost:8080/books/search?searchTerm=${searchTerm}`)
+    fetch(`http://localhost:8080/books/search?searchTerm=${searchTerm}`, {
+        headers: {
+            'Authentication': token
+        }
+    })
         .then(response => response.json())
         .then(data => {
 
@@ -75,11 +83,15 @@ function searchBooks() {
 }
   
 
-function loadAllBooks() {
+function loadAllBooks(token) {
     console.log('loadallbooks');
 
     //opvragen javascript.
-    fetch('http://localhost:8080/books/all')
+    fetch('http://localhost:8080/books/all', {
+        headers: {
+            'Authentication': token
+        }
+    })
         .then(res => res.json())
         .then(data => {
             console.log('Data', data);
@@ -112,7 +124,7 @@ function updateThisBook() {
     window.location.href = `updateBook.html?bookId=${selectedBook.id}`
 }
 
-function addThisKeyword() {
+function addThisKeyword(token) {
     var keyword = document.getElementById('KeywordInput').value;
     var KeywordDto = {
         keyword: keyword,
@@ -126,10 +138,11 @@ function addThisKeyword() {
     }
 
     // Perform a POST request to the backend API to add the keyword
-    fetch('http://localhost:8080/keywords/make', {
+    fetch('http://localhost:8080/admin/keywords/make', {
         method: 'POST',
         headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authentication': token
         },
         body: JSON.stringify(KeywordDto)
     })
@@ -150,15 +163,16 @@ function addThisKeyword() {
     });
 }
 
-function archiveThisCopy(copy) {
+function archiveThisCopy(copy, token) {
     if (copy.active){
         copy.active = "false";
         console.log('archiving copy '+copy);
 
-        fetch(`http://localhost:8080/copy/update/${copy.id}`, {
+        fetch(`http://localhost:8080/admin/copy/update/${copy.id}`, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authentication': token
             },
             body: JSON.stringify(copy)
         })
@@ -169,11 +183,15 @@ function archiveThisCopy(copy) {
     }
 }
 
-function archiveAllCopies() {
+function archiveAllCopies(token) {
     console.log('loadallcopies');
 
     //opvragen javascript.
-    fetch(`http://localhost:8080/copies/search?bookId=${selectedBook.id}`)
+    fetch(`http://localhost:8080/copies/search?bookId=${selectedBook.id}`, {
+        headers: {
+            'Authentication': token
+        }
+    })
     .then(res => res.json())
     .then(data => {
         console.log('Data', data);
@@ -188,7 +206,7 @@ function archiveAllCopies() {
     })
 }
 
-function archiveThisBook() {
+function archiveThisBook(token) {
     if (selectedBook.active){
         selectedBook.active = "false";
         archiveAllCopies();
@@ -196,10 +214,11 @@ function archiveThisBook() {
     else { selectedBook.active = "true"; }
     console.log(selectedBook.active)
 
-    fetch(`http://localhost:8080/book/update/${selectedBook.id}`, {
+    fetch(`http://localhost:8080/admin/book/update/${selectedBook.id}`, {
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authentication': token
         },
         body: JSON.stringify(selectedBook)
     })

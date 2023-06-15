@@ -1,4 +1,4 @@
-function createAccount() {
+function createAccount(token) {
     let email = document.getElementById("Email").value;
     let password = document.getElementById("Password").value;
     let firstName = document.getElementById("First Name").value;
@@ -12,10 +12,11 @@ function createAccount() {
         "active": true,
         "admin": admin
     }
-    fetch("http://localhost:8080/employee/register", {
+    fetch("http://localhost:8080/admin/employee/register", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authentication': token
         },
         body: JSON.stringify(data)
     })

@@ -1,6 +1,6 @@
 window.onload = searchBooks();
 
-function searchBooks() {
+function searchBooks(token) {
     var searchTerm = document.getElementById("searchTermBooks").value;
 
     var findBook = {
@@ -12,7 +12,8 @@ function searchBooks() {
     fetch(`http://localhost:8080/books/booksReservation`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authentication': token
         },
         body: JSON.stringify(findBook)
     })
@@ -64,7 +65,7 @@ function buttonUnClick(button, bookId, reservationId) {
     button.onclick = () => buttonClick(button, bookId)
 }
 
-function createReservation(bookId) {
+function createReservation(bookId, token) {
 
     // Create the reservation object with selected employee and book
     var reservation = {
@@ -76,7 +77,8 @@ function createReservation(bookId) {
     fetch(`http://localhost:8080/reservation/make`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authentication': token
         },
         body: JSON.stringify(reservation)
     })

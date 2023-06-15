@@ -1,10 +1,14 @@
 window.onload = searchEmployee()
 
-function searchEmployee() {
+function searchEmployee(token) {
     var searchTerm = document.getElementById("searchTerm").value;
 
     // Make an API call to your backend
-    fetch('http://localhost:8080/employees/search?searchTerm=' + searchTerm)
+    fetch('http://localhost:8080/admin/employees/search?searchTerm=' + searchTerm, {
+        headers: {
+            'Authentication': token
+        }
+    })
         .then(response => response.json())
         .then(data => {
             // Get the table body element
@@ -48,19 +52,27 @@ function searchEmployee() {
         .catch(error => console.error(error));
 }
 
-function makeAdmin(id) {
-    fetch('http://localhost:8080/employee/makeAdmin?id=' + id)
+function makeAdmin(id, token) {
+    fetch('http://localhost:8080/admin/employee/makeAdmin?id=' + id, {
+        headers: {
+            'Authentication': token
+        }
+    })
         .then(() => searchEmployee())
 }
 
-function makeInactive(id) {
+function makeInactive(id, token) {
     if(confirm("Are you sure you want to remove user?")) {
-        fetch('http://localhost:8080/employee/makeInactive?id=' + id)
+        fetch('http://localhost:8080/admin/employee/makeInactive?id=' + id, {
+            headers: {
+                'Authentication': token
+            }
+        })
         .then(() => searchEmployee())
     }
 }
 
-function changeFirstName(id, firstName) {
+function changeFirstName(id, firstName, token) {
     let data = {
         "firstName": firstName,
         "employeeId": id
@@ -68,13 +80,14 @@ function changeFirstName(id, firstName) {
     return fetch("http://localhost:8080/employee/changeFirstName", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authentication': token
         },
         body: JSON.stringify(data)
     });
 }
 
-function changeLastName(id, lastName) {
+function changeLastName(id, lastName, token) {
     let data = {
         "lastName": lastName,
         "employeeId": id
@@ -82,13 +95,14 @@ function changeLastName(id, lastName) {
     return fetch("http://localhost:8080/employee/changeLastName", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authentication': token
         },
         body: JSON.stringify(data)
     });
 }
 
-function changeEmail(id, email) {
+function changeEmail(id, email, token) {
     let data = {
         "email": email,
         "employeeId": id
@@ -96,7 +110,8 @@ function changeEmail(id, email) {
     return fetch("http://localhost:8080/employee/changeEmail", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authentication': token
         },
         body: JSON.stringify(data)
     });

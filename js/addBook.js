@@ -1,4 +1,4 @@
-function saveBook() {
+function saveBook(token) {
     //data verzamelen
     let newTitle = document.getElementsByClassName('title')[0].value;
     let newWriter = document.getElementsByClassName('writer')[0].value;
@@ -20,10 +20,11 @@ function saveBook() {
     console.log(newbook);
 
     //data sturen via fetch
-    fetch("http://localhost:8080/books/create", {
+    fetch("http://localhost:8080/admin/books/create", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authentication': token
         },
         body: JSON.stringify(newbook)
     })
@@ -43,7 +44,7 @@ function saveBook() {
         });
 }
 
-function addCopies(id) {
+function addCopies(id, token) {
     newcopy = {
         "bookId": id
     }
@@ -51,10 +52,11 @@ function addCopies(id) {
     console.log(newcopy);
 
     //Data sturen via fetch:
-    fetch("http://localhost:8080/copy/create", {
+    fetch("http://localhost:8080/admin/copy/create", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authentication': token
         },
         body: JSON.stringify(newcopy)
     })
@@ -93,7 +95,7 @@ function moreBooks(){
 
 }
 
-function multipleBooks(){
+function multipleBooks(token){
     let titleList = document.getElementsByClassName('title');
     let writerList = document.getElementsByClassName('writer');
     let isbnList = document.getElementsByClassName('isbn');
@@ -116,10 +118,11 @@ function multipleBooks(){
     
     }
     console.log(JSON.stringify(booklist));
-    fetch("http://localhost:8080/book/createAll", {
+    fetch("http://localhost:8080/admin/book/createAll", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authentication': token
         },
         body: JSON.stringify(booklist)
     })

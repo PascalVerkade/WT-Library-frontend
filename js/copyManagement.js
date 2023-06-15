@@ -27,10 +27,14 @@ function setupEmptyTable() {
         `
 }
 
-function getNonArchivedBookStock() {
+function getNonArchivedBookStock(token) {
     console.log('fetching non-archived book-stock')
 
-    fetch(`http://localhost:8080/copies/active?bookId=${selectedBook.id}`)
+    fetch(`http://localhost:8080/copies/active?bookId=${selectedBook.id}`, {
+        headers: {
+            'Authentication': token
+        }
+    })
     .then(res => res.json())
     .then(data => {
         copyCount = data.length;
@@ -43,15 +47,16 @@ function getNonArchivedBookStock() {
     })
 }
 
-function resetBookStock() { 
+function resetBookStock(token) { 
     console.log('counting stock');
 
     selectedBook.stock = copyCount;
 
-    fetch(`http://localhost:8080/book/update/${selectedBook.id}`, {
+    fetch(`http://localhost:8080/admin/book/update/${selectedBook.id}`, {
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authentication': token
         },
         body: JSON.stringify(selectedBook)
     })
@@ -64,13 +69,17 @@ function resetBookStock() {
     })
 }
 
-function getBook() {
+function getBook(token) {
     console.log('Fetching book')
 
     const urlParams = new URLSearchParams(window.location.search);
     const bookId = urlParams.get('bookId');
 
-    fetch(`http://localhost:8080/book/${bookId}`)
+    fetch(`http://localhost:8080/book/${bookId}`, {
+        headers: {
+            'Authentication': token
+        }
+    })
     .then(res => res.json())
     .then(data => {
         selectedBook = data;
@@ -84,11 +93,15 @@ function getBook() {
     })
 }
 
-function findBorrower(copy) {
+function findBorrower(copy, token) {
     console.log('copy id:'+copy.id)
 
     return new Promise((resolve, reject) => {
-        fetch(`http://localhost:8080/copies/${copy.id}/status`)
+        fetch(`http://localhost:8080/copies/${copy.id}/status`, {
+            headers: {
+                'Authentication': token
+            }
+        })
         .then(response => {
             if (response.ok) {
             return response.text();
@@ -110,11 +123,15 @@ function findBorrower(copy) {
     
 }
 
-function loadAllCopies() {
+function loadAllCopies(token) {
     console.log('loadallcopies');
 
     //opvragen javascript.
-    fetch(`http://localhost:8080/copies/search?bookId=${selectedBook.id}`)
+    fetch(`http://localhost:8080/copies/search?bookId=${selectedBook.id}`, {
+        headers: {
+            'Authentication': token
+        }
+    })
     .then(res => res.json())
     .then(data => {
 
@@ -160,7 +177,7 @@ function loadAllCopies() {
 }
 
 
-function addNewCopy() {
+function addNewCopy(token) {
     console.log('adding new copy')
 
     newcopy = {
@@ -168,10 +185,11 @@ function addNewCopy() {
     }
 
     //Data sturen via fetch:
-    fetch(`http://localhost:8080/copy/create`, {
+    fetch(`http://localhost:8080/admin/copy/create`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authentication': token
         },
         body: JSON.stringify(newcopy)
     })
@@ -186,17 +204,18 @@ function addNewCopy() {
     })
 }
 
-function setToInactive() {
+function setToInactive(token) {
     if (selectedCopy.active){
         selectedCopy.active = "false";
     }
     else {selectedCopy.active = "true";}
     console.log('archiving copy'+selectedCopy)
 
-    fetch(`http://localhost:8080/copy/update/${selectedCopy.id}`, {
+    fetch(`http://localhost:8080/admin/copy/update/${selectedCopy.id}`, {
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authentication': token
         },
         body: JSON.stringify(selectedCopy)
     })
@@ -211,10 +230,14 @@ function setToInactive() {
     })
 }
 
-function archiveThisCopy(id) {
+function archiveThisCopy(id, token) {
     console.log('fetching copy '+id)
 
-    fetch(`http://localhost:8080/copy/${id}`)
+    fetch(`http://localhost:8080/copy/${id}`, {
+        headers: {
+            'Authentication': token
+        }
+    })
     .then(response => response.json())
     .then(data => {
         selectedCopy = data;
