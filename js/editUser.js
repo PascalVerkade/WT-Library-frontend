@@ -1,12 +1,12 @@
 window.onload = searchEmployee()
 
-function searchEmployee(token) {
+function searchEmployee() {
     var searchTerm = document.getElementById("searchTerm").value;
 
     // Make an API call to your backend
     fetch('http://localhost:8080/admin/employees/search?searchTerm=' + searchTerm, {
         headers: {
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         }
     })
         .then(response => response.json())
@@ -52,27 +52,27 @@ function searchEmployee(token) {
         .catch(error => console.error(error));
 }
 
-function makeAdmin(id, token) {
+function makeAdmin(id) {
     fetch('http://localhost:8080/admin/employee/makeAdmin?id=' + id, {
         headers: {
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         }
     })
         .then(() => searchEmployee())
 }
 
-function makeInactive(id, token) {
+function makeInactive(id) {
     if(confirm("Are you sure you want to remove user?")) {
         fetch('http://localhost:8080/admin/employee/makeInactive?id=' + id, {
             headers: {
-                'Authentication': token
+                'Authorization': localStorage.getItem("token")
             }
         })
         .then(() => searchEmployee())
     }
 }
 
-function changeFirstName(id, firstName, token) {
+function changeFirstName(id, firstName) {
     let data = {
         "firstName": firstName,
         "employeeId": id
@@ -81,13 +81,13 @@ function changeFirstName(id, firstName, token) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(data)
     });
 }
 
-function changeLastName(id, lastName, token) {
+function changeLastName(id, lastName) {
     let data = {
         "lastName": lastName,
         "employeeId": id
@@ -96,13 +96,13 @@ function changeLastName(id, lastName, token) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(data)
     });
 }
 
-function changeEmail(id, email, token) {
+function changeEmail(id, email) {
     let data = {
         "email": email,
         "employeeId": id
@@ -111,7 +111,7 @@ function changeEmail(id, email, token) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(data)
     });

@@ -1,11 +1,11 @@
 
-function searchLoan(token) {
+function searchLoan() {
   var searchTerm = document.getElementById("searchTerm").value;
 
   // Make an API call to your backend for searching reservations
   fetch(`${baseUrl}/admin/loans/search?searchTerm=${searchTerm}`, {
     headers: {
-      'Authentication': token
+      'Authorization': localStorage.getItem("token")
     }
   })
     .then(response => response.json())
@@ -44,7 +44,7 @@ function searchLoan(token) {
 }
 searchLoan()
 
-function completeLoan(token) {
+function completeLoan() {
   if (selectedLoan) {
 
     // Make an API call to your backend to update the reservation
@@ -52,7 +52,7 @@ function completeLoan(token) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authentication': token
+        'Authorization': localStorage.getItem("token")
       },
     })
       .then(response => response.json())

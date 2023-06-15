@@ -30,13 +30,13 @@ function selectLoan(loan) {
     document.getElementById("selectedLoan").value = loan.employeeFirstName + "'s loan of " + loan.bookTitle;
 }
 
-function searchEmployee(token) {
+function searchEmployee() {
     var searchTerm = document.getElementById("searchTerm").value;
 
     // Make an API call to your backend for searching employees
     fetch(`${baseUrl}/admin/employees/search?searchTerm=${searchTerm}`, {
         headers: {
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         }
     })
         .then(response => response.json())
@@ -70,13 +70,13 @@ function searchEmployee(token) {
         .catch(error => console.error(error));
     }
 
-    function searchBooks(token) {
+    function searchBooks() {
         var searchTerm = document.getElementById("searchTermBooks").value;
 
         // Make an API call to your backend for searching books
         fetch(`${baseUrl}/books/search?searchTerm=${searchTerm}`, {
             headers: {
-                'Authentication': token
+                'Authorization': localStorage.getItem("token")
             }
         })
         .then(response => response.json())
@@ -110,13 +110,13 @@ function searchEmployee(token) {
         .catch(error => console.error(error));
 }
 
-function showCopies(book, token) {
+function showCopies(book) {
     var searchTerm = book.id;
 
     // Make an API call to your backend for searching books
     fetch(`${baseUrl}/copies/active?bookId=${searchTerm}`, {
         headers: {
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         }
     })
     .then(response => response.json())

@@ -1,4 +1,4 @@
-function createAccount(token) {
+function createAccount() {
     let email = document.getElementById("Email").value;
     let password = document.getElementById("Password").value;
     let firstName = document.getElementById("First Name").value;
@@ -16,7 +16,7 @@ function createAccount(token) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(data)
     })

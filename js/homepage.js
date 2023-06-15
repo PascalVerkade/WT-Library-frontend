@@ -1,6 +1,6 @@
 window.onload = searchBooks();
 
-function searchBooks(token) {
+function searchBooks() {
     var searchTerm = document.getElementById("searchTermBooks").value;
 
     var findBook = {
@@ -13,7 +13,7 @@ function searchBooks(token) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(findBook)
     })
@@ -65,7 +65,7 @@ function buttonUnClick(button, bookId, reservationId) {
     button.onclick = () => buttonClick(button, bookId)
 }
 
-function createReservation(bookId, token) {
+function createReservation(bookId) {
 
     // Create the reservation object with selected employee and book
     var reservation = {
@@ -78,7 +78,7 @@ function createReservation(bookId, token) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(reservation)
     })
@@ -100,7 +100,8 @@ function deleteReservation(reservationId) {
     fetch(`http://localhost:8080/reservation/delete`, {
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(reservation)
     })

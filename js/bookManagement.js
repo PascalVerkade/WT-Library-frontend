@@ -14,10 +14,10 @@ function setupEmptyTable() {
         `
 }
 
-function selectBook(bookId, token) {
+function selectBook(bookId) {
     fetch(`http://localhost:8080/book/${bookId}`, {
         headers: {
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         }
     })
         .then(res => res.json())
@@ -36,13 +36,13 @@ function selectBook(bookId, token) {
     document.getElementById('addKeyword').disabled = false;
 }
 
-function searchBooks(token) {
+function searchBooks() {
     var searchTerm = document.getElementById("searchTermBooks").value;
 
     // Make an API call to your backend for searching books
     fetch(`http://localhost:8080/books/search?searchTerm=${searchTerm}`, {
         headers: {
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         }
     })
         .then(response => response.json())
@@ -83,13 +83,13 @@ function searchBooks(token) {
 }
   
 
-function loadAllBooks(token) {
+function loadAllBooks() {
     console.log('loadallbooks');
 
     //opvragen javascript.
     fetch('http://localhost:8080/books/all', {
         headers: {
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         }
     })
         .then(res => res.json())
@@ -124,7 +124,7 @@ function updateThisBook() {
     window.location.href = `updateBook.html?bookId=${selectedBook.id}`
 }
 
-function addThisKeyword(token) {
+function addThisKeyword() {
     var keyword = document.getElementById('KeywordInput').value;
     var KeywordDto = {
         keyword: keyword,
@@ -142,7 +142,7 @@ function addThisKeyword(token) {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',
-        'Authentication': token
+        'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(KeywordDto)
     })
@@ -163,7 +163,7 @@ function addThisKeyword(token) {
     });
 }
 
-function archiveThisCopy(copy, token) {
+function archiveThisCopy(copy) {
     if (copy.active){
         copy.active = "false";
         console.log('archiving copy '+copy);
@@ -172,7 +172,7 @@ function archiveThisCopy(copy, token) {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-                'Authentication': token
+                'Authorization': localStorage.getItem("token")
             },
             body: JSON.stringify(copy)
         })
@@ -183,13 +183,13 @@ function archiveThisCopy(copy, token) {
     }
 }
 
-function archiveAllCopies(token) {
+function archiveAllCopies() {
     console.log('loadallcopies');
 
     //opvragen javascript.
     fetch(`http://localhost:8080/copies/search?bookId=${selectedBook.id}`, {
         headers: {
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         }
     })
     .then(res => res.json())
@@ -206,7 +206,7 @@ function archiveAllCopies(token) {
     })
 }
 
-function archiveThisBook(token) {
+function archiveThisBook() {
     if (selectedBook.active){
         selectedBook.active = "false";
         archiveAllCopies();
@@ -218,7 +218,7 @@ function archiveThisBook(token) {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(selectedBook)
     })

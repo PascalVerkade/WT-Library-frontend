@@ -1,4 +1,4 @@
-function saveBook(token) {
+function saveBook() {
     //data verzamelen
     let newTitle = document.getElementsByClassName('title')[0].value;
     let newWriter = document.getElementsByClassName('writer')[0].value;
@@ -24,7 +24,7 @@ function saveBook(token) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(newbook)
     })
@@ -44,7 +44,7 @@ function saveBook(token) {
         });
 }
 
-function addCopies(id, token) {
+function addCopies(id) {
     newcopy = {
         "bookId": id
     }
@@ -56,7 +56,7 @@ function addCopies(id, token) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(newcopy)
     })
@@ -95,7 +95,7 @@ function moreBooks(){
 
 }
 
-function multipleBooks(token){
+function multipleBooks(){
     let titleList = document.getElementsByClassName('title');
     let writerList = document.getElementsByClassName('writer');
     let isbnList = document.getElementsByClassName('isbn');
@@ -122,7 +122,7 @@ function multipleBooks(token){
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authentication': token
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(booklist)
     })
