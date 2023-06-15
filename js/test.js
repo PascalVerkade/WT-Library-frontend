@@ -4,7 +4,7 @@ function loadData() {
     console.log('loaddata');
 
     //opvragen javascript.
-    fetch('http://localhost:8080/test/all', {
+    fetch('http://localhost:8080/admin/test/all', {
         headers: {
         'Content-Type': 'application/json',
         'Authorization': localStorage.getItem("token")

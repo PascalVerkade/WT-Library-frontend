@@ -44,7 +44,7 @@ function updateThisBook() {
     selectedBook.writer = document.getElementById('writer').value
     selectedBook.isbn = document.getElementById('isbn').value
     selectedBook.photo = document.getElementById('photo').value
-    fetch(`http://localhost:8080/book/update/${selectedBook.id}`, {
+    fetch(`http://localhost:8080/admin/book/update/${selectedBook.id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
