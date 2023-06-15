@@ -12,7 +12,8 @@ function getReservation() {
     fetch(`${baseUrl}/reservation/user`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(data)
     })
@@ -48,7 +49,8 @@ function getLoan() {
     fetch(`${baseUrl}/loan/user`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(data)
     })
@@ -109,7 +111,8 @@ function deleteReservation() {
         fetch(`${baseUrl}/reservation/delete`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             },
             body: JSON.stringify(reservation)
         })

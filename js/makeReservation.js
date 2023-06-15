@@ -9,10 +9,11 @@ function createReservation() {
     };
     
     // Make an API call to your backend to create the reservation
-    fetch(`${baseUrl}/reservation/make`, {
+    fetch(`${baseUrl}/admin/reservation/make`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem("token")
       },
       body: JSON.stringify(reservation)
     })

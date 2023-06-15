@@ -14,10 +14,11 @@
         };
 
         // Make an API call to your backend to create the reservation
-        fetch(`${baseUrl}/loan/make`, {
+        fetch(`${baseUrl}/admin/loan/make`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
           },
           body: JSON.stringify(loan)
         })

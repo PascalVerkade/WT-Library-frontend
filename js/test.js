@@ -4,7 +4,12 @@ function loadData() {
     console.log('loaddata');
 
     //opvragen javascript.
-    fetch('http://localhost:8080/test/all')
+    fetch('http://localhost:8080/test/all', {
+        headers: {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem("token")
+        }
+    })
         .then(res => res.json())
         .then(data => {
             console.log('Data', data);
