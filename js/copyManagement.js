@@ -30,7 +30,11 @@ function setupEmptyTable() {
 function getNonArchivedBookStock() {
     console.log('fetching non-archived book-stock')
 
-    fetch(`http://localhost:8080/copies/active?bookId=${selectedBook.id}`)
+    fetch(`http://localhost:8080/copies/active?bookId=${selectedBook.id}`, {
+        headers: {
+            'Authorization': localStorage.getItem("token")
+        }
+    })
     .then(res => res.json())
     .then(data => {
         copyCount = data.length;
@@ -48,10 +52,11 @@ function resetBookStock() {
 
     selectedBook.stock = copyCount;
 
-    fetch(`http://localhost:8080/book/update/${selectedBook.id}`, {
+    fetch(`http://localhost:8080/admin/book/update/${selectedBook.id}`, {
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(selectedBook)
     })
@@ -70,7 +75,11 @@ function getBook() {
     const urlParams = new URLSearchParams(window.location.search);
     const bookId = urlParams.get('bookId');
 
-    fetch(`http://localhost:8080/book/${bookId}`)
+    fetch(`http://localhost:8080/book/${bookId}`, {
+        headers: {
+            'Authorization': localStorage.getItem("token")
+        }
+    })
     .then(res => res.json())
     .then(data => {
         selectedBook = data;
@@ -88,7 +97,11 @@ function findBorrower(copy) {
     console.log('copy id:'+copy.id)
 
     return new Promise((resolve, reject) => {
-        fetch(`http://localhost:8080/copies/${copy.id}/status`)
+        fetch(`http://localhost:8080/copies/${copy.id}/status`, {
+            headers: {
+                'Authorization': localStorage.getItem("token")
+            }
+        })
         .then(response => {
             if (response.ok) {
             return response.text();
@@ -114,7 +127,11 @@ function loadAllCopies() {
     console.log('loadallcopies');
 
     //opvragen javascript.
-    fetch(`http://localhost:8080/copies/search?bookId=${selectedBook.id}`)
+    fetch(`http://localhost:8080/copies/search?bookId=${selectedBook.id}`, {
+        headers: {
+            'Authorization': localStorage.getItem("token")
+        }
+    })
     .then(res => res.json())
     .then(data => {
 
@@ -168,10 +185,11 @@ function addNewCopy() {
     }
 
     //Data sturen via fetch:
-    fetch(`http://localhost:8080/copy/create`, {
+    fetch(`http://localhost:8080/admin/copy/create`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(newcopy)
     })
@@ -193,10 +211,11 @@ function setToInactive() {
     else {selectedCopy.active = "true";}
     console.log('archiving copy'+selectedCopy)
 
-    fetch(`http://localhost:8080/copy/update/${selectedCopy.id}`, {
+    fetch(`http://localhost:8080/admin/copy/update/${selectedCopy.id}`, {
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(selectedCopy)
     })
@@ -214,7 +233,11 @@ function setToInactive() {
 function archiveThisCopy(id) {
     console.log('fetching copy '+id)
 
-    fetch(`http://localhost:8080/copy/${id}`)
+    fetch(`http://localhost:8080/copy/${id}`, {
+        headers: {
+            'Authorization': localStorage.getItem("token")
+        }
+    })
     .then(response => response.json())
     .then(data => {
         selectedCopy = data;

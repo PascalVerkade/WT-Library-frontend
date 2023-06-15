@@ -2,7 +2,11 @@ function loadAllBooks() {
     console.log('loadallbooks');
 
     //opvragen javascript.
-    fetch('http://localhost:8080/books/all')
+    fetch('http://localhost:8080/books/all', {
+        headers: {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem("token")
+        }})
         .then(res => res.json())
         .then(data => {
             console.log('Data', data);

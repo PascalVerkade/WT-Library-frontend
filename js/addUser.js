@@ -12,10 +12,11 @@ function createAccount() {
         "active": true,
         "admin": admin
     }
-    fetch("http://localhost:8080/employee/register", {
+    fetch("http://localhost:8080/admin/employee/register", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(data)
     })

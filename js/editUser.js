@@ -4,7 +4,11 @@ function searchEmployee() {
     var searchTerm = document.getElementById("searchTerm").value;
 
     // Make an API call to your backend
-    fetch('http://localhost:8080/employees/search?searchTerm=' + searchTerm)
+    fetch('http://localhost:8080/admin/employees/search?searchTerm=' + searchTerm, {
+        headers: {
+            'Authorization': localStorage.getItem("token")
+        }
+    })
         .then(response => response.json())
         .then(data => {
             // Get the table body element
@@ -49,13 +53,21 @@ function searchEmployee() {
 }
 
 function makeAdmin(id) {
-    fetch('http://localhost:8080/employee/makeAdmin?id=' + id)
+    fetch('http://localhost:8080/admin/employee/makeAdmin?id=' + id, {
+        headers: {
+            'Authorization': localStorage.getItem("token")
+        }
+    })
         .then(() => searchEmployee())
 }
 
 function makeInactive(id) {
     if(confirm("Are you sure you want to remove user?")) {
-        fetch('http://localhost:8080/employee/makeInactive?id=' + id)
+        fetch('http://localhost:8080/admin/employee/makeInactive?id=' + id, {
+            headers: {
+                'Authorization': localStorage.getItem("token")
+            }
+        })
         .then(() => searchEmployee())
     }
 }
@@ -68,7 +80,8 @@ function changeFirstName(id, firstName) {
     return fetch("http://localhost:8080/employee/changeFirstName", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(data)
     });
@@ -82,7 +95,8 @@ function changeLastName(id, lastName) {
     return fetch("http://localhost:8080/employee/changeLastName", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(data)
     });
@@ -96,7 +110,8 @@ function changeEmail(id, email) {
     return fetch("http://localhost:8080/employee/changeEmail", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(data)
     });

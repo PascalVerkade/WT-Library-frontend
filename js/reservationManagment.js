@@ -4,7 +4,13 @@ window.onload = searchReservation();
       var searchTerm = document.getElementById("searchTerm").value;
 
       // Make an API call to your backend for searching reservations
-      fetch(`${baseUrl}/reservation/search?searchTerm=${searchTerm}`)
+      fetch(`${baseUrl}/admin/reservation/search?searchTerm=${searchTerm}`, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem("token")
+        }
+        })
         .then(response => response.json())
         .then(data => {
 
@@ -55,10 +61,11 @@ window.onload = searchReservation();
         };
 
         // Make an API call to your backend to update the reservation
-        fetch(`${baseUrl}/reservation/update`, {
+        fetch(`${baseUrl}/admin/reservation/update`, {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
           },
           body: JSON.stringify(updatedReservation)
         })
@@ -92,10 +99,11 @@ window.onload = searchReservation();
 
         // Make an API call to your backend to create the reservation
         console.log(selectedReservation.id);
-        fetch(`${baseUrl}/loan/makeFromReservation`, {
+        fetch(`${baseUrl}/admin/loan/makeFromReservation`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
           },
           body: JSON.stringify({
             loanDto: loan,

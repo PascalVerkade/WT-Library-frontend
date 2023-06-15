@@ -15,7 +15,11 @@ function setupEmptyTable() {
 }
 
 function selectBook(bookId) {
-    fetch(`http://localhost:8080/book/${bookId}`)
+    fetch(`http://localhost:8080/book/${bookId}`, {
+        headers: {
+            'Authorization': localStorage.getItem("token")
+        }
+    })
         .then(res => res.json())
         .then(data => {
 
@@ -36,7 +40,11 @@ function searchBooks() {
     var searchTerm = document.getElementById("searchTermBooks").value;
 
     // Make an API call to your backend for searching books
-    fetch(`http://localhost:8080/books/search?searchTerm=${searchTerm}`)
+    fetch(`http://localhost:8080/books/search?searchTerm=${searchTerm}`, {
+        headers: {
+            'Authorization': localStorage.getItem("token")
+        }
+    })
         .then(response => response.json())
         .then(data => {
 
@@ -79,7 +87,11 @@ function loadAllBooks() {
     console.log('loadallbooks');
 
     //opvragen javascript.
-    fetch('http://localhost:8080/books/all')
+    fetch('http://localhost:8080/books/all', {
+        headers: {
+            'Authorization': localStorage.getItem("token")
+        }
+    })
         .then(res => res.json())
         .then(data => {
             console.log('Data', data);
@@ -126,10 +138,11 @@ function addThisKeyword() {
     }
 
     // Perform a POST request to the backend API to add the keyword
-    fetch('http://localhost:8080/keywords/make', {
+    fetch('http://localhost:8080/admin/keywords/make', {
         method: 'POST',
         headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(KeywordDto)
     })
@@ -155,10 +168,11 @@ function archiveThisCopy(copy) {
         copy.active = "false";
         console.log('archiving copy '+copy);
 
-        fetch(`http://localhost:8080/copy/update/${copy.id}`, {
+        fetch(`http://localhost:8080/admin/copy/update/${copy.id}`, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             },
             body: JSON.stringify(copy)
         })
@@ -173,7 +187,11 @@ function archiveAllCopies() {
     console.log('loadallcopies');
 
     //opvragen javascript.
-    fetch(`http://localhost:8080/copies/search?bookId=${selectedBook.id}`)
+    fetch(`http://localhost:8080/copies/search?bookId=${selectedBook.id}`, {
+        headers: {
+            'Authorization': localStorage.getItem("token")
+        }
+    })
     .then(res => res.json())
     .then(data => {
         console.log('Data', data);
@@ -196,10 +214,11 @@ function archiveThisBook() {
     else { selectedBook.active = "true"; }
     console.log(selectedBook.active)
 
-    fetch(`http://localhost:8080/book/update/${selectedBook.id}`, {
+    fetch(`http://localhost:8080/admin/book/update/${selectedBook.id}`, {
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(selectedBook)
     })

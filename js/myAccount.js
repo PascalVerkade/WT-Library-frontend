@@ -8,7 +8,8 @@ function getUser() {
     fetch("http://localhost:8080/employee/login", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(data)
     })
@@ -39,7 +40,8 @@ function changeFirstName(id) {
     fetch("http://localhost:8080/employee/changeFirstName", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(data)
     }).then(() => getUser())
@@ -53,7 +55,8 @@ function changeLastName(id) {
     fetch("http://localhost:8080/employee/changeLastName", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(data)
     }).then(() => getUser())
@@ -67,7 +70,8 @@ function changePassword(id) {
     fetch("http://localhost:8080/employee/changePassword", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
         },
         body: JSON.stringify(data)
     }).then(() => alert("Password changed"))

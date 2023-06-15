@@ -24,7 +24,12 @@ function getBook() {
     const urlParams = new URLSearchParams(window.location.search);
     const bookId = urlParams.get('bookId');
 
-    fetch(`http://localhost:8080/book/${bookId}`)
+    fetch(`http://localhost:8080/book/${bookId}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
+            }
+    })
         .then(res => res.json())
         .then(data => {
             console.log('book: '+bookId)
@@ -39,10 +44,12 @@ function updateThisBook() {
     selectedBook.writer = document.getElementById('writer').value
     selectedBook.isbn = document.getElementById('isbn').value
     selectedBook.photo = document.getElementById('photo').value
-    fetch(`http://localhost:8080/book/update/${selectedBook.id}`, {
+    fetch(`http://localhost:8080/admin/book/update/${selectedBook.id}`, {
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
+             
         },
         body: JSON.stringify(selectedBook)
     })
