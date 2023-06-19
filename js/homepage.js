@@ -5,7 +5,7 @@ function searchBooks() {
 
     var findBook = {
         searchTerm: searchTerm,
-        id: 1 ////////////////////////////////////////////////////////////////////////Change later
+        email: window.localStorage.getItem("email")
     };
 
     // Make an API call to your backend for searching books and seeing if the user made a reservation for this book
@@ -70,11 +70,11 @@ function createReservation(bookId) {
     // Create the reservation object with selected employee and book
     var reservation = {
         bookId: bookId,
-        employeeId: 1 ////////////////////////////////////////////////////////////////////////Change later
+        email: window.localStorage.getItem("email")
     };
 
     // Make an API call to your backend to create the reservation
-    fetch(`http://localhost:8080/reservation/make`, {
+    fetch(`http://localhost:8080/reservation/makeWithEmail`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -94,7 +94,6 @@ function deleteReservation(reservationId) {
     var reservation = {
         id: reservationId
     };
-
 
     // Make an API call to your backend to delete the reservation
     fetch(`http://localhost:8080/reservation/delete`, {

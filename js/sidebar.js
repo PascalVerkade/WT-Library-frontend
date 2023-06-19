@@ -1,3 +1,11 @@
+window.onload = toLogin();
+
+function toLogin() {
+  if (localStorage.getItem("token") === null) {
+      window.location.href = "login.html";
+  }
+}
+
 fetch('sidebar.html')
 .then(response => response.text())
 .then(html => {
