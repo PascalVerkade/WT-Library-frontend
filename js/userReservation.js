@@ -7,9 +7,11 @@ window.onload = getLoan();
 function getReservation() {
 
     //hardcoded user:
-    let data = { "id": 1 }
+    let data = {
+        "email": localStorage.getItem("email")
+    }
     // Make an API call to your backend for searching reservations
-    fetch(`${baseUrl}/reservation/user`, {
+    fetch(`${baseUrl}/reservation/userByEmail`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -41,9 +43,9 @@ function getReservation() {
 
 function getLoan() {
     //hardcoded user:
-    let data = { "id": 1 }
+    let data = { "email": localStorage.getItem("email") }
     // Make an API call to your backend for searching reservations
-    fetch(`${baseUrl}/loan/user`, {
+    fetch(`${baseUrl}/loan/userByEmail`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
