@@ -1,6 +1,8 @@
-window.onload = function() {
+window.onload = toLogin();
+
+function toLogin() {
   if (localStorage.getItem("token") === null) {
-      window.location.href = "login.html"
+      window.location.href = "login.html";
   }
 }
 
