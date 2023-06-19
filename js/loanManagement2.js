@@ -61,7 +61,7 @@ function completeLoan() {
         console.log('Loan return date updated:', updatedLoan);
 
         // Refresh table
-        searchLoans()
+        searchLoan()
       })
       .catch(error => {
         console.error('Error updating loan return date:', error);
