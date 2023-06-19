@@ -26,6 +26,11 @@ function searchBooks() {
             data.forEach(book => {
                 var row = bookTableBody.insertRow();
 
+                var photoCell = row.insertCell();
+                //var img = document.createElement(`img`);
+                var img = book.photo;
+                photoCell.innerHTML = `<img src='${book.photo}' name="${book.photo}" id="${book.photo}" alt="${book.title}" width="70">`;
+
                 var titleCell = row.insertCell();
                 titleCell.innerHTML = book.title;
 

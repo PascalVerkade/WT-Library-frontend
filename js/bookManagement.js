@@ -4,7 +4,7 @@ function setupEmptyTable() {
     table = document.getElementById('BooksTable').innerHTML = `
         <thead>
             <tr>
-                <th>foto</th>
+                <th>Foto</th>
                 <th>Titel</th>
                 <th>Schrijver</th>
                 <th>Update</th>
@@ -102,7 +102,7 @@ function loadAllBooks() {
             data.forEach(book => {
                 bookHtml += `
                     <tr>
-                        <td>${book.photo}</td>
+                        <td><img src="${book.photo}" name="${book.photo}" id="${book.photo}" alt="${book.title}" width="70"></td>
                         <td>${book.title}</td>
                         <td>${book.writer}</td>
                         <td><button name="select" class="btn-select" bookId="${book.id}" onclick="selectBook(${book.id})">Selecteren</button></td>
