@@ -4,7 +4,7 @@ function setupEmptyTable() {
     table = document.getElementById('BooksTable').innerHTML = `
         <thead>
             <tr>
-                <th>foto</th>
+                <th>Foto</th>
                 <th>Titel</th>
                 <th>Schrijver</th>
                 <th>Update</th>
