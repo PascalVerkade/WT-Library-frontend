@@ -38,12 +38,13 @@ function searchBooks() {
                 var editCell = row.insertCell();
                 // Create a button element
                 var button = document.createElement("button");
-                button.textContent = "Reserve";
+                button.textContent = "Reserveer";
                 if (book.reservationId == -1) {
                     button.onclick = () => buttonClick(button, book.id)
                 } else {
                     button.style.backgroundColor = "#c8c8c8",
-                        button.onclick = () => buttonUnClick(button, book.id, book.reservationId);
+                    button.onclick = () => buttonUnClick(button, book.id, book.reservationId);
+                    button.textContent = "Annuleer"
                 }
 
                 // Append the button to the edit cell
