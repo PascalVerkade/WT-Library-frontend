@@ -87,11 +87,6 @@ window.onload = searchReservation();
    function createLoanFromReservation() {
       if (selectedReservation && selectedCopy) {
 
-        if (!selectedReservation.allowed) {
-          alert("De geselecteerde reservering is nog niet opgepakt.")
-          return;
-        }
-
         var loan = {
           copyId: selectedCopy.id,
           employeeId: selectedReservation.employee.employeeId
