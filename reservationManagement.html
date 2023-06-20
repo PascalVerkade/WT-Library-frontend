@@ -32,17 +32,14 @@
         <tbody id="reservationTableBody"></tbody>
         </table>
         
-        <div>
-        <label for="selectedReservation">Geselecteerde reservering:</label>
-        <input type="text" id="selectedReservation" disabled>
-        </div>
-    
+        <br>
         
         <div>
         <button class="button" onclick="setOccupied()">Pak op</button>
-        <button class="button" onclick="showCopies(selectedReservation.book)">Leen uit</button>
-        <button class="button" onclick="cancelLoan()">Annuleren</button>
         </div>
+
+        <br>
+        <br>
 
         <table>
           <thead>
@@ -52,18 +49,13 @@
           </thead>
           <tbody id="copyTableBody"></tbody>
         </table>
-        
-        <div>
-          <label for="selectedCopy">Geselecteerde kopie:</label>
-          <input type="text" id="selectedCopy" disabled>
-        </div>
-        
+        <br>
           <div>
           <button class="button" onclick="createLoanFromReservation()">Creëer Lening</button>
         </div>
     </div>
 
-  <script type="text/javascript" src="js/loanManagement.js"></script>
+  <!-- <script type="text/javascript" src="js/loanManagement.js"></script> -->
   <script type="text/javascript" src="js/reservationManagment.js"></script>
 
   <script>

@@ -22,8 +22,6 @@ function selectBook(bookId) {
     })
         .then(res => res.json())
         .then(data => {
-
-            document.getElementById('UpdateHeader').innerHTML = `Update ${data.title}`;
             selectedBook = data;
 
         })

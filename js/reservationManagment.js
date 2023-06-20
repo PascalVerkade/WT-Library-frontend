@@ -1,47 +1,86 @@
-window.onload = searchReservation();
+//defining in selected function (ouside function scope, so accessible)
+var selectedReservation;
+var selectedCopy;
+
+var baseUrl = 'http://localhost:8080';
+//method used to select a row in a table (and deselect)
+function clickrow(tableRow, tableBody, reservation) {
+  //check if clicked row is selected
+  var clear = tableRow.style.backgroundColor == 'green';
+  // clear the background of all rows
+  var rows = tableBody.children;
+  for (let i = 0; i<rows.length;i++){
+      rows[i].style.backgroundColor='';
+      rows[i].style.color="";
+      selectedReservation="";
+      clearCopyTable();
+  }
+  // set background of clicked row only if it wasn't selected already
+  if(!clear){
+          tableRow.style.backgroundColor="green"; 
+          tableRow.style.color="white";
+          selectedReservation="";
+          selectReservation(reservation)
+  }
+}
+
+function clearCopyTable(){
+  var copyTableBody = document.getElementById("copyTableBody");
+  copyTableBody.innerHTML = "";
+}
+
+function selectReservation(reservation) {
+  selectedReservation = reservation;
+  showCopies(reservation.book);
+}
+
+function selectCopy(copy) { 
+  selectedCopy = copy;
+  
+}
     
-    function searchReservation() {
-      var searchTerm = document.getElementById("searchTerm").value;
+function searchReservation() {
+  var searchTerm = document.getElementById("searchTerm").value;
 
-      // Make an API call to your backend for searching reservations
-      fetch(`${baseUrl}/admin/reservation/search?searchTerm=${searchTerm}`, {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-        'Authorization': localStorage.getItem("token")
-        }
-        })
-        .then(response => response.json())
-        .then(data => {
-
-          // Fill in the table
-          var reservationTableBody = document.getElementById("reservationTableBody");
-          reservationTableBody.innerHTML = "";
-          data.forEach(reservation => {
-            var row = reservationTableBody.insertRow();
-            row.addEventListener("click", function(){
-              selectReservation(reservation);
-            })
-
-            var firstNameCell = row.insertCell();
-            firstNameCell.innerHTML = reservation.employee.firstName;
-           
-            var lastNameCell = row.insertCell();
-            lastNameCell.innerHTML = reservation.employee.lastName;
-           
-            var bookTitleCell = row.insertCell();
-            bookTitleCell.innerHTML = reservation.book.title;
-            
-            var dateCell = row.insertCell();
-            dateCell.innerHTML = reservation.reservationDate;
-            
-            var allowedCell = row.insertCell();
-            allowedCell.innerHTML = reservation.allowed;
-           
-          });
-        })
-        .catch(error => console.error(error));
+  // Make an API call to your backend for searching reservations
+  fetch(`${baseUrl}/admin/reservation/search?searchTerm=${searchTerm}`, {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json',
+    'Authorization': localStorage.getItem("token")
     }
+    })
+    .then(response => response.json())
+    .then(data => {
+      selectedReservation = "";
+      // Fill in the table
+      var reservationTableBody = document.getElementById("reservationTableBody");
+      reservationTableBody.innerHTML = "";
+      data.forEach(reservation => {
+        var row = reservationTableBody.insertRow();
+        row.addEventListener("click", function(){
+          clickrow(row, reservationTableBody, reservation);
+        })
+
+        var firstNameCell = row.insertCell();
+        firstNameCell.innerHTML = reservation.employee.firstName;
+        
+        var lastNameCell = row.insertCell();
+        lastNameCell.innerHTML = reservation.employee.lastName;
+        
+        var bookTitleCell = row.insertCell();
+        bookTitleCell.innerHTML = reservation.book.title;
+        
+        var dateCell = row.insertCell();
+        dateCell.innerHTML = reservation.reservationDate;
+        
+        var allowedCell = row.insertCell();
+        allowedCell.innerHTML = reservation.allowed;
+        
+      });
+    })
+    .catch(error => console.error(error));
+}
     
     function setOccupied() {
       if (selectedReservation) {
@@ -84,14 +123,14 @@ window.onload = searchReservation();
       }
     }
 
-   function createLoanFromReservation() {
+    function createLoanFromReservation() {
       if (selectedReservation && selectedCopy) {
-
+    
         var loan = {
           copyId: selectedCopy.id,
           employeeId: selectedReservation.employee.employeeId
         };
-
+    
         // Make an API call to your backend to create the reservation
         console.log(selectedReservation.id);
         fetch(`${baseUrl}/admin/loan/makeFromReservation`, {
@@ -110,12 +149,10 @@ window.onload = searchReservation();
         .then(data => {
           console.log("Loan creation backend status:", data);
           selectedReservation = null;
-          document.getElementById("selectedReservation").value = "";
-          document.getElementById("selectedCopy").value = "";
-
+    
           // Refresh the search results table
           searchReservation();
-
+    
           // Refresh available copies
           copyTableBody.innerHTML = "";
         })
@@ -125,8 +162,49 @@ window.onload = searchReservation();
       }
     }
 
-    function cancelLoan() {
-        document.getElementById("selectedReservation").value = "";
-    }
-    
+function showCopies(book) {
+  var searchTerm = book.id;
+
+  // Make an API call to your backend for searching books
+  fetch(`${baseUrl}/copies/active?bookId=${searchTerm}`, {
+      headers: {
+          'Authorization': localStorage.getItem("token")
+      }
+  })
+  .then(response => response.json())
+          .then(data => {
+
+  // Fill in the table
+  var copyTableBody = document.getElementById("copyTableBody");
+  copyTableBody.innerHTML = "";
+  data.forEach(copy => {
+      var row = copyTableBody.insertRow();
+      row.addEventListener("click", function () {
+          clickCopy(row, copyTableBody, copy);
+      });
+
+      var idCell = row.insertCell();
+      idCell.innerHTML = copy.id;
+  });
+  })
+  .catch(error => console.error(error));
+}
+
+function clickCopy(tableRow, tableBody, copy) {
+  //check if clicked row is selected
+  var clear = tableRow.style.backgroundColor == 'green';
+  // clear the background of all rows
+  var rows = tableBody.children;
+  for (let i = 0; i<rows.length;i++){
+      rows[i].style.backgroundColor='';
+      rows[i].style.color="";
+      selectedCopy="";
+  }
+  // set background of clicked row only if it wasn't selected already
+  if(!clear){
+          tableRow.style.backgroundColor="green"; 
+          tableRow.style.color="white";
+          selectCopy(copy)
+  }
+}
 window.onload = searchReservation();
