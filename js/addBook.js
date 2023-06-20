@@ -126,12 +126,22 @@ function multipleBooks(){
         },
         body: JSON.stringify(booklist)
     })
-        .then(response => {
-            alert('Is goedgegaan');
+
+    .then(response => response.json())
+    .then(data => {
+        alert('Is goedgegaan');
+
+        data.forEach(book => {
+            for (let copy = 0; copy < book.stock; copy++){
+                console.log('about to add copy')
+                addCopies(book.id);
+            }
         })
-        .catch(error => {
-            console.log(error);
-            alert('Er is iets fouts gegaan');
-            
-        });
+    })
+
+    .catch(error => {
+        console.log(error);
+        alert('Er is iets fouts gegaan');
+        
+    });
 }
