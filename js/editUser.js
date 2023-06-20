@@ -55,17 +55,9 @@ function searchEmployee() {
             data.forEach(employee => {
                 // Create a new row element
                 var row = tableBody.insertRow();
-                row.addEventListener("click", () => {
-                    document.getElementById("curUser").innerHTML = employee.email;
-                    document.getElementById("firstName").value = "";
-                    document.getElementById("lastName").value = "";
-                    document.getElementById("email").value = "";
-                    document.getElementById("makeAdmin").onclick = () => makeAdmin(employee.employeeId);
-                    document.getElementById("setInactive").onclick = () => makeInactive(employee.employeeId);
-                    document.getElementById("emailButton").onclick = () => updateEmployee(employee.employeeId);
-                    document.getElementById("email").value = employee.email;
-                    document.getElementById("firstName").value = employee.firstName;
-                    document.getElementById("lastName").value = employee.lastName;
+                row.addEventListener("click", function () {
+                    clickrow(row, tableBody, employee);
+                    setElementsToSelectedEmployee(employee);
                 })
 
                 // Create new cells for each data element

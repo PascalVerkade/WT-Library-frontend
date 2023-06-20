@@ -80,7 +80,6 @@ function searchLoan() {
 }
 searchLoan()
 
-
 function completeLoan() {
   if (selectedLoan) {
 

@@ -82,85 +82,85 @@ function searchReservation() {
     .catch(error => console.error(error));
 }
     
-    function setOccupied() {
-      if (selectedReservation) {
-        // Check if the selected book has available copies
-        if (selectedReservation.book.copies.length == 0 ) {
-          console.log("No available copies of the book.");
-          return;
-        }
-
-        // Update the reservation object with the updated allowed property
-        var updatedReservation = {
-          id: selectedReservation.id,
-          book: selectedReservation.book,
-          employee: selectedReservation.employee,
-          reservationDate: selectedReservation.reservationDate,
-          allowed: true
-        };
-
-        // Make an API call to your backend to update the reservation
-        fetch(`${baseUrl}/admin/reservation/update`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': localStorage.getItem("token")
-          },
-          body: JSON.stringify(updatedReservation)
-        })
-          .then(response => response.json())
-          .then(response => alert("Reservering is opgepakt."))
-          .then(data => {
-            console.log("Reservation update backend status:", data);
-            selectedReservation.allowed = true;
-
-            // Refresh the search results table
-            searchReservation();
-          })
-          .catch(error => console.error(error));
-      } else {
-        console.log("Please select a reservation.");
-      }
+function setOccupied() {
+  if (selectedReservation) {
+    // Check if the selected book has available copies
+    if (selectedReservation.book.copies.length == 0 ) {
+      console.log("No available copies of the book.");
+      return;
     }
 
-    function createLoanFromReservation() {
-      if (selectedReservation && selectedCopy) {
-    
-        var loan = {
-          copyId: selectedCopy.id,
-          employeeId: selectedReservation.employee.employeeId
-        };
-    
-        // Make an API call to your backend to create the reservation
-        console.log(selectedReservation.id);
-        fetch(`${baseUrl}/admin/loan/makeFromReservation`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': localStorage.getItem("token")
-          },
-          body: JSON.stringify({
-            loanDto: loan,
-            reservationId: selectedReservation.id
-          })
-        })
-        .then(response => response.json())
-        .then(response => alert("Lening is aangemaakt, oude reservering is verwijderd."))
-        .then(data => {
-          console.log("Loan creation backend status:", data);
-          selectedReservation = null;
-    
-          // Refresh the search results table
-          searchReservation();
-    
-          // Refresh available copies
-          copyTableBody.innerHTML = "";
-        })
-        .catch(error => console.error(error));
-      } else {
-        console.log("Please select a reservation.");
-      }
-    }
+    // Update the reservation object with the updated allowed property
+    var updatedReservation = {
+      id: selectedReservation.id,
+      book: selectedReservation.book,
+      employee: selectedReservation.employee,
+      reservationDate: selectedReservation.reservationDate,
+      allowed: true
+    };
+
+    // Make an API call to your backend to update the reservation
+    fetch(`${baseUrl}/admin/reservation/update`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem("token")
+      },
+      body: JSON.stringify(updatedReservation)
+    })
+      .then(response => response.json())
+      .then(response => alert("Reservering is opgepakt."))
+      .then(data => {
+        console.log("Reservation update backend status:", data);
+        selectedReservation.allowed = true;
+
+        // Refresh the search results table
+        searchReservation();
+      })
+      .catch(error => console.error(error));
+  } else {
+    console.log("Please select a reservation.");
+  }
+}
+
+function createLoanFromReservation() {
+  if (selectedReservation && selectedCopy) {
+
+    var loan = {
+      copyId: selectedCopy.id,
+      employeeId: selectedReservation.employee.employeeId
+    };
+
+    // Make an API call to your backend to create the reservation
+    console.log(selectedReservation.id);
+    fetch(`${baseUrl}/admin/loan/makeFromReservation`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem("token")
+      },
+      body: JSON.stringify({
+        loanDto: loan,
+        reservationId: selectedReservation.id
+      })
+    })
+    .then(response => response.json())
+    .then(response => alert("Lening is aangemaakt, oude reservering is verwijderd."))
+    .then(data => {
+      console.log("Loan creation backend status:", data);
+      selectedReservation = null;
+
+      // Refresh the search results table
+      searchReservation();
+
+      // Refresh available copies
+      copyTableBody.innerHTML = "";
+    })
+    .catch(error => console.error(error));
+  } else {
+    console.log("Please select a reservation.");
+  }
+}
 
 function showCopies(book) {
   var searchTerm = book.id;
