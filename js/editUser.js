@@ -1,5 +1,40 @@
 window.onload = searchEmployee()
 
+//defining in selected function (ouside function scope, so accessible)
+var selection;
+//method used to select a row in a table (and deselect)
+function clickrow(tableRow, tableBody, employee) {
+    //check if clicked row is selected
+    var clear = tableRow.style.backgroundColor == 'green';
+    // clear the background of all rows
+    var rows = tableBody.children;
+    for (let i = 0; i<rows.length;i++){
+        rows[i].style.backgroundColor='';
+        rows[i].style.color="";
+        selection="";
+        console.log(selection);
+    }
+    // set background of clicked row only if it wasn't selected already
+    if(!clear){
+            tableRow.style.backgroundColor="green"; 
+            tableRow.style.color="white"
+    }
+}
+
+function setElementsToSelectedEmployee(employee) {
+    console.log("setting elements to selected employee")
+    document.getElementById("curUser").innerHTML = employee.email;
+    document.getElementById("firstName").value = "";
+    document.getElementById("lastName").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("makeAdmin").onclick = () => makeAdmin(employee.employeeId);
+    document.getElementById("setInactive").onclick = () => makeInactive(employee.employeeId);
+    document.getElementById("emailButton").onclick = () => updateEmployee(employee.employeeId);
+    document.getElementById("email").value = employee.email;
+    document.getElementById("firstName").value = employee.firstName;
+    document.getElementById("lastName").value = employee.lastName;
+}
+
 function searchEmployee() {
     var searchTerm = document.getElementById("searchTerm").value;
 
@@ -21,17 +56,9 @@ function searchEmployee() {
             data.forEach(employee => {
                 // Create a new row element
                 var row = tableBody.insertRow();
-                row.addEventListener("click", () => {
-                    document.getElementById("curUser").innerHTML = employee.email;
-                    document.getElementById("firstName").value = "";
-                    document.getElementById("lastName").value = "";
-                    document.getElementById("email").value = "";
-                    document.getElementById("makeAdmin").onclick = () => makeAdmin(employee.employeeId);
-                    document.getElementById("setInactive").onclick = () => makeInactive(employee.employeeId);
-                    document.getElementById("emailButton").onclick = () => updateEmployee(employee.employeeId);
-                    document.getElementById("email").value = employee.email;
-                    document.getElementById("firstName").value = employee.firstName;
-                    document.getElementById("lastName").value = employee.lastName;
+                row.addEventListener("click", function () {
+                    clickrow(row, tableBody, employee);
+                    setElementsToSelectedEmployee(employee);
                 })
 
                 // Create new cells for each data element
