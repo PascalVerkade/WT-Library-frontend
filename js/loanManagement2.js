@@ -1,7 +1,15 @@
+var baseUrl = 'http://localhost:8080';
+var selectedEmployee = null;
+var selectedBook = null;
+var selectedCopy = null;
+var selectedReservation = null;
+var selectedLoan = null;
+
+
 //defining in selected function (ouside function scope, so accessible)
 var selection;
 //method used to select a row in a table (and deselect)
-function clickrow(tableRow, tableBody) {
+function clickrow(tableRow, tableBody, loan) {
     //check if clicked row is selected
     var clear = tableRow.style.backgroundColor == 'green';
     // clear the background of all rows
@@ -10,13 +18,20 @@ function clickrow(tableRow, tableBody) {
         rows[i].style.backgroundColor='';
         rows[i].style.color="";
         selection="";
+        selectedLoan = "";
         console.log(selection);
     }
     // set background of clicked row only if it wasn't selected already
     if(!clear){
             tableRow.style.backgroundColor="green"; 
-            tableRow.style.color="white"
+            tableRow.style.color="white";
+            selection = loan;
+            selectLoan(loan);
     }
+}
+
+function selectLoan(loan) { 
+  selectedLoan = loan;
 }
 
 
@@ -38,8 +53,7 @@ function searchLoan() {
       data.forEach(loan => {
         var row = loanTableBody.insertRow();
         row.addEventListener("click", function(){
-          clickrow(row, loanTableBody);
-          selectLoan(loan);
+          clickrow(row, loanTableBody, loan);
         })
 
         var firstNameCell = row.insertCell();
