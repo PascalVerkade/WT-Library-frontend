@@ -144,6 +144,10 @@ input.search {
     display: block;
 }
 
+.admin {
+    visibility: hidden;
+}
+
 
 .sidenav a:hover {
     color: #f0f0f0;

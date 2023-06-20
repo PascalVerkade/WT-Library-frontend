@@ -1,11 +1,11 @@
 //basic function
-function changeColor(){
+function changeColor() {
     var x = document.getElementsByTagName("BODY")[0];
-    var randomColor = Math.floor(Math.random()*16777215).toString(16);
-    x.style.backgroundColor ="#" + randomColor;
+    var randomColor = Math.floor(Math.random() * 16777215).toString(16);
+    x.style.backgroundColor = "#" + randomColor;
 }
 
-window.onload = function() {
+window.onload = function () {
     if (localStorage.getItem("token") !== null) {
         window.location.href = "homepage.html"
     }
@@ -31,7 +31,27 @@ function login() {
         .then(data => {
             localStorage.setItem("token", data.token)
             localStorage.setItem("email", details.username)
-            window.location.href = "homepage.html"
+            admin()
         })
         .catch(error => console.error(error));
 }
+
+function admin() {
+    let data = {
+        "email": document.getElementById("Username").value
+    }
+    fetch("http://localhost:8080/employee/get", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            localStorage.setItem("admin", data.admin)
+            window.location.href = "homepage.html"
+        }).catch(error => console.error(error));
+}
+
