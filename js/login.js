@@ -36,6 +36,7 @@ function login() {
         .catch(error => console.error(error));
 }
 
+// Creates a localstorage to remember if user is admin, then sends the user to the homepage
 function admin() {
     let data = {
         "email": document.getElementById("Username").value
