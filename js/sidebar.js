@@ -21,7 +21,8 @@ fetch('sidebar.html')
 function showAdmin() {
   const adminTabs = document.getElementsByClassName("admin");
   // Iterate over the admin class and show them if the user is an admin
-  if (localStorage.getItem("admin")) {
+  console.log(localStorage.getItem("admin"))
+  if (localStorage.getItem("admin") == "true") {
     for (let i = 0; i < adminTabs.length; i++) {
       adminTabs[i].style.visibility = "visible";
     }
