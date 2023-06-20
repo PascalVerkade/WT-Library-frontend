@@ -72,58 +72,19 @@ function makeInactive(id) {
     }
 }
 
-function changeFirstName(id, firstName) {
-    let data = {
-        "firstName": firstName,
-        "employeeId": id
-    }
-    return fetch("http://localhost:8080/employee/changeFirstName", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': localStorage.getItem("token")
-        },
-        body: JSON.stringify(data)
-    });
-}
-
-function changeLastName(id, lastName) {
-    let data = {
-        "lastName": lastName,
-        "employeeId": id
-    }
-    return fetch("http://localhost:8080/employee/changeLastName", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': localStorage.getItem("token")
-        },
-        body: JSON.stringify(data)
-    });
-}
-
-function changeEmail(id, email) {
-    let data = {
-        "email": email,
-        "employeeId": id
-    }
-    return fetch("http://localhost:8080/employee/changeEmail", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': localStorage.getItem("token")
-        },
-        body: JSON.stringify(data)
-    });
-}
-
 async function updateEmployee(id) {
-    let firstName = document.getElementById("firstName").value;
-    let lastName = document.getElementById("lastName").value;
-    let email = document.getElementById("email").value;
-
-    await changeFirstName(id, firstName);
-    await changeLastName(id, lastName);
-    await changeEmail(id, email);
-    searchEmployee();
+    let data = {
+        "firstName": document.getElementById("firstName").value,
+        "lastName": document.getElementById("lastName").value,
+        "email": document.getElementById("email").value,
+        "employeeId": id
+    }
+    fetch("http://localhost:8080/employee/changeValues", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem("token")
+        },
+        body: JSON.stringify(data)
+    }).then(() => searchEmployee())
 }
