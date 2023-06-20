@@ -84,13 +84,15 @@ function clickrow(tableRow, tableBody, reservation) {
     // clear the background of all rows
     var rows = tableBody.children;
     for (let i = 0; i<rows.length;i++){
-        rows[i].style.backgroundColor = '';
+        rows[i].style.backgroundColor='';
+        rows[i].style.color="";
         selection="";
         console.log(selection);
     }
-    // set background of clicked row only if it wasn't selected alrady
+    // set background of clicked row only if it wasn't selected already
     if(!clear){
-            tableRow.style.backgroundColor = 'green'; 
+            tableRow.style.backgroundColor="green"; 
+            tableRow.style.color="white"
             //store selection
             selection = reservation;
             console.log(selection);

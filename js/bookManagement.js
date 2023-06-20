@@ -1,18 +1,26 @@
 var selectedBook = null
 
-function setupEmptyTable() {
-    table = document.getElementById('BooksTable').innerHTML = `
-        <thead>
-            <tr>
-                <th>Foto</th>
-                <th>Titel</th>
-                <th>Schrijver</th>
-                <th>Update</th>
-                <th>Gearchiveerd</th>
-            </tr>
-        </thead>
-        `
+//defining in selected function (ouside function scope, so accessible)
+var selection;
+//method used to select a row in a table (and deselect)
+function clickrow(tableRow, tableBody) {
+    //check if clicked row is selected
+    var clear = tableRow.style.backgroundColor == 'green';
+    // clear the background of all rows
+    var rows = tableBody.children;
+    for (let i = 0; i<rows.length;i++){
+        rows[i].style.backgroundColor='';
+        rows[i].style.color="";
+        selection="";
+        console.log(selection);
+    }
+    // set background of clicked row only if it wasn't selected already
+    if(!clear){
+            tableRow.style.backgroundColor="green"; 
+            tableRow.style.color="white"
+    }
 }
+
 
 function selectBook(bookId) {
     fetch(`http://localhost:8080/book/${bookId}`, {
@@ -53,68 +61,29 @@ function searchBooks() {
             bookTableBody.innerHTML = "";
             data.forEach(book => {
                 var row = bookTableBody.insertRow();
+                
+                row.addEventListener("click", function(){
+                    clickrow(row, bookTableBody);
+                    selectBook(book.id)
+                })
 
                 var photoCell = row.insertCell();
-                photoCell.innerHTML = book.photo;
+                photoCell.innerHTML = `<img src='${book.photo}' name="${book.photo}" id="${book.photo}" alt="${book.title}" width="70">`;
 
                 var titleCell = row.insertCell();
                 titleCell.innerHTML = book.title;
 
                 var writerCell = row.insertCell();
                 writerCell.innerHTML = book.writer;
-
-
-                var editCell = row.insertCell();
-                // Create a button element
-                var button = document.createElement("button");
-                button.textContent = "Selecteren";
-                button.onclick = () => {
-                    selectBook(book.id)
-                }
                 
                 var isbnCell = row.insertCell();
                 isbnCell.innerHTML = book.active?"nee":"ja";
-
-                // Append the button to the edit cell
-                editCell.appendChild(button);
             });
         })
         .catch(error => console.error(error));
 }
   
 
-function loadAllBooks() {
-    console.log('loadallbooks');
-
-    //opvragen javascript.
-    fetch('http://localhost:8080/books/all', {
-        headers: {
-            'Authorization': localStorage.getItem("token")
-        }
-    })
-        .then(res => res.json())
-        .then(data => {
-            console.log('Data', data);
-
-            let bookHtml = '';
-            bookHtml += `<tbody id="bookTableBody">`;
-
-            data.forEach(book => {
-                bookHtml += `
-                    <tr>
-                        <td><img src="${book.photo}" name="${book.photo}" id="${book.photo}" alt="${book.title}" width="70"></td>
-                        <td>${book.title}</td>
-                        <td>${book.writer}</td>
-                        <td><button name="select" class="btn-select" bookId="${book.id}" onclick="selectBook(${book.id})">Selecteren</button></td>
-                        <td>${book.active? "nee":"ja"} </td>
-                    </tr>
-                `
-            });
-            bookHtml+= "</tbody>";
-            document.getElementById('BooksTable').innerHTML += bookHtml;
-        })
-    console.log('einde loaddata');
-}
 
 function copyThisBook() {
     window.location.href = `copyManagement.html?bookId=${selectedBook.id}`
@@ -225,8 +194,7 @@ function archiveThisBook() {
 
     .then(data => {
         console.log('Data' + data);
-        setupEmptyTable();
-        loadAllBooks();
+        searchBooks();
         //document.getElementById('bookArchivedHeader').innerHTML = `${selectedBook.title} was archived`;
     })
     .catch(error => {
@@ -234,7 +202,5 @@ function archiveThisBook() {
         alert('Er is iets fouts gegaan');
     })
 }
-  
 
-setupEmptyTable();
-loadAllBooks();
+searchBooks();
