@@ -43,13 +43,15 @@ function searchBooks() {
                 var editCell = row.insertCell();
                 // Create a button element
                 var button = document.createElement("button");
-                button.textContent = "Reserveer";
+                
                 if (book.reservationId == -1) {
+                    button.textContent = "Reserveer";
+                    button.style.backgroundColor = "#000000";
                     button.onclick = () => buttonClick(button, book.id)
                 } else {
                     button.style.backgroundColor = "#c8c8c8",
                     button.onclick = () => buttonUnClick(button, book.id, book.reservationId);
-                    button.textContent = "Annuleer"
+                    button.textContent = "Annuleer";
                 }
 
                 // Append the button to the edit cell
@@ -62,12 +64,14 @@ function searchBooks() {
 function buttonClick(button, bookId) {
     reservationId = createReservation(bookId);
     button.style.backgroundColor = "#c8c8c8";
+    button.textContent = "Annuleer";
     button.onclick = () => buttonUnClick(button, bookId, reservationId);
 }
 
 function buttonUnClick(button, bookId, reservationId) {
     deleteReservation(reservationId);
     button.style.backgroundColor = "#000000";
+    button.textContent = "Reserveer";
     button.onclick = () => buttonClick(button, bookId)
 }
 
@@ -90,6 +94,7 @@ function createReservation(bookId) {
     })
         .then(response => response.json())
         .then(data => {
+            searchBooks();
             return reservation.id
         })
         .catch(error => console.error(error));
@@ -110,4 +115,8 @@ function deleteReservation(reservationId) {
         },
         body: JSON.stringify(reservation)
     })
+    .then(response => {
+        searchBooks();
+    })
+    .catch(error => console.error(error));
 }

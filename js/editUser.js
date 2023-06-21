@@ -23,7 +23,6 @@ function clickrow(tableRow, tableBody, employee) {
 
 function setElementsToSelectedEmployee(employee) {
     console.log("setting elements to selected employee")
-    document.getElementById("curUser").innerHTML = employee.email;
     document.getElementById("firstName").value = "";
     document.getElementById("lastName").value = "";
     document.getElementById("email").value = "";
