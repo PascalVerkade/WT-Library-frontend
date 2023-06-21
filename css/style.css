@@ -106,6 +106,17 @@ input.search {
     margin-bottom: 1rem;
 }
 
+
+div.scroll {
+
+    width: 600px;
+    max-height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+    padding: 20px;
+}
+
 /*--------- einde basic elements ---------*/
 
 /*--------- begin side bar ---------*/
