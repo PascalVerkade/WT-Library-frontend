@@ -50,6 +50,7 @@ h6 {
 }
 
 table {
+    width: 100%;
     color: #5a5a5a;
     background: #f0f0f0;
     border: 1px solid #969696;
@@ -109,8 +110,8 @@ input.search {
 
 div.scroll {
 
-    width: 600px;
-    max-height: 400px;
+    width: 800px;
+    max-height: 600px;
     overflow-x: hidden;
     overflow-y: auto;
     text-align: center;
