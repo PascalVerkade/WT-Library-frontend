@@ -1,9 +1,38 @@
 <mat-sidenav-container>
-    <mat-sidenav>
-        Start
-    </mat-sidenav>
     
-    <mat-sidenav-content>
-        Main
+
+    <mat-sidenav mode="side" opened>
+        <!-- <ul class="navbar-nav list-group">
+            <li class="list-group-item list-group-item-action bg-black text-light"> {{username}} </li>
+        </ul> -->
+    
+        <mat-divider></mat-divider>
+
+        <div class="container">
+            <ul class="navbar-nav">
+                <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/library" class="list-group-item list-group-item-action bg-dark text-light"> Bibliotheek </a></li>
+                <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/myAccount" class="list-group-item list-group-item-action bg-dark text-light"> Mijn Account </a></li>
+                <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/myBookings" class="list-group-item list-group-item-action bg-dark text-light"> Mijn Boekingen </a></li>
+            </ul>
+        </div>
+        
+        <mat-divider></mat-divider>
+
+        <div class="container">
+            <ul class="navbar-nav list-group">
+                <li><a *ngIf="authenticationService.isUserLoggedIn() && authenticationService.isUserAdmin()" routerLink="/manageBooks" class="list-group-item list-group-item-action bg-dark text-light"> Boeken beheren </a></li>
+                <li><a *ngIf="authenticationService.isUserLoggedIn() && authenticationService.isUserAdmin()" routerLink="/manageAccounts" class="list-group-item list-group-item-action bg-dark text-light"> Accounts beheren </a></li>
+                <li><a *ngIf="authenticationService.isUserLoggedIn() && authenticationService.isUserAdmin()" routerLink="/manageBookings" class="list-group-item list-group-item-action bg-dark text-light"> Boekingen beheren </a></li>
+            </ul>
+        </div>
+    </mat-sidenav>
+
+    
+    <mat-sidenav-content >
+        
+        <router-outlet></router-outlet>
+        
     </mat-sidenav-content>
 </mat-sidenav-container>
+
+

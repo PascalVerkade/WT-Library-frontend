@@ -1,0 +1,16 @@
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-black">
+
+        <div><a href="https://www.workingtalent.nl/" class="navbar-brand"><img id="logo" src = "./assets/img/wt-logo-full-white.svg" alt="wt logo svg" /></a></div>
+
+            <ul class="navbar-nav navbar-collapse justify-content-end">
+                <li><a *ngIf="!authenticationService.isUserLoggedIn()" routerLink="/login" class="list-group-item list-group-item-action bg-dark text-white nav-link">
+                     Inloggen 
+                </a></li>
+                <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/logout"class="list-group-item list-group-item-action bg-dark text-white nav-link">
+                     Uitloggen 
+                </a></li>
+            </ul>
+
+    </nav>
+</header>

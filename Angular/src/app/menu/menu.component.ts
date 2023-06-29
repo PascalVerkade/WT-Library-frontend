@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../service/authentication.service';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  selector: 'app-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.css']
 })
-export class SidebarComponent implements OnInit {
-  username = 'Marenthe'
+export class MenuComponent implements OnInit {
   
   constructor(
     public authenticationService: AuthenticationService
@@ -16,4 +15,5 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     
   }
+
 }
