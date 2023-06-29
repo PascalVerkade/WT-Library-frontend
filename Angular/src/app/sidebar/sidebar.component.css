@@ -8,12 +8,15 @@ mat-sidenav {
 }
 
 mat-sidenav-content {
+    padding: 16px;
+    position: absolute;
+
     text-align: center;
     color: black;
 }
 
 mat-sidenav-container {
-    height: calc(100vh - 65px)
+    height: calc(100vh - 65px - 41px)
 }
 
 mat-divider {

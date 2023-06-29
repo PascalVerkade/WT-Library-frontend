@@ -1,1 +1,33 @@
-<p>library works!</p>
+<h1> Working Talent Bibiliotheek </h1>
+
+<BR>
+
+<div class="container topContainer">
+    <input placeholder="Boek">
+    <button class="btn WT-green">Zoek</button>
+</div>
+
+<BR><BR>
+
+<div class="container scrollContainer">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th>Titel</th>
+                <th>Schrijver</th>
+                <th>ISBN</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let book of books">
+                <td><img src="{{book.photo}}" name="{{book.photo}}" id="{{book.photo}}" alt="{{book.title}}" width="70"></td>
+                <td>{{book.title}}</td>
+                <td>{{book.writer}}</td>
+                <td>{{book.isbn}}</td>
+                <td><button (click)="reserveBook()" class="btn WT-green">Reserveer</button> </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
