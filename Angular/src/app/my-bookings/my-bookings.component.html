@@ -1,1 +1,49 @@
-<p>my-bookings works!</p>
+<h1> Mijn Boekingen </h1>
+
+<div class="container">
+    <h4> Reserveringen </h4>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th> Titel </th>
+                <th> Datum reservering </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let reservation of reservations">
+                <td>{{reservation.bookId}}</td>
+                <td>{{reservation.reservationDate}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="row">
+        <button (click)="removeReservation()" class="btn WT-green" disabled>Verwijder reservering</button>
+    </div>
+
+</div>
+
+<br><br>
+
+<div class="container">
+    <h4> Leningen </h4>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th> Titel </th>
+                <th> Datum opgehaald </th>
+                <th> Datum ingeleverd </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let loan of loans">
+                <td>{{loan.copyId}}</td>
+                <td>{{loan.loanDate}}</td>
+                <td>{{loan.returnDate}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

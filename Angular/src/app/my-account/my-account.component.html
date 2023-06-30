@@ -1,1 +1,25 @@
-<p>my-account works!</p>
+<h1>Mijn account</h1>
+
+<div class="container">
+    <div class="alert alert-warning" *ngIf="changeUserWentWrong"><strong> Je gegevens konden niet worden aangepast. </strong> Check of alle velden zijn ingevuld. </div>
+
+    <div class="alert alert-success" *ngIf="userChanged"> Je gegevens zijn aangepast </div>
+
+    <form (ngSubmit)="changeAccountData()" #todoForm="ngForm">
+        Welkom {{employee.firstName}} {{employee.lastName}}, hier kunt u uw gegevens aanpassen.
+
+        <div class="container">
+            Voornaam: <input type="text" name="firstName" [(ngModel)]="employee.firstName">
+        </div>
+
+        <div class="container">
+            Achternaam: <input type="text" name="lastName" [(ngModel)]="employee.lastName">
+        </div>
+        
+        <div class="container">
+            Wachtwoord: <input type="password" name="password" [(ngModel)]="employee.password">
+        </div>
+
+        <button type="submit" class="btn WT-green">Wijzigingen opslaan</button>
+    </form>
+</div>

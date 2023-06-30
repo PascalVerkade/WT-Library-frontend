@@ -12,7 +12,7 @@ export const AUTHENTICATED_USER = 'authenticatedUser'
 })
 
 export class AuthenticationService {
-  employee: Employee = new Employee(0, '', '', '', '', false, false)
+  employee: Employee = new Employee(0, '', '', '', '', false, true)
 
   constructor(
     private http: HttpClient

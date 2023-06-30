@@ -8,6 +8,7 @@ import { Book, BookService } from '../service/data/book.service';
 })
 export class LibraryComponent implements OnInit {
   books: Book[] = [];
+  searchTerm: string = 'Boek';
 
   constructor(
     private bookService: BookService
@@ -20,7 +21,14 @@ export class LibraryComponent implements OnInit {
   refreshBooks() {
     this.bookService.retrieveAllBooks().subscribe({
       next: response => {
-        console.log(response);
+        this.books = response;
+      }
+    })
+  }
+
+  searchBooks() {
+    this.bookService.searchBook(this.searchTerm).subscribe({
+      next: response => {
         this.books = response;
       }
     })

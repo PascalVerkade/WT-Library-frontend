@@ -3,8 +3,10 @@
 <BR>
 
 <div class="container topContainer">
-    <input placeholder="Boek">
-    <button class="btn WT-green">Zoek</button>
+    <form (ngSubmit)="searchBooks()" #todoForm="ngForm">
+        <input placeholder="Boek" [(ngModel)]="searchTerm" name="searchTerm">
+        <button type="submit" class="btn WT-green">Zoek</button>
+    </form>
 </div>
 
 <BR><BR>
@@ -26,7 +28,7 @@
                 <td>{{book.title}}</td>
                 <td>{{book.writer}}</td>
                 <td>{{book.isbn}}</td>
-                <td><button (click)="reserveBook()" class="btn WT-green">Reserveer</button> </td>
+                <td><button (click)="reserveBook()" class="btn WT-green" disabled>Reserveer</button> </td>
             </tr>
         </tbody>
     </table>

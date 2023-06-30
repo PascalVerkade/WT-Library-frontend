@@ -1,17 +1,1 @@
-.WT-green{
-    background-color: #00e600;
-    color: white;
-}
 
-.topContainer{
-    height: 40px;
-}
-
-.scrollContainer{
-    width: 900px;
-    height: (100vH - 40px);
-    overflow-x: hidden;
-    overflow-y: auto;
-    text-align: center;
-    padding: 20px;
-}
