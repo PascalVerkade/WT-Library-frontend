@@ -28,7 +28,10 @@
                 <td>{{book.title}}</td>
                 <td>{{book.writer}}</td>
                 <td>{{book.isbn}}</td>
-                <td><button (click)="reserveBook()" class="btn WT-green" disabled>Reserveer</button> </td>
+                <td>
+                    <button (click)="reserveBook(book, employee)" class="btn WT-green" *ngIf="!hasReservationForBook(book)" >Reserveer</button>
+                    <button (click)="cancelReservation(book)" class="btn WT-darkGreen" *ngIf="hasReservationForBook(book)" >Reservering annuleren</button>
+                </td>
             </tr>
         </tbody>
     </table>

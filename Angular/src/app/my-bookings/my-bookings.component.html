@@ -8,20 +8,17 @@
             <tr>
                 <th> Titel </th>
                 <th> Datum reservering </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let reservation of reservations">
-                <td>{{reservation.bookId}}</td>
-                <td>{{reservation.reservationDate}}</td>
+                <td><div class="d-flex align-items-left"> {{reservation.book.title}} </div></td>
+                <td> {{reservation.reservationDate}} </td>
+                <td> <button (click)="removeReservation(reservation.id)" class="btn WT-green">Verwijder reservering</button> </td>
             </tr>
         </tbody>
     </table>
-
-    <div class="row">
-        <button (click)="removeReservation()" class="btn WT-green" disabled>Verwijder reservering</button>
-    </div>
-
 </div>
 
 <br><br>
@@ -39,9 +36,9 @@
         </thead>
         <tbody>
             <tr *ngFor="let loan of loans">
-                <td>{{loan.copyId}}</td>
-                <td>{{loan.loanDate}}</td>
-                <td>{{loan.returnDate}}</td>
+                <td>{{ loan.bookTitle }}</td>
+                <td>{{ loan.loanDate }}</td>
+                <td>{{ loan.returnDate }}</td>
             </tr>
         </tbody>
     </table>

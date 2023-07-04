@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MyBookingsService, Loan, Reservation } from '../service/data/my-bookings.service';
+import { MyBookingsService, Reservation, LoanEmployeeCopyDto } from '../service/data/my-bookings.service';
 import { Employee } from '../employee/employee.component';
 import { AuthenticationService } from '../service/authentication.service';
 
@@ -13,7 +13,7 @@ export class MyBookingsComponent implements OnInit {
   username: string = '';
   employee: Employee = new Employee(0, '', '', '', '', false, false);
   reservations: Reservation[] = [];
-  loans: Loan[] = [];
+  loans: LoanEmployeeCopyDto[] = [];
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -34,35 +34,35 @@ export class MyBookingsComponent implements OnInit {
         this.employee = data;
         this.getMyReservations();
         this.getMyLoans();
-      }
+      },
+      error: (error) => { console.error(error); }
     })
   }
 
   getMyReservations() {
     this.myBookingsService.getMyReservation(this.employee).subscribe({
       next: (response: any) => {
-        console.log(response);
+        console.log('reservations: ', response);
         this.reservations = response;
       },
-      error: (error) => {
-        console.error(error);
-      }
+      error: (error) => { console.error(error); }
     })
   }
 
   getMyLoans() {
     this.myBookingsService.getMyLoan(this.employee).subscribe({
       next: (response: any) => {
-        console.log(response)
+        console.log('loans: ', response)
         this.loans = response;
       },
-      error: (error) => {
-        console.error(error);
-      }
+      error: (error) => { console.error(error); }
     })
   }
 
-  removeReservation() {
-    console.log("reservation was not removed")
+  removeReservation(id: number) {
+    this.myBookingsService.deleteReservation(id).subscribe({
+      next: () => { this.getMyReservations(); },
+      error: error => { console.error('Delete reservation failed: ', error) }
+    })
   }
 }

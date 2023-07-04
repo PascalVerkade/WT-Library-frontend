@@ -18,7 +18,8 @@ export class Book {
     public title: string,
     public writer: string,
     public isbn: string,
-    public photo: string
+    public photo: string,
+    public copy: Copy
   ) { }
 }
 

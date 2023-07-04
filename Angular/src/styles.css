@@ -10,3 +10,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: black;
     font-weight: normal;
 }
+
+.WT-darkGreen{
+    background-color: #008200;
+    color: white;
+    font-weight: normal;
+}

@@ -6,6 +6,7 @@ import { Employee } from '../employee/employee.component';
 
 export const TOKEN = 'token'
 export const AUTHENTICATED_USER = 'authenticatedUser'
+export const USER = 'employee'
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,7 @@ export class AuthenticationService {
             this.getUser(username).subscribe({
               next: data => {
                 this.employee = data
+                sessionStorage.setItem(USER, JSON.stringify(data));
               }
             })
             return data;
