@@ -14,7 +14,7 @@ export class LibraryComponent implements OnInit {
   books: Book[] = [];
   searchTerm: string = 'Boek';
   username: string = '';
-  employee: Employee = new Employee(0, '', '', '', '', false, false)
+  employee: Employee | null = null
   reservations: Reservation[] = [];
 
   constructor(
@@ -24,8 +24,12 @@ export class LibraryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.authenticationService.getEmployee().subscribe({
+      next: data => { this.employee = data },
+      error: error => { console.error('Loading employee failed: ', error) }
+    })
     this.getBooksAndReservationData();
-    
+
   }
 
   getBooksAndReservationData() {
@@ -48,40 +52,47 @@ export class LibraryComponent implements OnInit {
   }
 
   loadData() {
-    forkJoin([
-      this.bookService.retrieveAllBooks(),
-      this.myBookingsService.getMyReservation(this.employee)
-    ]).pipe(
-      map(([books, reservationsResponse]) => {
-        console.log('Books: ', books);
-        console.log('Reservations: ', reservationsResponse);
-        const reservations = reservationsResponse as Reservation[]; // Assuming the response is an array of Reservation objects
-        return { books, reservations };
-      })
-        // books, reservations: reservations as Reservation[] }))
-    ).subscribe({
-      next: ({books, reservations}) => {
-        this.books = books;
-        this.reservations = reservations;
-        console.log('reservations from forkJoin: ', reservations)
-      },
-      error: error => {
-        console.error('Error fetching data: ', error)
-      }
-    });
+    if (!this.employee) {
+      console.warn('Employee data is not available')
+    } else {
+      forkJoin([
+        this.bookService.retrieveAllBooks(),
+        this.myBookingsService.getMyReservation(this.employee)
+      ]).pipe(
+        map(([books, reservationsResponse]) => {
+          console.log('Books: ', books);
+          console.log('Reservations: ', reservationsResponse);
+          const reservations = reservationsResponse as Reservation[]; // Assuming the response is an array of Reservation objects
+          return { books, reservations };
+        })
+          // books, reservations: reservations as Reservation[] }))
+      ).subscribe({
+        next: ({books, reservations}) => {
+          this.books = books;
+          this.reservations = reservations;
+          console.log('reservations from forkJoin: ', reservations)
+        },
+        error: error => {
+          console.error('Error fetching data: ', error)
+        }
+      });
+    }
   }
 
   updateButtons(book: Book) {
-    this.myBookingsService.getMyReservation(this.employee).subscribe({
-      next: (response: any) => {
-        console.log(response);
-        this.reservations = response;
-        this.hasReservationForBook(book);
-      },
-      error: (error) => { console.error(error); }
-    })
+    if (!this.employee) {
+      console.warn('Employee data is not available')
+    } else {
+      this.myBookingsService.getMyReservation(this.employee).subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.reservations = response;
+          this.hasReservationForBook(book);
+        },
+        error: (error) => { console.error(error); }
+      })
+    }
   }
-
 
   searchBooks() {
     this.bookService.searchBook(this.searchTerm).subscribe({
@@ -94,11 +105,15 @@ export class LibraryComponent implements OnInit {
     return this.reservations.some((reservation) => reservation.book.id === book.id)
   }
 
-  reserveBook(book: Book, employee: Employee) {
-    this.myBookingsService.reserveBook(book.id, employee).subscribe({
-      next: () => { this.updateButtons(book) },
-      error: error => { console.error('Reservation failed: ', error) }
-    });
+  reserveBook(book: Book) {
+    if (!this.employee) {
+      console.warn('Employee data is not available')
+    } else {
+      this.myBookingsService.reserveBook(book.id, this.employee).subscribe({
+        next: () => { this.updateButtons(book) },
+        error: error => { console.error('Reservation failed: ', error) }
+      });
+    }
   }
 
   cancelReservation(book: Book) {

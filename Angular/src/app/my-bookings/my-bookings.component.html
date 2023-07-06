@@ -15,7 +15,9 @@
             <tr *ngFor="let reservation of reservations">
                 <td><div class="d-flex align-items-left"> {{reservation.book.title}} </div></td>
                 <td> {{reservation.reservationDate}} </td>
-                <td> <button (click)="removeReservation(reservation.id)" class="btn WT-green">Verwijder reservering</button> </td>
+                <td><div class="d-flex align-items-center">
+                    <button (click)="removeReservation(reservation.id)" class="btn WT-green">Verwijder reservering</button>
+                </div></td>
             </tr>
         </tbody>
     </table>

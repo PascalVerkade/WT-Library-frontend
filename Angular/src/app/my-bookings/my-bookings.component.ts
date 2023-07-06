@@ -11,7 +11,7 @@ import { AuthenticationService } from '../service/authentication.service';
 })
 export class MyBookingsComponent implements OnInit {
   username: string = '';
-  employee: Employee = new Employee(0, '', '', '', '', false, false);
+  employee: Employee | null = null;
   reservations: Reservation[] = [];
   loans: LoanEmployeeCopyDto[] = [];
 
@@ -21,42 +21,40 @@ export class MyBookingsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getReservationAndLoans();
-  }
-
-  getReservationAndLoans() {
-    this.username = this.authenticationService.getAuthenticatedUser()!;
-    console.log(this.username)
-
-    this.authenticationService.getUser(this.username).subscribe({
-      next: data => {
-        console.log(data)
-        this.employee = data;
-        this.getMyReservations();
-        this.getMyLoans();
-      },
-      error: (error) => { console.error(error); }
+    this.authenticationService.getEmployee().subscribe({
+      next: data => { this.employee = data },
+      error: error => { console.error('Loading employee failed: ', error) }
     })
+    this.getMyReservations();
+    this.getMyLoans();
   }
 
   getMyReservations() {
-    this.myBookingsService.getMyReservation(this.employee).subscribe({
-      next: (response: any) => {
-        console.log('reservations: ', response);
-        this.reservations = response;
-      },
-      error: (error) => { console.error(error); }
-    })
+    if (!this.employee) {
+      console.warn('Employee data is not available')
+    } else {
+      this.myBookingsService.getMyReservation(this.employee).subscribe({
+        next: (response: any) => {
+          console.log('reservations: ', response);
+          this.reservations = response;
+        },
+        error: (error) => { console.error(error); }
+      })
+    }
   }
 
   getMyLoans() {
-    this.myBookingsService.getMyLoan(this.employee).subscribe({
-      next: (response: any) => {
-        console.log('loans: ', response)
-        this.loans = response;
-      },
-      error: (error) => { console.error(error); }
-    })
+    if (!this.employee) {
+      console.warn('Employee data is not available')
+    } else {
+      this.myBookingsService.getMyLoan(this.employee).subscribe({
+        next: (response: any) => {
+          console.log('loans: ', response)
+          this.loans = response;
+        },
+        error: (error) => { console.error(error); }
+      })
+    }
   }
 
   removeReservation(id: number) {

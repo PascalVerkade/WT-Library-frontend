@@ -1,1 +1,45 @@
-<p>manage-books works!</p>
+<h1>Boek beheer</h1>
+
+<BR>
+
+<div class="container topContainer">
+    <form (ngSubmit)="searchBooks()" #todoForm="ngForm">
+        <input placeholder="Boek" [(ngModel)]="searchTerm" name="searchTerm">
+        <button type="submit" class="btn WT-green">Zoek</button>
+    </form>
+</div>
+
+<BR><BR>
+
+<div class="container">
+    <button class="btn WT-green" disabled>Kopiebeheer</button>
+    <button class="btn WT-green" disabled>Update boek</button>
+    <button class="btn WT-green" disabled>Archiveer boek</button>
+    <input placeholder="Keywoord" name="Keywoord" disabled>
+    <button class="btn WT-green" disabled>Voeg keywoord toe</button>
+</div>
+
+<div class="container scrollContainer">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th>Titel</th>
+                <th>Schrijver</th>
+                <th>Gearchiveerd</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let book of books">
+                <td><img src="{{book.photo}}" name="{{book.photo}}" id="{{book.photo}}" alt="{{book.title}}" width="70"></td>
+                <td>{{book.title}}</td>
+                <td>{{book.writer}}</td>
+                <td>{{book.active?"nee":"ja"}}</td>
+                <!-- <td>
+                    <button (click)="reserveBook(book)" class="btn WT-green" *ngIf="!hasReservationForBook(book)" >Reserveer</button>
+                    <button (click)="cancelReservation(book)" class="btn WT-darkGreen" *ngIf="hasReservationForBook(book)" >Reservering annuleren</button>
+                </td> -->
+            </tr>
+        </tbody>
+    </table>
+</div>

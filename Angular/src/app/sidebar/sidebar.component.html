@@ -2,28 +2,30 @@
     
 
     <mat-sidenav mode="side" opened>
-        <!-- <ul class="navbar-nav list-group">
-            <li class="list-group-item list-group-item-action bg-black text-light"> {{username}} </li>
-        </ul> -->
-    
-        <mat-divider></mat-divider>
-
-        <div class="container">
-            <ul class="navbar-nav">
-                <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/library" class="list-group-item list-group-item-action bg-dark text-light"> Bibliotheek </a></li>
-                <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/myAccount" class="list-group-item list-group-item-action bg-dark text-light"> Mijn Account </a></li>
-                <li><a *ngIf="authenticationService.isUserLoggedIn()" routerLink="/myBookings" class="list-group-item list-group-item-action bg-dark text-light"> Mijn Boekingen </a></li>
-            </ul>
-        </div>
-        
-        <mat-divider></mat-divider>
-
-        <div class="container">
+        <div *ngIf="employeeDataLoaded" class="container">
             <ul class="navbar-nav list-group">
-                <li><a *ngIf="authenticationService.isUserLoggedIn() && authenticationService.isUserAdmin()" routerLink="/manageBooks" class="list-group-item list-group-item-action bg-dark text-light"> Boeken beheren </a></li>
-                <li><a *ngIf="authenticationService.isUserLoggedIn() && authenticationService.isUserAdmin()" routerLink="/manageAccounts" class="list-group-item list-group-item-action bg-dark text-light"> Accounts beheren </a></li>
-                <li><a *ngIf="authenticationService.isUserLoggedIn() && authenticationService.isUserAdmin()" routerLink="/manageBookings" class="list-group-item list-group-item-action bg-dark text-light"> Boekingen beheren </a></li>
+                <li class="list-group-item list-group-item-action bg-black text-light"> {{employee?.firstName}} </li>
             </ul>
+        
+            <mat-divider></mat-divider>
+
+            <div class="container">
+                <ul class="navbar-nav">
+                    <li><a *ngIf="userLoggedIn" routerLink="/library" class="list-group-item list-group-item-action bg-dark text-light"> Bibliotheek </a></li>
+                    <li><a *ngIf="userLoggedIn" routerLink="/myAccount" class="list-group-item list-group-item-action bg-dark text-light"> Mijn Account </a></li>
+                    <li><a *ngIf="userLoggedIn" routerLink="/myBookings" class="list-group-item list-group-item-action bg-dark text-light"> Mijn Boekingen </a></li>
+                </ul>
+            </div>
+            
+            <mat-divider></mat-divider>
+
+            <div class="container">
+                <ul class="navbar-nav list-group">
+                    <li><a *ngIf="userLoggedIn && userAdmin" routerLink="/manageBooks" class="list-group-item list-group-item-action bg-dark text-light"> Boeken beheren </a></li>
+                    <li><a *ngIf="userLoggedIn && userAdmin" routerLink="/manageAccounts" class="list-group-item list-group-item-action bg-dark text-light"> Accounts beheren </a></li>
+                    <li><a *ngIf="userLoggedIn && userAdmin" routerLink="/manageBookings" class="list-group-item list-group-item-action bg-dark text-light"> Boekingen beheren </a></li>
+                </ul>
+            </div>
         </div>
     </mat-sidenav>
 

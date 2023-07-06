@@ -19,7 +19,8 @@ export class Book {
     public writer: string,
     public isbn: string,
     public photo: string,
-    public copy: Copy
+    public copy: Copy,
+    public active: boolean
   ) { }
 }
 

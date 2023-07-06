@@ -10,9 +10,9 @@ import { AccountService } from '../service/data/account.service';
 })
 export class MyAccountComponent implements OnInit {
   username: string = '';
-  employee: Employee = new Employee(0, '', '', '', '', false, false);
-  userChanged: boolean = false
-  changeUserWentWrong: boolean = false
+  employee: Employee | null = null;
+  userChanged: boolean = false;
+  changeUserWentWrong: boolean = false;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -20,30 +20,28 @@ export class MyAccountComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.username = this.authenticationService.getAuthenticatedUser()!;
-    console.log(this.username)
-
-    this.authenticationService.getUser(this.username).subscribe({
-      next: data => {
-        console.log(data)
-        this.employee = data;
-      }
+    this.authenticationService.getEmployee().subscribe({
+      next: data => { this.employee = data },
+      error: error => { console.error('Loading employee failed: ', error) }
     })
-    
   }
 
   changeAccountData() {
     console.log(this.employee)
-
-    this.accountService.changeUser(this.employee).subscribe({
-      next: data => {
-        this.userChanged = true;
-        this.changeUserWentWrong = false;
-      },
-      error: error => {
-        this.changeUserWentWrong = true;
-        this.userChanged = false;
-      }
-    })
+    
+    if (!this.employee) {
+      console.warn('Employee data is not available')
+    } else {
+      this.accountService.changeUser(this.employee).subscribe({
+        next: () => {
+          this.userChanged = true;
+          this.changeUserWentWrong = false;
+        },
+        error: () => {
+          this.changeUserWentWrong = true;
+          this.userChanged = false;
+        }
+      })
+    }
   }
 }
